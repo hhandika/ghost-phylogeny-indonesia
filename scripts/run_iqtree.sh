@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 # Define paths relative to the scripts directory
 DATA_FILE="../data/indonesian_ghosts.nex"
-OUTPUT_DIR="../results/iqtree_output"
+OUTPUT_DIR="../results/iqtree_output2"
 PREFIX="${OUTPUT_DIR}/indonesian_ghosts"
 
 # Create output directory if it doesn't exist
