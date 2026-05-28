@@ -1,0 +1,180 @@
+#NEXUS
+
+BEGIN DATA;
+  DIMENSIONS NTAX=61 NCHAR=90;
+  FORMAT DATATYPE=STANDARD MISSING=? GAP=- SYMBOLS="01";
+  CHARSTATELABELS
+    1 'Evolutionary_Clade_0_Volant_Viscerophage',
+    2 'Evolutionary_Clade_1_Vengeful_Female',
+    3 'Evolutionary_Clade_2_Hominid_Cryptid',
+    4 'Evolutionary_Clade_3_Volant_Cryptid',
+    5 'Evolutionary_Clade_4_PesugihanWealth_Demon',
+    6 'Evolutionary_Clade_5_UndeadRevenant',
+    7 'Evolutionary_Clade_6_ElementalDemonic',
+    8 'Evolutionary_Clade_7_TherianthropeShapeshifter',
+    9 'Evolutionary_Clade_8_DivineCosmic_Entity',
+    10 'Evolutionary_Clade_9_NatureAncestral_Spirit',
+    11 'Primary_Morphology_0_Detached_flying_head',
+    12 'Primary_Morphology_1_Detached_upper_torso',
+    13 'Primary_Morphology_2_Spectral_female',
+    14 'Primary_Morphology_3_Bipedal_primateape',
+    15 'Primary_Morphology_4_Shrouded_corpse',
+    16 'Primary_Morphology_5_Floating_fireballflame_entity',
+    17 'Primary_Morphology_6_Gigantic_humanoidogre',
+    18 'Primary_Morphology_7_Winged_hominid',
+    19 'Primary_Morphology_8_Tigerhuman_hybrid',
+    20 'Primary_Morphology_9_Elongatedstretching_humanoid',
+    21 'Primary_Morphology_A_Flying_coffinspectral_procession',
+    22 'Primary_Morphology_B_Serpentnaga_hybrid',
+    23 'Primary_Morphology_C_Maskedcostumed_deity_form',
+    24 'Trophic_Ecology_Diet_0_BloodFetuses',
+    25 'Trophic_Ecology_Diet_1_FleshMeatFauna',
+    26 'Trophic_Ecology_Diet_2_Nonconsumptive',
+    27 'Trophic_Ecology_Diet_3_OmnivoreHerbivore',
+    28 'Trophic_Ecology_Diet_4_Life_forceSoul',
+    29 'Trophic_Ecology_Diet_5_Spiritual_energyofferings',
+    30 'Behavioral_Synapomorphies_0_Ajian_magicnocturnal_hunting',
+    31 'Behavioral_Synapomorphies_1_Midwife_camouflage',
+    32 'Behavioral_Synapomorphies_2_Hereditaryattacks_unborn',
+    33 'Behavioral_Synapomorphies_3_Meditation_in_vinegar',
+    34 'Behavioral_Synapomorphies_4_Tiktik_bird_signal',
+    35 'Behavioral_Synapomorphies_5_Punitive_cursegluttony',
+    36 'Behavioral_Synapomorphies_6_Echoing_laughweeping',
+    37 'Behavioral_Synapomorphies_7_Conceals_backpatriarchal_revenge',
+    38 'Behavioral_Synapomorphies_8_Kidnaps_neglected_children',
+    39 'Behavioral_Synapomorphies_9_Transforms_into_bird',
+    40 'Behavioral_Synapomorphies_A_Avoids_humans',
+    41 'Behavioral_Synapomorphies_B_Cavedwellingrudimentary_language',
+    42 'Behavioral_Synapomorphies_C_Banyan_tree_association',
+    43 'Behavioral_Synapomorphies_D_Massive_wingspanvocalisation',
+    44 'Behavioral_Synapomorphies_E_Rubs_walls_to_steal_wealth',
+    45 'Behavioral_Synapomorphies_F_Steals_half_of_victim_wealth',
+    46 'Behavioral_Synapomorphies_G_Occult_battery',
+    47 'Behavioral_Synapomorphies_H_Hopping_locomotiontied_shroud',
+    48 'Behavioral_Synapomorphies_I_Burns_victimsspontaneous_combustion',
+    49 'Behavioral_Synapomorphies_J_Requires_human_sacrifice_for_wealth',
+    50 'Behavioral_Synapomorphies_K_Crawling_on_floorshospital_association',
+    51 'Behavioral_Synapomorphies_L_Abducts_children_to_volcanic_craters',
+    52 'Behavioral_Synapomorphies_M_Transforms_in_ancestral_landsguardian_spirit',
+    53 'Behavioral_Synapomorphies_N_Grows_taller_when_looked_atstrangles',
+    54 'Behavioral_Synapomorphies_O_Loud_knockingbrings_disease',
+    55 'Behavioral_Synapomorphies_P_Petty_theftmischiefassigned_by_dukun',
+    56 'Behavioral_Synapomorphies_Q_Ritual_selftransformation_via_black_magic',
+    57 'Behavioral_Synapomorphies_R_Seducescorrupts_mendemands_blood_sacrifice',
+    58 'Behavioral_Synapomorphies_S_Cosmic_guardianbattles_evil_entities',
+    59 'Behavioral_Synapomorphies_T_Seduces_fishermencontrols_sea_wealth',
+    60 'Behavioral_Synapomorphies_U_Appears_only_at_specific_haunted_location',
+    61 'Behavioral_Synapomorphies_V_Headless_locomotionterrifies_passersby',
+    62 'Behavioral_Synapomorphies_W_Shapeshifts_into_animalpossesses_victims',
+    63 'Behavioral_Synapomorphies_X_Wanders_due_to_incomplete_funeral_rites',
+    64 'Behavioral_Synapomorphies_Y_Inhabits_sacred_stonestreessprings',
+    65 'Behavioral_Synapomorphies_Z_Causes_illness_through_spiritual_pollution',
+    66 'Deterrents_Vulnerabilities_0_Neck_stabbing',
+    67 'Deterrents_Vulnerabilities_1_Vinegarbroken_glass',
+    68 'Deterrents_Vulnerabilities_2_Garlic_amuletsreversed_clothing',
+    69 'Deterrents_Vulnerabilities_3_Saltashgarlic_on_lower_torso',
+    70 'Deterrents_Vulnerabilities_4_Destroy_hidden_host_body',
+    71 'Deterrents_Vulnerabilities_5_Maternal_mortality_origin',
+    72 'Deterrents_Vulnerabilities_6_Sexual_assault_origin',
+    73 'Deterrents_Vulnerabilities_7_Parental_remorse',
+    74 'Deterrents_Vulnerabilities_8_Glass_beadsneedleseggs',
+    75 'Deterrents_Vulnerabilities_9_None_Biological_entity',
+    76 'Deterrents_Vulnerabilities_A_Untying_the_shroud_knot',
+    77 'Deterrents_Vulnerabilities_B_Holy_prayerswater',
+    78 'Deterrents_Vulnerabilities_C_Specific_ritual_offeringsBanyan_wood',
+    79 'Deterrents_Vulnerabilities_D_Violent_murderbetrayal_origin',
+    80 'Deterrents_Vulnerabilities_E_Breaking_ancestral_taboo',
+    81 'Deterrents_Vulnerabilities_F_Destruction_of_summoning_materials',
+    82 'Deterrents_Vulnerabilities_G_Loud_noisesbanging_pots',
+    83 'Deterrents_Vulnerabilities_H_Kerissacred_blade',
+    84 'Deterrents_Vulnerabilities_I_Counterritual_by_balianshaman',
+    85 'Deterrents_Vulnerabilities_J_Drownedmurdered_origin',
+    86 'Deterrents_Vulnerabilities_K_Defeated_only_by_Barong_ritual',
+    87 'Deterrents_Vulnerabilities_L_Proper_funeral_completion',
+    88 'Deterrents_Vulnerabilities_M_Ancestral_appeasing_ritual',
+    89 'Phylogenetic_Status_0_Ingroup',
+    90 'Phylogenetic_Status_1_Outgroup';
+  MATRIX
+
+    [— JAVA —]
+    kuntilanak_indonesian_archipelago   010000000000100000000001000000000001000000000000000000000000000000000010000000000000000010
+    sundel_bolong_java_indonesia        010000000000100000000000100000000000100000000000000000000000000000000001000000000000000010
+    wewe_gombel_java_indonesia          010000000000100000000000010000000000010000000000000000000000000000000000100000000000000010
+    genderuwo_java_indonesia            00100000000001000000000??????000000000000100000000000000000000000???????????????????????10
+    ahool_java_indonesia                000100000000010000000000100000000000000000100000000000000000000000000000001000000000000010
+    babi_ngepet_java_indonesia          00001000000001000000000010000000000000000001000000000000000000000???????????????????????10
+    toyol_tuyul_indonesian_archipelago  00001000000001000000000100000000000000000000100000000000000000000???????????????????????10
+    jenglot_indonesian_archipelago      00001000000001000000000010000000000000000000010000000000000000000???????????????????????10
+    pocong_java_indonesia               000001000000001000000000010000000000000000000010000000000000000000000000000100000000000010
+    banaspati_java_indonesia            000000100000000100000000100000000000000000000001000000000000000000000000000010000000000010
+    buto_ijo_java_indonesia             000010000000000010000000100000000000000000000000100000000000000000000000000001000000000010
+    suster_ngesot_java_indonesia        010000000000100000000000010000000000000000000000010000000000000000000000000000100000000010
+    batara_kala_java_indonesia          000000100000000010000001000000000000000001000000000000000000000000000000000010000000000010
+    bajang_java_indonesia               10000000000001000000000100000000000000000000100000000000000000000???????????????????????10
+    tuyul_buncit_java_indonesia         00001000000001000000000100000000000000000000100000000000000000000???????????????????????10
+    
+    [— SUMATRA —]
+    leyak_bali_indonesia                100000000010000000000001000001000000000000000000000000000000000001000000000000000000000010
+    palasik_west_sumatra_indonesia      100000000010000000000001000000010000000000000000000000000000000000010000000000000000000010
+    orang_pendek_sumatra_indonesia      001000000000010000000000001000000000000100000000000000000000000000000000001000000000000010
+    cindaku_sumatra_indonesia           000000010000000000100000100000000000000000000000000100000000000000000000000000010000000010
+    begu_ganjang_sumatra_indonesia      000000100000000000010000000100000000000000000000000010000000000000000000000000001000000010
+    si_manis_jembatan_ancol_java        010000000000100000000001000000000000000000000000000000000001000000000010000000000000000010
+    
+    [— MALAY PENINSULA / CROSS-BORDER —]
+    penanggalan_malaysia                100000000010000000000001000000001000000000000000000000000000000000100000000000000000000001
+    manananggal_philippines             100000000001000000000001000000000100000000000000000000000000000000001000000000000000000001
+    krasue_ap_thailand_cambodia         100000000010000000000001000000000010000000000000000000000000000000000100000000000000000001
+    langsuyar_malaysia                  010000000000100000000001000000000000001000000000000000000000000000000000010000000000000001
+    
+    [— BALI —]
+    leak_bali_indonesia                 00000001000000000010000001000000000000000000000000000001000000000???????????????????????10
+    rangda_bali_indonesia               000000100000000010000000100000000000000000000000000000001000000000000000000010000000000010
+    barong_bali_indonesia               000000100000000010000001000000000000000000000000000000000100000000000000000001000000000001
+    nyi_roro_kidul_java_bali            00000001000000000000010000010000000000000000000000000000001000000???????????????????????10
+    jero_gede_mecaling_bali             000000100000000010000000100000000000000000000000000000001000000000000000000000000000010010
+    celuluk_bali_indonesia              10000000000001000000000100000????????????????????????????????????0000000000010000000000010
+    
+    [— KALIMANTAN —]
+    kuyang_kalimantan_indonesia         100000000010000000000001000000100000000000000000000000000000000000100000000000000000000010
+    antu_gerugugu_kalimantan            010000000000100000000001000000000001000000000000000000000000000000000001000000000000000010
+    antu_raya_dayak_kalimantan          00000010000000000000001001000000000000000100000000000000000000000???????????????????????10
+    antu_pala_dayak_kalimantan          100000000000001000000001000000000000000000000000000000000000100000100000000000000000000010
+    hantu_belian_kalimantan             000000010000000000100000100000000000000000000000000000000000010000000000000000000000001010
+    tetek_arum_kalimantan               01000000000010000000000??????0000001000000000000000000000000000000000010000000000000000010
+    
+    [— SULAWESI —]
+    bombo_toraja_sulawesi               000001000000001000000000010000000000000000000000000000000000001000000000000100000000000010
+    batitong_toraja_sulawesi            000000000100000000000010010000000000000000000000000000000000000100000000000001000000000010
+    tosalili_toraja_sulawesi            010000000000100000000001000000000000000000000000000000000000000010000010000000000000000010
+    poppo_bugis_sulawesi                10000000001000000000000100000????????????????????????????????????0100000000000000000000010
+    bakkara_makassar_sulawesi           000000010000000000100000100000000000000000000000000100000000000000000000000000010000000010
+    tandi_barane_sulawesi               00100000000001000000000??????000000000000100000000000000000000000???????????????????????10
+    
+    [— MALUKU —]
+    suanggi_maluku_indonesia            00000001000000000010000001000????????????????????????????????????0000000000000100000000010
+    momoa_maluku_indonesia              001000000000010000000001000000000000001000000000000000000000000000000000001000000000000010
+    nitu_maluku_indonesia               00000100000000000000001001000????????????????????????????????????0000000000010000000000010
+    ina_ama_maluku_indonesia            01000000000010000000000??????0000000100000000000000000000000000000000010000000000000000010
+    orang_bati_seram_indonesia          000100000000000001000000100000000000000000000000001000000000000000000000001000000000000010
+    
+    [— NUSA TENGGARA / FLORES / LOMBOK —]
+    ebu_gogo_flores_indonesia           001000000000010000000000001000000000000010000000000000000000000000000000001000000000000010
+    senggiq_lombok_indonesia            01000000000010000000000??????0000000100000000000000000000000000000000010000000000000000010
+    leak_lombok_ntt                     00000001000000000010000001000000000000000000000000000001000000000???????????????????????10
+    naga_ntt_indonesia                  00000000010000000000010000001????????????????????????????????????0000000000001000000000010
+    kelimutu_spirit_flores_indonesia    000000000100000000000010010000000000000000000000000000000000000100000000000000010000000010
+    
+    [— PAPUA —]
+    homang_papua_indonesia              00000001000000000010000001000????????????????????????????????????0000000000000010000000010
+    kaiamunu_papua_indonesia            00010000000000000000010010000????????????????????????????????????0000000001000000000000010
+    kapre_papua_indonesia               00100000000001000000000??????000000000000100000000000000000000000???????????????????????10
+    bake_asmat_papua_indonesia          00000100000000000000001000010????????????????????????????????????0000000000010000000000010
+    ndope_sentani_papua_indonesia       01000000000010000000000100000????????????????????????????????????0000010000000000000000010
+    
+    [— ARCHIPELAGO-WIDE —]
+    lampor_java_indonesia               000000100000000000001000010000000000000000000000000001000000000000000000000000000100000010
+    wedon_java_indonesia                01000000000010000000000??????0000000100000000000000000000000000000000001000000000000000010
+    kepala_buntung_java_indonesia       100000000000001000000001000000000000000000000000000000000000100000100000000000000000000010
+    ;
+END;
