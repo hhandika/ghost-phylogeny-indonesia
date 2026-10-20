@@ -14,7 +14,7 @@ def _text(value) -> str | None:
     if value is None:
         return None
     s = " ".join(str(value).split())
-    s = C.FUSED.get(s, s)
+    s = C.americanize(C.FUSED.get(s, s))
     if not s or s == "Unknown" or C.BOILERPLATE.search(s):
         return None
     return s
@@ -50,13 +50,13 @@ def parse() -> list[dict]:
             {
                 "id": tid,
                 "name": C.display_name(tid, str(r["Name"])),
-                "region": str(r["Island_Region"]),
+                "region": C.americanize(str(r["Island_Region"])),
                 "regionGroup": C.region_group(str(r["Island_Region"])),
                 "culture": _text(r["Ethnic_Cultural_Origin"]),
                 "clade": C.clean_clade(str(r["Clade"])),
-                "morphology": str(r["Morphology"]),
+                "morphology": C.americanize(str(r["Morphology"])),
                 "bodyPlan": C.body_plan(str(r["Morphology"])),
-                "diet": str(r["Diet"]),
+                "diet": C.americanize(str(r["Diet"])),
                 "dietClass": C.diet_class(str(r["Diet"])),
                 "danger": int(r["Danger_Level_1_5"]),
                 "origin": origin,

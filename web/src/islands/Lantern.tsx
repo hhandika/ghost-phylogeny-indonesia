@@ -1,6 +1,6 @@
 /**
- * Design B, "Lantern": a circular tree on a night canvas, the selected ghost
- * held in the centre like a lamp. Hovering a tip lights its path to the root;
+ * "Lantern": a circular tree on a night canvas, the selected ghost
+ * held in the center like a lamp. Hovering a tip lights its path to the root;
  * island chips dim everything else. The canvas forces the dark palette (the
  * `dark` class) so it reads the same in either site theme.
  */
@@ -8,6 +8,7 @@ import { useMemo, useState } from "preact/hooks";
 import { byId, cladeVar, data, plateUrl } from "../utils/data";
 import { ancestry, layout, polar, radialArc, radialPath } from "../utils/tree";
 import GhostCard from "./GhostCard";
+import { regionName, tr, useT, type Lang } from "../i18n";
 
 const HALF = 560;
 const INNER = 120;
@@ -16,7 +17,8 @@ const GAP = 0.22; // radians left open at the top for the title
 // Space between the label start and the clade ring, in SVG units.
 const LABEL_ROOM = 150;
 
-export default function Lantern() {
+export default function Lantern({ lang }: { lang: Lang }) {
+  const t = useT(lang);
   const [selected, setSelected] = useState(data.ghosts[0].id);
   const [hover, setHover] = useState<string | null>(null);
   const [region, setRegion] = useState<string>("");
@@ -24,19 +26,21 @@ export default function Lantern() {
   const L = useMemo(() => layout(data.tree, (id) => byId.get(id)!.clade, "cladogram"), []);
   const angleOf = (y: number) => -Math.PI / 2 + GAP / 2 + (y / (L.nTips - 1)) * (2 * Math.PI - GAP);
   const radiusOf = (x: number) => INNER + (x / L.maxX) * (OUTER - INNER);
-  const tipById = new Map(L.tips.map((t) => [t.id!, t]));
+  const tipById = new Map(L.tips.map((tip) => [tip.id!, tip]));
   const lit = ancestry(tipById.get(hover ?? selected));
   const ghost = byId.get(selected)!;
   const focus = byId.get(hover ?? selected)!;
 
   // Contiguous runs of one clade around the rim, drawn as an outer ring.
   const runs: { clade: string; from: number; to: number }[] = [];
-  for (const t of L.tips) {
-    const c = byId.get(t.id!)!.clade;
+  for (const tip of L.tips) {
+    const c = byId.get(tip.id!)!.clade;
     const last = runs[runs.length - 1];
-    if (last && last.clade === c && last.to === t.y - 1) last.to = t.y;
-    else runs.push({ clade: c, from: t.y, to: t.y });
+    if (last && last.clade === c && last.to === tip.y - 1) last.to = tip.y;
+    else runs.push({ clade: c, from: tip.y, to: tip.y });
   }
+  // The lantern's text must fit inside its circle: break clades at the slash.
+  const focusClade = tr(lang, byId.get(hover ?? selected)!.clade).split(" / ");
   const ringR = 522;
   const arc = (from: number, to: number) => {
     const a0 = angleOf(from - 0.45);
@@ -51,8 +55,8 @@ export default function Lantern() {
 
   return (
     <div class="mx-auto max-w-7xl">
-      <p class="sr-only" aria-live="polite">Showing the card for {ghost.name}.</p>
-      <div class="glass mx-auto mb-4 flex max-w-5xl flex-wrap justify-center gap-2 px-3 py-3" role="group" aria-label="Filter by island">
+      <p class="sr-only" aria-live="polite">{t("showingCard", ghost.name)}</p>
+      <div class="glass mx-auto mb-4 flex max-w-5xl flex-wrap justify-center gap-2 px-3 py-3" role="group" aria-label={t("filterIsland")}>
         {["", ...data.regions].map((r) => (
           <button
             key={r || "all"}
@@ -65,14 +69,14 @@ export default function Lantern() {
                 : "border-kafan-700 hover:bg-kafan-200 dark:border-kemenyan-400 dark:hover:bg-malam-800"
             }`}
           >
-            {r || "All islands"}
+            {r ? regionName(lang, r) : t("allIslands")}
             {r && <span class="ml-1">{counts.get(r) ?? 0}</span>}
           </button>
         ))}
       </div>
 
       <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        {/* The night canvas: `dark` on a wrapper so dark variants and clade colours apply inside. */}
+        {/* The night canvas: `dark` on a wrapper so dark variants and clade colors apply inside. */}
         <div class="dark min-w-0">
         <figure class="glass relative overflow-hidden !rounded-[2.5rem] !bg-malam-950/[0.85] p-2 text-kafan-100">
           <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(217,171,60,0.20),transparent_45%)]" />
@@ -80,7 +84,7 @@ export default function Lantern() {
             viewBox={`${-HALF} ${-HALF} ${HALF * 2} ${HALF * 2}`}
             class="relative block h-auto w-full"
             role="group"
-            aria-label={`Circular tree of ${L.nTips} ghosts. ${ghost.name} is in the centre.`}
+            aria-label={t("lanternSvg", L.nTips, ghost.name)}
           >
             {/* Stars */}
             {Array.from({ length: 70 }, (_, i) => {
@@ -93,7 +97,7 @@ export default function Lantern() {
             {/* Clade ring */}
             {runs.map((r, i) => (
               <path key={i} d={arc(r.from, r.to)} fill="none" stroke={cladeVar(r.clade)} stroke-width={10} stroke-linecap="butt" opacity={0.9}>
-                <title>{r.clade}</title>
+                <title>{tr(lang, r.clade)}</title>
               </path>
             ))}
 
@@ -128,38 +132,38 @@ export default function Lantern() {
               })}
 
             {/* Tips */}
-            {L.tips.map((t) => {
-              const g = byId.get(t.id!)!;
-              const a = angleOf(t.y);
+            {L.tips.map((tip) => {
+              const g = byId.get(tip.id!)!;
+              const a = angleOf(tip.y);
               const deg = (a * 180) / Math.PI;
               const flip = Math.cos(a) < 0;
               const [px, py] = polar(a, OUTER + 13);
               const [lx, ly] = polar(a, OUTER + 26);
               const dim = region && g.regionGroup !== region;
-              const isSel = t.id === selected;
+              const isSel = tip.id === selected;
               return (
                 <g
-                  key={t.id}
+                  key={tip.id}
                   class="cursor-pointer"
-                  onMouseEnter={() => setHover(t.id!)}
+                  onMouseEnter={() => setHover(tip.id!)}
                   onMouseLeave={() => setHover(null)}
-                  onClick={() => setSelected(t.id!)}
+                  onClick={() => setSelected(tip.id!)}
                   role="button"
                   tabIndex={0}
-                  aria-label={`${g.name}, ${g.clade}, ${g.region}`}
-                  onFocus={() => setHover(t.id!)}
+                  aria-label={`${g.name}, ${tr(lang, g.clade)}, ${tr(lang, g.region)}`}
+                  onFocus={() => setHover(tip.id!)}
                   onBlur={() => setHover(null)}
-                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setSelected(t.id!))}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setSelected(tip.id!))}
                 >
                   {isSel && <circle cx={px} cy={py} r={13} class="fill-prada-300" opacity={0.45} />}
-                  {t.id === hover && <circle cx={px} cy={py} r={13} fill="none" class="stroke-prada-200" stroke-width={2} />}
+                  {tip.id === hover && <circle cx={px} cy={py} r={13} fill="none" class="stroke-prada-200" stroke-width={2} />}
                   <image href={plateUrl(g.id)} x={px - 9} y={py - 9} width={18} height={18} opacity={dim ? 0.25 : 1} />
                   <text
                     transform={`translate(${lx} ${ly}) rotate(${flip ? deg + 180 : deg})`}
                     text-anchor={flip ? "end" : "start"}
                     dominant-baseline="middle"
                     style={{ fontSize: `${Math.min(12.5, LABEL_ROOM / (g.name.length * 0.56))}px` }}
-                    class={isSel || t.id === hover ? "fill-prada-200 font-bold" : dim ? "fill-kemenyan-300" : region ? "fill-kafan-50 font-bold" : "fill-kafan-200"}
+                    class={isSel || tip.id === hover ? "fill-prada-200 font-bold" : dim ? "fill-kemenyan-300" : region ? "fill-kafan-50 font-bold" : "fill-kafan-200"}
                   >
                     {g.name}
                   </text>
@@ -167,27 +171,30 @@ export default function Lantern() {
               );
             })}
 
-            {/* The lantern: focused ghost in the centre */}
+            {/* The lantern: focused ghost in the center; text sized to the circle's width at its height */}
             <circle r={INNER - 14} class="fill-malam-950" stroke="#e0b03e" stroke-opacity={0.5} stroke-width={1.5} />
-            <image href={plateUrl(focus.id)} x={-62} y={-98} width={124} height={124} class="animate-flicker" />
-            <text y={50} text-anchor="middle" class="fill-prada-200 font-serif font-semibold" style={{ fontSize: `${Math.min(19, 180 / (focus.name.length * 0.5))}px` }}>
+            <image href={plateUrl(focus.id)} x={-55} y={-96} width={110} height={110} class="animate-flicker" />
+            <text y={34} text-anchor="middle" class="fill-prada-200 font-serif font-semibold" style={{ fontSize: `${Math.min(18, 185 / (focus.name.length * 0.52))}px` }}>
               {focus.name}
             </text>
-            <text y={70} text-anchor="middle" class="fill-kemenyan-200 text-[11.5px]">
-              {focus.regionGroup === "Outgroup" ? "Outgroup" : focus.regionGroup}
+            <text y={52} text-anchor="middle" class="fill-kemenyan-200" style={{ fontSize: `${Math.min(11.5, 170 / (regionName(lang, focus.regionGroup).length * 0.56))}px` }}>
+              {regionName(lang, focus.regionGroup)}
             </text>
-            <text y={86} text-anchor="middle" class="fill-kemenyan-200 text-[11.5px]">
-              {focus.clade}
-            </text>
+            {focusClade.map((line, i) => (
+              <text key={i} y={68 + i * 14} text-anchor="middle" class="fill-kemenyan-200" style={{ fontSize: `${Math.min(11.5, (i ? 120 : 150) / (line.length * 0.56))}px` }}>
+                {line}
+                {i < focusClade.length - 1 ? " /" : ""}
+              </text>
+            ))}
           </svg>
           <figcaption class="relative px-4 pb-4 text-center text-sm text-kemenyan-200">
-            Hover or focus a ghost to light its lineage; select it to read its card. Gold dots mark ultrafast bootstrap ≥ 95. The outer ring shows clades; the legend above names them.
+            {t("lanternCaption")}
           </figcaption>
         </figure>
         </div>
 
-        <aside class="lg:sticky lg:top-28" aria-label="Selected ghost">
-          <GhostCard ghost={ghost} onSelect={setSelected} />
+        <aside class="lg:sticky lg:top-28" aria-label={t("selectedGhost")}>
+          <GhostCard ghost={ghost} lang={lang} onSelect={setSelected} />
         </aside>
       </div>
     </div>

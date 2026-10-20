@@ -1,0 +1,18 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import Bestiary from "../../islands/Bestiary";
+import { data } from "../../utils/data";
+import { langOf, localeParams, useT } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+---
+
+<Layout lang={lang} title={t("title", t("navBestiary"))} wide>
+  <PageTitle title={t("bestiaryTitle")} kicker={t("bestiaryKicker")}>
+    {t("bestiaryLead", data.ghosts.length)}
+  </PageTitle>
+  <Bestiary client:load lang={lang} />
+</Layout>

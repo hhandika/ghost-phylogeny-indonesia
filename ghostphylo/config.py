@@ -214,6 +214,29 @@ FUSED = {
     "None Biological entity": "None; a biological entity",
 }
 
+# The site is written in American English; the workbook mixes in British forms.
+AMERICAN = {
+    "favour": "favor",
+    "travellers": "travelers",
+    "odour": "odor",
+    "vocalisation": "vocalization",
+    "popularised": "popularized",
+    "behaviour": "behavior",
+    "colour": "color",
+}
+_AMERICAN_RE = re.compile(r"\b(" + "|".join(AMERICAN) + r")\b", re.IGNORECASE)
+
+
+def americanize(s: str) -> str:
+    def swap(m: re.Match) -> str:
+        word = AMERICAN[m.group(0).lower()]
+        return word.capitalize() if m.group(0)[0].isupper() else word
+
+    return _AMERICAN_RE.sub(swap, s)
+
+
+TRANSLATIONS = ROOT / "data" / "translations"
+
 # In the original 61 rows the deterrent column sometimes holds the origin.
 ORIGIN_LIKE = re.compile(r"origin$|^Parental remorse$|^Breaking ancestral taboo$")
 

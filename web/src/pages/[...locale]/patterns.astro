@@ -1,0 +1,98 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import GlassSection from "../../components/GlassSection.astro";
+import { ArchipelagoMap, MAP_BBOX, MAP_SCALE, BodyDiet, DangerUnits, Provenance, SupportHistogram, TraitHeatmap, Twins } from "../../islands/Patterns";
+import land from "../../data/indonesia-land.json";
+import iaa from "../../data/iaa-shelves.json";
+import { byId, data } from "../../utils/data";
+import { layout } from "../../utils/tree";
+import { langOf, localeParams, num, regionName, tr, useT, type Key } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+
+// Project the coastline into the map frame (equirectangular, 20 units per degree).
+const px = (lon: number) => ((lon - MAP_BBOX.west) * MAP_SCALE).toFixed(1);
+const py = (lat: number) => ((MAP_BBOX.north - lat) * MAP_SCALE).toFixed(1);
+const landPath = (land.rings as number[][][]).map((r) => "M" + r.map(([x, y]) => `${px(x)} ${py(y)}`).join("L") + "Z").join("");
+
+const L = layout(data.tree, (id) => byId.get(id)!.clade);
+const supports = L.all.filter((p) => p.children.length && p.support !== undefined).map((p) => p.support!);
+
+// Data-driven leads, so the text always matches the charts.
+const count = (f: (g: (typeof data.ghosts)[number]) => boolean) => data.ghosts.filter(f).length;
+const regionCounts = data.regions.map((r) => [r, count((g) => g.regionGroup === r)] as const).sort((a, b) => b[1] - a[1]);
+const lethal = count((g) => g.danger === 5);
+const dangerByClade = data.clades
+  .map((c) => {
+    const gs = data.ghosts.filter((g) => g.clade === c);
+    return [c, gs.reduce((s, g) => s + g.danger, 0) / gs.length] as const;
+  })
+  .sort((a, b) => b[1] - a[1]);
+const synth = count((g) => g.coding !== "source");
+const twinSets = new Set(data.ghosts.filter((g) => g.twins.length).map((g) => g.row)).size;
+const blood = data.clades
+  .map((c) => {
+    const gs = data.ghosts.filter((g) => g.clade === c);
+    return [c, gs.filter((g) => g.traits.predation_blood_organs === 1).length / gs.length] as const;
+  })
+  .sort((a, b) => b[1] - a[1])[0];
+const bloodPlans = data.bodyPlans
+  .map((b) => [tr(lang, b.label), count((g) => g.bodyPlan === b.id && g.dietClass === "Blood")] as const)
+  .sort((a, b) => b[1] - a[1]);
+const bloodTotal = count((g) => g.dietClass === "Blood");
+const rn = (i: number) => regionName(lang, regionCounts[i][0]);
+const sections: [string, Key][] = [
+  ["where", "secWhere"],
+  ["traits", "secTraits"],
+  ["danger", "secDanger"],
+  ["bodies", "secBodies"],
+  ["support", "secSupport"],
+  ["twins", "secTwins"],
+  ["provenance", "secProvenance"],
+];
+---
+
+<Layout lang={lang} title={t("title", t("navPatterns"))} wide>
+  <PageTitle title={t("patternsTitle")} kicker={t("patternsKicker")}>
+    {t("patternsLead")}
+  </PageTitle>
+
+  <nav aria-label={t("chartsOnPage")} class="glass mx-auto mb-6 max-w-5xl px-4 py-3">
+    <ul class="flex flex-wrap justify-center gap-2 text-sm">
+      {sections.map(([id, label]) => <li><a href={`#${id}`} class="control inline-block px-3 py-1 hover:bg-kafan-200 dark:hover:bg-malam-800">{t(label)}</a></li>)}
+    </ul>
+  </nav>
+
+  <div class="mx-auto grid max-w-5xl gap-6">
+    <GlassSection id="where" title={t("secWhere")} lead={t("leadWhere", rn(0), regionCounts[0][1], rn(1), regionCounts[1][1], rn(2), regionCounts[2][1])}>
+      <ArchipelagoMap client:visible lang={lang} land={landPath} shelves={iaa.shelves} />
+    </GlassSection>
+
+    <GlassSection id="traits" title={t("secTraits")} lead={t("leadTraits", tr(lang, blood[0]), Math.round(blood[1] * 100))}>
+      <TraitHeatmap client:visible lang={lang} />
+    </GlassSection>
+
+    <GlassSection id="danger" title={t("secDanger")} lead={t("leadDanger", lethal, tr(lang, dangerByClade[0][0]), num(lang, dangerByClade[0][1], 1))}>
+      <DangerUnits client:visible lang={lang} />
+    </GlassSection>
+
+    <GlassSection id="bodies" title={t("secBodies")} lead={t("leadBodies", bloodTotal, bloodPlans[0][1], bloodPlans[0][0], bloodPlans[1][1], bloodPlans[1][0])}>
+      <BodyDiet client:visible lang={lang} />
+    </GlassSection>
+
+    <GlassSection id="support" title={t("secSupport")} lead={t("leadSupport", supports.length, data.meta.strongNodes, data.meta.weakNodes)}>
+      <SupportHistogram client:visible lang={lang} supports={supports} />
+    </GlassSection>
+
+    <GlassSection id="twins" title={t("secTwins")} lead={t("leadTwins", twinSets)}>
+      <Twins lang={lang} />
+    </GlassSection>
+
+    <GlassSection id="provenance" title={t("secProvenance")} lead={t("leadProvenance", synth, data.ghosts.length)}>
+      <Provenance client:visible lang={lang} />
+    </GlassSection>
+  </div>
+</Layout>

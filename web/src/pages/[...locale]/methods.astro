@@ -1,0 +1,163 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import { data, withBase } from "../../utils/data";
+import { langOf, localeParams, num, tr, useT } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+const id = lang === "id";
+
+const { meta } = data;
+const a = meta.analysis;
+const coded = { source: 0, filled: 0, new: 0 };
+data.ghosts.forEach((g) => coded[g.coding]++);
+const downloads = [
+  { file: "ghosts.nex", en: "Character matrix (Nexus)", id: "Matriks karakter (Nexus)" },
+  { file: "ghosts.rooted.tre", en: "Rooted ML tree with UFBoot support (Newick)", id: "Pohon ML berakar dengan dukungan UFBoot (Newick)" },
+  { file: "ghosts.iqtree", en: "IQ-TREE report", id: "Laporan IQ-TREE" },
+  { file: "ghosts.csv", en: "Cleaned taxon table (CSV)", id: "Tabel takson yang sudah dirapikan (CSV)" },
+  { file: "characters.csv", en: "Character definitions (CSV)", id: "Definisi karakter (CSV)" },
+];
+const h2 = "font-serif text-2xl font-semibold";
+---
+
+<Layout lang={lang} title={t("title", t("navMethods"))}>
+  <PageTitle title={t("navMethods")} kicker={id ? "Dari lembar kerja ke pohon" : "From spreadsheet to tree"}>
+    {
+      id ? (
+        <>Setiap angka di situs ini dihitung oleh <i lang="en">pipeline</i> dalam <code>ghostphylo/</code> dan dijalankan ulang oleh GitHub Actions setiap kali datanya berubah.</>
+      ) : (
+        <>Every number on this site is computed by the pipeline in <code>ghostphylo/</code>, rerun by GitHub Actions whenever the data change.</>
+      )
+    }
+  </PageTitle>
+
+  <div class="mx-auto grid max-w-3xl gap-6 leading-relaxed">
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Data" : "Data"}</h2>
+      <p class="mt-2">
+        {
+          id ? (
+            <>Sumbernya adalah <code>{meta.source}</code>: {meta.taxa} takson, {meta.outgroups} di antaranya kelompok luar dari Malaysia, Filipina, Thailand, Kamboja, dan Asia Selatan. Dari seluruh takson, {coded.source} mempertahankan kode dari matriks asli, {coded.filled} memiliki sifat kosong yang diisi lewat sintesis cerita rakyat, dan {coded.new} merupakan entri baru yang seluruhnya dikodekan lewat sintesis. Semuanya ditandai ◆.</>
+          ) : (
+            <>The source is <code>{meta.source}</code>: {meta.taxa} taxa, {meta.outgroups} of them outgroups from Malaysia, the Philippines, Thailand, Cambodia, and South Asia. Of the taxa, {coded.source} keep the codings of the original matrix, {coded.filled} had missing traits filled by folklore synthesis, and {coded.new} are new entries coded entirely by synthesis. These are marked ◆ throughout.</>
+          )
+        }
+      </p>
+      {
+        id && (
+          <p class="mt-2">
+            Teks dari data diterjemahkan ke bahasa Indonesia lewat tabel terjemahan yang dikurasi (<code>data/translations/id.json</code>); nama hantu dibiarkan seperti aslinya.
+          </p>
+        )
+      }
+    </section>
+
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Karakter" : "Characters"}</h2>
+      <p class="mt-2">
+        {
+          id ? (
+            <>Delapan belas sifat diambil langsung dari buku kerja (0 tidak ada, 1 ada, 2 bervariasi; untuk jenis kelamin, 1 perempuan dan 2 laki-laki atau tidak disebutkan). Bentuk tubuh dan makanan masing-masing ditambahkan sebagai satu karakter multikeadaan tak berurut, sehingga sebuah bentuk tubuh dihitung sekali, bukan sebagai banyak kolom biner. Klad tidak dimasukkan karena justru pengelompokan itulah yang diuji oleh pohon. Ke-{meta.taxa} takson menyusut menjadi {meta.uniqueRows} baris yang berbeda; takson yang berbagi baris tidak dapat dipisahkan oleh pohon mana pun.</>
+          ) : (
+            <>Eighteen traits come straight from the workbook (0 absent, 1 present, 2 variable; for sex, 1 female and 2 male or unspecified). The body plan and the diet are each added as one unordered multistate character, so a body plan counts once rather than as many one-hot columns. Clade is left out because it is the grouping the tree tests. The {meta.taxa} taxa reduce to {meta.uniqueRows} distinct rows; taxa that share a row cannot be separated by any tree.</>
+          )
+        }
+      </p>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-kafan-300 dark:border-malam-700" tabindex="0" role="region" aria-label={id ? "Tabel karakter (geser ke samping di layar kecil)" : "Character table (scrolls sideways on small screens)"}>
+        <table class="w-full text-left text-sm">
+          <caption class="sr-only">{id ? "Karakter dan keadaannya" : "Characters and their states"}</caption>
+          <thead class="bg-kafan-200/70 text-xs uppercase tracking-wider dark:bg-malam-900">
+            <tr><th scope="col" class="px-3 py-2">#</th><th scope="col" class="px-3 py-2">{t("character")}</th><th scope="col" class="px-3 py-2">{id ? "Keadaan" : "States"}</th></tr>
+          </thead>
+          <tbody>
+            {
+              data.characters.map((c, i) => (
+                <tr class="border-t border-kafan-200 align-top dark:border-malam-800">
+                  <td class="px-3 py-1.5 tabular-nums">{i + 1}</td>
+                  <th scope="row" class="px-3 py-1.5 text-left font-semibold">{tr(lang, c.label)}</th>
+                  <td class="muted px-3 py-1.5">{c.states.map((s, j) => `${data.symbols[j]} ${tr(lang, s)}`).join("; ")}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Inferensi" : "Inference"}</h2>
+      <p class="mt-2">
+        {
+          id ? (
+            <>{a.software} dengan ModelFinder (<code>-m MFP</code>) pada tipe data morfologi memilih <strong>{a.model}</strong> berdasarkan BIC{a.bic !== null && <> ({num(lang, a.bic, 1)})</>}. Dukungan cabang berasal dari 1000 replikasi <i lang="en">ultrafast bootstrap</i> (UFBoot2, -bnni); <i lang="en">seed</i>-nya {a.seed}, sehingga hasilnya dapat diulang. <i lang="en">Log-likelihood</i> pohon terbaik adalah {a.logLikelihood !== null ? num(lang, a.logLikelihood, 2) : "?"}.</>
+          ) : (
+            <>{a.software} with ModelFinder (<code>-m MFP</code>) on the morphological data type selected <strong>{a.model}</strong> by BIC{a.bic !== null && <> ({num(lang, a.bic, 1)})</>}. Support comes from {a.bootstrap}; the seed is {a.seed}, so reruns are reproducible. The log-likelihood of the best tree is {a.logLikelihood !== null ? num(lang, a.logLikelihood, 2) : "?"}.</>
+          )
+        }
+      </p>
+      <p class="mt-2">
+        {
+          id ? (
+            <>Pohon diakarkan pada klad terbesar yang hanya berisi kelompok luar{meta.outgroupMonophyletic ? ", dan di sini kelompok luar memang membentuk satu klad" : ". Kelompok luar tidak membentuk satu klad: beberapa di antaranya bersarang di antara kerabat Indonesia, seperti kepala terbang Melayu dan Filipina pada pohon 61 takson sebelumnya"}. Dari {meta.nodes} simpul internal, {meta.strongNodes} memiliki <i lang="en">ultrafast bootstrap</i> 95 atau lebih dan {meta.weakNodes} di bawah 50, sehingga percabangan bagian dalam sebaiknya dianggap belum terpecahkan.</>
+          ) : (
+            <>The tree is rooted on the largest clade made only of outgroups{meta.outgroupMonophyletic ? ", and here the outgroups do form one clade" : ". They do not form one clade: several outgroups nest among Indonesian relatives, as the Malay and Philippine flying heads did in the earlier 61-taxon tree"}. Of {meta.nodes} internal nodes, {meta.strongNodes} have ultrafast bootstrap of 95 or more and {meta.weakNodes} fall below 50, so treat the deep branching as unresolved.</>
+          )
+        }
+      </p>
+    </section>
+
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Pelat" : "Plates"}</h2>
+      <p class="mt-2">
+        {
+          id ? (
+            <>Pelat setiap hantu digambar oleh <code>ghostphylo/svgs.py</code> dari datanya: bentuk tubuh menentukan sosoknya, klad menentukan warna cincinnya, dan sifat berkode menambahkan latar, seperti beringin untuk roh hutan, <i>nisan</i> dan bunga kamboja untuk penguburan, atap <i>joglo</i> dengan jendela menyala untuk hantu kampung, uang <i>kepeng</i> untuk pencurian, dan anglo kemenyan untuk ilmu hitam. Berkas gambar tangan di <code>assets/ghosts/</code> menggantikan pelat buatan untuk hantu tersebut.</>
+          ) : (
+            <>Each ghost's plate is drawn by <code>ghostphylo/svgs.py</code> from its record: the body plan sets the figure, the clade sets the ring color, and coded traits add scenery, such as a banyan for forest spirits, <i>nisan</i> gravestones and frangipani for burial, a lit <i>joglo</i> roof for village haunts, <i>kepeng</i> coins for theft, and an incense burner for black magic. A hand-drawn file in <code>assets/ghosts/</code> replaces the generated plate for that ghost.</>
+          )
+        }
+      </p>
+    </section>
+
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Alur pemrosesan" : "Pipeline"}</h2>
+      <pre class="mt-3 overflow-x-auto rounded-2xl bg-malam-950 p-4 text-sm text-kafan-100" lang="en"><code>uv run ghostphylo all     # parse, encode, IQ-TREE, export, plates
+cd web && bun run build   # this site</code></pre>
+      <p class="mt-2">
+        {
+          id
+            ? "Alur kerja GitHub memasang IQ-TREE, menjalankan perintah yang sama, mengunggah berkas analisis sebagai artefak, dan menerbitkan situs ke GitHub Pages."
+            : "The GitHub workflow installs IQ-TREE, runs the same commands, uploads the analysis files as a build artifact, and deploys the site to GitHub Pages."
+        }
+      </p>
+    </section>
+
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Unduhan" : "Downloads"}</h2>
+      <ul class="mt-3 space-y-1.5">
+        {
+          downloads.map((d) => (
+            <li>
+              <a href={withBase(`/data/${d.file}`)} class="accent font-semibold underline underline-offset-2" download>{d.file}</a>
+              <span class="muted"> · {d[lang]}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="glass p-6 sm:p-8">
+      <h2 class={h2}>{id ? "Catatan" : "Caveats"}</h2>
+      <p class="mt-2">
+        {
+          id
+            ? "Cerita rakyat tidak diwariskan seperti gen; sifat yang sama bisa berasal dari film yang sama, jalur dagang, atau agama, bukan hanya dari leluhur bersama. Bacalah pohon ini sebagai peta kemiripan antarversi cerita, bukan sejarah roh-roh itu sendiri. Periksa setiap entri dengan sumber etnografi primer sebelum mengutipnya."
+            : "Folklore is not inherited like genes; shared traits may come from shared film portrayals, trade routes, or religion as much as from common descent. Read the tree as a map of resemblance among tellings, not a history of the spirits themselves. Verify any entry against primary ethnographic sources before citing it."
+        }
+      </p>
+    </section>
+  </div>
+</Layout>

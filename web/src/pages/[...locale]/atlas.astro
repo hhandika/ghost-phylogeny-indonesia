@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import CladeLegend from "../../components/CladeLegend.astro";
+import Atlas from "../../islands/Atlas";
+import { data } from "../../utils/data";
+import { langOf, localeParams, useT } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+---
+
+<Layout lang={lang} title={t("title", t("navAtlas"))} wide>
+  <PageTitle title={t("atlasTitle")} kicker={t("atlasKicker")}>
+    {t("atlasLead", data.meta.characters)}
+  </PageTitle>
+  <CladeLegend lang={lang} />
+  <Atlas client:load lang={lang} />
+</Layout>

@@ -4,30 +4,34 @@ import Footer from "../components/Footer.astro";
 import Scene from "../components/Scene.astro";
 import "../styles/tailwind.css";
 import { withBase } from "../utils/data";
+import { HTML_LANG, LANGS, localePath, useT, type Lang } from "../i18n";
 
 interface Props {
+  lang: Lang;
   title: string;
   description?: string;
   /** Full-bleed pages (the designs) manage their own width. */
   wide?: boolean;
 }
 
-const {
-  title,
-  description = "Ghost phylogeny, literally: a maximum-likelihood tree of Indonesian ghosts, spirits, and cryptids, built from a coded trait matrix with IQ-TREE.",
-  wide = false,
-} = Astro.props;
+const { lang, title, description, wide = false } = Astro.props;
+const t = useT(lang);
+// The same page in each language: strip the base and any /id prefix.
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const rest = Astro.url.pathname.slice(base.length).replace(/^\/id(?=\/|$)/, "") || "/";
+const alternates = LANGS.map((l) => ({ lang: l, href: localePath(l, rest) }));
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={HTML_LANG[lang]}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta name="description" content={description ?? t("siteDescription")} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {alternates.map((a) => <link rel="alternate" hreflang={HTML_LANG[a.lang]} href={new URL(a.href, Astro.site).href} />)}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -55,18 +59,18 @@ const {
     </script>
   </head>
   <body class="bg-paper text-malam-950 antialiased dark:bg-night dark:text-kafan-100">
-    <a href="#main" class="sr-only z-50 rounded-full bg-malam-950 px-4 py-2 font-semibold text-prada-200 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to content</a>
+    <a href="#main" class="sr-only z-50 rounded-full bg-malam-950 px-4 py-2 font-semibold text-prada-200 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">{t("skip")}</a>
     <Scene />
     <div class="relative isolate min-h-screen overflow-x-clip">
       <header class="sticky top-0 z-40 px-2 pt-3 sm:px-4 sm:pt-4">
         <div class="glass batik !rounded-full">
-          <Navigation />
+          <Navigation lang={lang} alternates={alternates} />
         </div>
       </header>
       <main id="main" tabindex="-1" class={`outline-none ${wide ? "px-3 sm:px-4 lg:px-8" : "mx-auto max-w-5xl px-3 sm:px-6"}`}>
         <slot />
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </div>
   </body>
 </html>

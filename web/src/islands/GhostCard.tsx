@@ -1,7 +1,9 @@
 /** Detail card for one ghost, shared by the Atlas, Lantern, and Bestiary views. */
-import { byId, cladeVar, CODING_LABEL, DANGER, plateUrl, presentTraits, sexLabel, withBase, type Ghost } from "../utils/data";
+import { byId, cladeVar, plateUrl, type Ghost } from "../utils/data";
+import { codingLabel, dangerLabel, localePath, presentTraits, sexLabel, tr, useT, type Lang } from "../i18n";
 
-export function DangerMeter({ level }: { level: number }) {
+export function DangerMeter({ level, lang }: { level: number; lang: Lang }) {
+  const t = useT(lang);
   return (
     <span class="inline-flex items-center gap-1">
       {[1, 2, 3, 4, 5].map((i) => (
@@ -11,16 +13,19 @@ export function DangerMeter({ level }: { level: number }) {
           class={`h-2 w-2 rotate-45 border ${i <= level ? "border-darah-700 bg-darah-700 dark:border-darah-300 dark:bg-darah-300" : "border-kafan-700 dark:border-kemenyan-400"}`}
         />
       ))}
-      <span class="muted ml-1 text-xs"><span class="sr-only">Danger {level} of 5: </span>{DANGER[level]}</span>
+      <span class="muted ml-1 text-xs">
+        <span class="sr-only">{t("dangerOf", level)} </span>
+        {dangerLabel(lang, level)}
+      </span>
     </span>
   );
 }
 
-export function CladePill({ clade }: { clade: string }) {
+export function CladePill({ clade, lang }: { clade: string; lang: Lang }) {
   return (
     <span class="inline-flex items-center gap-1.5 rounded-full border border-kafan-700 px-2.5 py-0.5 text-xs font-semibold dark:border-kemenyan-400">
       <span class="h-2.5 w-2.5 rounded-full" style={{ background: cladeVar(clade) }} />
-      {clade}
+      {tr(lang, clade)}
     </span>
   );
 }
@@ -43,7 +48,7 @@ function Field({ label, value }: { label: string; value: string | null }) {
   if (!value) return null;
   return (
     <div>
-      <dt class="text-xs font-semibold uppercase tracking-wider muted">{label}</dt>
+      <dt class="muted text-xs font-semibold uppercase tracking-wider">{label}</dt>
       <dd class="mt-0.5 text-sm leading-relaxed">{value}</dd>
     </div>
   );
@@ -51,74 +56,76 @@ function Field({ label, value }: { label: string; value: string | null }) {
 
 export default function GhostCard({
   ghost,
+  lang,
   onSelect,
   compact = false,
 }: {
   ghost: Ghost;
+  lang: Lang;
   onSelect?: (id: string) => void;
   compact?: boolean;
 }) {
-  const traits = presentTraits(ghost);
+  const t = useT(lang);
+  const traits = presentTraits(lang, ghost);
   const relatives = ghost.relatives.map((id) => byId.get(id)!).filter(Boolean);
   return (
-    <article class="glass p-5" aria-label={`${ghost.name} card`}>
+    <article class="glass p-5" aria-label={t("cardOf", ghost.name)}>
       <div class="flex items-start gap-4">
         <img
           src={plateUrl(ghost.id)}
-          alt={`${ghost.name}, drawn as ${ghost.morphology.toLowerCase()}`}
+          alt={t("drawnAs", ghost.name, tr(lang, ghost.morphology))}
           width={compact ? 96 : 128}
           height={compact ? 96 : 128}
           class="shrink-0 animate-drift rounded-full shadow-lg shadow-malam-950/20"
         />
         <div class="min-w-0">
           <h2 class="font-serif text-2xl font-semibold leading-tight tracking-tight">{ghost.name}</h2>
-          <p class="mt-0.5 text-sm muted">
-            {ghost.region}
-            {ghost.culture ? ` · ${ghost.culture}` : ""}
+          <p class="muted mt-0.5 text-sm">
+            {tr(lang, ghost.region)}
+            {ghost.culture ? ` · ${tr(lang, ghost.culture)}` : ""}
           </p>
           <div class="mt-2 flex flex-wrap items-center gap-2">
-            <CladePill clade={ghost.clade} />
+            <CladePill clade={ghost.clade} lang={lang} />
             {ghost.outgroup && (
               <span class="rounded-full bg-malam-100 px-2.5 py-0.5 text-xs font-semibold text-malam-800 dark:bg-malam-800 dark:text-malam-100">
-                Outgroup
+                {t("outgroup")}
               </span>
             )}
           </div>
           <div class="mt-2">
-            <DangerMeter level={ghost.danger} />
+            <DangerMeter level={ghost.danger} lang={lang} />
           </div>
         </div>
       </div>
 
       <dl class="mt-4 grid gap-3">
-        <Field label="Form" value={ghost.morphology} />
-        <Field label="Origin" value={ghost.origin} />
-        <Field label="Behaviour" value={ghost.behavior} />
-        <Field label="Deterrents" value={ghost.deterrents} />
-        <Field label="Diet" value={ghost.diet} />
+        <Field label={t("form")} value={tr(lang, ghost.morphology)} />
+        <Field label={t("origin")} value={tr(lang, ghost.origin)} />
+        <Field label={t("behavior")} value={tr(lang, ghost.behavior)} />
+        <Field label={t("deterrents")} value={tr(lang, ghost.deterrents)} />
+        <Field label={t("diet")} value={tr(lang, ghost.diet)} />
       </dl>
 
       <div class="mt-4">
-        <p class="text-xs font-semibold uppercase tracking-wider muted">Coded traits</p>
+        <p class="muted text-xs font-semibold uppercase tracking-wider">{t("codedTraits")}</p>
         <div class="mt-1.5 flex flex-wrap gap-1.5">
-          <span class="rounded-full bg-kafan-200 px-2 py-0.5 text-xs dark:bg-malam-800">{sexLabel(ghost)}</span>
-          {traits.map((t) => (
-            <span key={t} class="rounded-full bg-kafan-200 px-2 py-0.5 text-xs dark:bg-malam-800">
-              {t}
+          <span class="rounded-full bg-kafan-200 px-2 py-0.5 text-xs dark:bg-malam-800">{sexLabel(lang, ghost)}</span>
+          {traits.map((x) => (
+            <span key={x} class="rounded-full bg-kafan-200 px-2 py-0.5 text-xs dark:bg-malam-800">
+              {x}
             </span>
           ))}
         </div>
-        <p class="mt-2 text-xs muted">
+        <p class="muted mt-2 text-xs">
           {ghost.coding !== "source" && <span class="mr-1 text-darah-700 dark:text-darah-300">◆</span>}
-          {CODING_LABEL[ghost.coding]}.
-          {ghost.twins.length > 0 &&
-            ` Shares an identical row with ${ghost.twins.map((t) => byId.get(t)?.name).join(", ")}, so the tree cannot separate them.`}
+          {codingLabel(lang, ghost.coding)}.
+          {ghost.twins.length > 0 && t("twinsCard", ghost.twins.map((x) => byId.get(x)?.name).join(", "))}
         </p>
       </div>
 
       {!compact && (
         <div class="mt-4">
-          <p class="text-xs font-semibold uppercase tracking-wider muted">Nearest on the tree</p>
+          <p class="muted text-xs font-semibold uppercase tracking-wider">{t("nearest")}</p>
           <ul class="mt-2 flex flex-wrap gap-2">
             {relatives.map((r) => (
               <li key={r.id}>
@@ -137,10 +144,10 @@ export default function GhostCard({
       )}
 
       <a
-        href={withBase(`/ghosts/${ghost.id}`)}
-        class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-darah-700 underline-offset-4 hover:underline dark:text-prada-300"
+        href={localePath(lang, `/ghosts/${ghost.id}`)}
+        class="accent mt-4 inline-flex items-center gap-1 text-sm font-semibold underline-offset-4 hover:underline"
       >
-        Full specimen page <span aria-hidden="true">→</span>
+        {t("fullPage")} <span aria-hidden="true">→</span>
       </a>
     </article>
   );

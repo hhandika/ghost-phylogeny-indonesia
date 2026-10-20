@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import CladeLegend from "../../components/CladeLegend.astro";
+import Lantern from "../../islands/Lantern";
+import { langOf, localeParams, useT } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+---
+
+<Layout lang={lang} title={t("title", t("navLantern"))} wide>
+  <PageTitle title={t("lanternTitle")} kicker={t("lanternKicker")}>
+    {t("lanternLead")}
+  </PageTitle>
+  <CladeLegend lang={lang} />
+  <Lantern client:load lang={lang} />
+</Layout>

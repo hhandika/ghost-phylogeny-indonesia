@@ -1,7 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { byId, data, plateUrl, withBase } from "../utils/data";
-import { layout } from "../utils/tree";
+import Layout from "../../layouts/Layout.astro";
+import { byId, data, plateUrl } from "../../utils/data";
+import { layout } from "../../utils/tree";
+import { langOf, localeParams, localePath, regionName, useT, type Key } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
 
 const { meta } = data;
 const L = layout(data.tree, (id) => byId.get(id)!.clade);
@@ -16,38 +21,36 @@ const pairs = L.all
 const heroIds = ["kuntilanak_indonesian_archipelago", "pocong_java_indonesia", "banaspati_java_indonesia", "kuyang_kalimantan_indonesia", "rangda_bali_indonesia", "genderuwo_java_indonesia", "toyol_tuyul_indonesian_archipelago"].filter((id) => byId.has(id));
 const islands = data.regions.filter((r) => r !== "Outgroup" && r !== "Widespread").length;
 const stats = [
-  { value: meta.taxa - meta.outgroups, label: "Indonesian ghosts" },
-  { value: meta.outgroups, label: "outgroup cousins" },
-  { value: meta.characters, label: "coded characters" },
-  { value: islands, label: "island regions" },
+  { value: meta.taxa - meta.outgroups, label: t("statGhosts") },
+  { value: meta.outgroups, label: t("statOutgroups") },
+  { value: meta.characters, label: t("statChars") },
+  { value: islands, label: t("statIslands") },
 ];
 
-const views = [
-  { path: "/atlas", name: "Atlas", kind: "Tree and traits", blurb: "The rectangular tree with every coded character lined up beside it, and a card for whichever ghost you pick." },
-  { path: "/lantern", name: "Lantern", kind: "Circular tree", blurb: "The tree bent into a circle on a night canvas. Light a ghost's lineage back to the root, or filter by island." },
-  { path: "/bestiary", name: "Bestiary", kind: "Field guide", blurb: "Specimen cards in tree order, with filters for clade, island, danger, and trait, and a two-ghost comparison." },
-  { path: "/patterns", name: "Patterns", kind: "The whole dataset", blurb: "A map of the archipelago, a trait heatmap, a danger chart made of the plates themselves, and more." },
+const views: { path: string; name: Key; kind: Key; blurb: Key; art: string }[] = [
+  { path: "/atlas", name: "navAtlas", kind: "kindAtlas", blurb: "blurbAtlas", art: "atlas" },
+  { path: "/lantern", name: "navLantern", kind: "kindLantern", blurb: "blurbLantern", art: "lantern" },
+  { path: "/bestiary", name: "navBestiary", kind: "kindBestiary", blurb: "blurbBestiary", art: "bestiary" },
+  { path: "/patterns", name: "navPatterns", kind: "kindPatterns", blurb: "blurbPatterns", art: "patterns" },
 ];
 const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indonesia", "orang_bati_seram_indonesia", "naga_besukih_bali_indonesia", "preta_indonesian_archipelago", "lampor_java_indonesia"].filter((id) => byId.has(id));
 ---
 
-<Layout title="Ghost phylogeny, literally">
+<Layout lang={lang} title={t("siteTitle")}>
   <section class="glass mt-6 px-5 py-10 text-center sm:mt-10 sm:px-10 sm:py-14">
-    <p class="accent text-xs font-semibold uppercase tracking-[0.3em]" lang="id">Pohon kekerabatan hantu Nusantara</p>
+    <p class="accent text-xs font-semibold uppercase tracking-[0.3em]" lang="id">{t("heroKicker")}</p>
     <h1 class="mx-auto mt-3 max-w-3xl text-balance font-serif text-5xl font-semibold tracking-tight sm:text-6xl">
-      Ghost phylogeny, <i>literally</i>.
+      {t("siteName")}, <i>{t("literally")}</i>.
     </h1>
-    <p class="muted mx-auto mt-5 max-w-2xl text-pretty text-lg leading-relaxed">
-      Not a metaphor. Kuntilanak, pocong, tuyul, and {meta.taxa - 3} more spirits of the archipelago are scored like museum specimens on {meta.characters} traits, and <a href="http://www.iqtree.org/" class="accent font-semibold underline underline-offset-2">IQ-TREE</a> infers their family tree the way biologists do for animals.
-    </p>
-    <ul class="mt-10 flex flex-wrap items-end justify-center gap-3 sm:gap-5" aria-label="A few of the ghosts">
+    <p class="muted mx-auto mt-5 max-w-2xl text-pretty text-lg leading-relaxed" set:html={t("heroLead", meta.taxa - 3, meta.characters)} />
+    <ul class="mt-10 flex flex-wrap items-end justify-center gap-3 sm:gap-5" aria-label={t("aFewGhosts")}>
       {
         heroIds.map((id, i) => {
           const g = byId.get(id)!;
           const size = i === 3 ? 132 : 92;
           return (
             <li>
-              <a href={withBase(`/ghosts/${id}`)} class="group block rounded-full" aria-label={g.name}>
+              <a href={localePath(lang, `/ghosts/${id}`)} class="group block rounded-full" aria-label={g.name}>
                 <img src={plateUrl(id)} alt="" width={size} height={size} class="animate-drift rounded-full shadow-xl shadow-malam-950/30 transition group-hover:scale-105" style={`animation-delay: ${i * -0.7}s`} />
               </a>
             </li>
@@ -69,16 +72,16 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
 
   <section class="mt-10" aria-labelledby="views">
     <div class="glass px-6 py-6 text-center">
-      <h2 id="views" class="font-serif text-3xl font-semibold tracking-tight">Four ways in</h2>
-      <p class="muted mx-auto mt-2 max-w-2xl">Three ways to read the same tree, and one for everything else in the data. Every ghost also has its own specimen page.</p>
+      <h2 id="views" class="font-serif text-3xl font-semibold tracking-tight">{t("fourWays")}</h2>
+      <p class="muted mx-auto mt-2 max-w-2xl">{t("fourWaysLead")}</p>
     </div>
     <ul class="mt-4 grid gap-4 sm:grid-cols-2">
       {
         views.map((v) => (
           <li>
-            <a href={withBase(v.path)} class="glass group flex h-full flex-col overflow-hidden transition hover:-translate-y-1">
-              <div class={`flex h-40 items-center justify-center ${v.name === "Lantern" ? "bg-night/90" : "bg-kafan-200/50 dark:bg-malam-900/50"}`} aria-hidden="true">
-                {v.name === "Atlas" && (
+            <a href={localePath(lang, v.path)} class="glass group flex h-full flex-col overflow-hidden transition hover:-translate-y-1">
+              <div class={`flex h-40 items-center justify-center ${v.art === "lantern" ? "bg-night/90" : "bg-kafan-200/50 dark:bg-malam-900/50"}`} aria-hidden="true">
+                {v.art === "atlas" && (
                   <svg viewBox="0 0 200 120" class="h-32 w-auto">
                     <g fill="none" stroke-width="2" stroke-linecap="round">
                       <path d="M10 60 H30 M30 25 V95 M30 25 H55 M55 15 V35 M30 95 H50 M50 55 V110" stroke="var(--neutral-branch)" />
@@ -96,7 +99,7 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
                     ))}
                   </svg>
                 )}
-                {v.name === "Lantern" && (
+                {v.art === "lantern" && (
                   <svg viewBox="-60 -60 120 120" class="h-32 w-auto">
                     <circle r="54" fill="none" stroke="#e0b03e" stroke-opacity=".3" />
                     {Array.from({ length: 28 }, (_, i) => {
@@ -107,7 +110,7 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
                     <circle r="9" fill="#f1e9d8" class="animate-flicker" />
                   </svg>
                 )}
-                {v.name === "Bestiary" && (
+                {v.art === "bestiary" && (
                   <div class="grid grid-cols-3 gap-2">
                     {bestiaryIds.map((id) => (
                       <span class="rounded-xl bg-kafan-50/80 p-1 dark:bg-malam-900/80">
@@ -116,7 +119,7 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
                     ))}
                   </div>
                 )}
-                {v.name === "Patterns" && (
+                {v.art === "patterns" && (
                   <svg viewBox="0 0 200 110" class="h-32 w-auto">
                     {Array.from({ length: 6 }, (_, r) =>
                       Array.from({ length: 8 }, (_, c) => <rect x={20 + c * 20} y={8 + r * 16} width="18" height="14" rx="3" style={`fill: var(--seq-${(r * 7 + c * 3) % 6})`} />),
@@ -125,10 +128,10 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
                 )}
               </div>
               <div class="flex flex-1 flex-col p-5">
-                <p class="accent text-xs font-semibold uppercase tracking-widest">{v.kind}</p>
-                <h3 class="mt-1 font-serif text-2xl font-semibold">{v.name}</h3>
-                <p class="muted mt-1 flex-1 text-sm">{v.blurb}</p>
-                <span class="accent mt-4 text-sm font-semibold group-hover:underline">Open {v.name} <span aria-hidden="true">→</span></span>
+                <p class="accent text-xs font-semibold uppercase tracking-widest">{t(v.kind)}</p>
+                <h3 class="mt-1 font-serif text-2xl font-semibold">{t(v.name)}</h3>
+                <p class="muted mt-1 flex-1 text-sm">{t(v.blurb)}</p>
+                <span class="accent mt-4 text-sm font-semibold group-hover:underline">{t("open", t(v.name))} <span aria-hidden="true">→</span></span>
               </div>
             </a>
           </li>
@@ -138,10 +141,8 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
   </section>
 
   <section class="glass mt-10 p-6 sm:p-8" aria-labelledby="pairs">
-    <h2 id="pairs" class="text-center font-serif text-3xl font-semibold tracking-tight">Strongest kinships</h2>
-    <p class="muted mx-auto mt-2 max-w-2xl text-center">
-      Small clades with ultrafast bootstrap of 90 or more. Most of the deep tree is unresolved: only {meta.strongNodes} of {meta.nodes} nodes reach 95.
-    </p>
+    <h2 id="pairs" class="text-center font-serif text-3xl font-semibold tracking-tight">{t("kinships")}</h2>
+    <p class="muted mx-auto mt-2 max-w-2xl text-center">{t("kinshipsLead", meta.strongNodes, meta.nodes)}</p>
     <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {
         pairs.map((p) => (
@@ -156,11 +157,11 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
                 {p.ghosts.map((g, i) => (
                   <>
                     {i > 0 && <span class="muted"> + </span>}
-                    <a href={withBase(`/ghosts/${g.id}`)} class="underline decoration-kafan-500 underline-offset-2 hover:decoration-darah-600">{g.name}</a>
+                    <a href={localePath(lang, `/ghosts/${g.id}`)} class="underline decoration-kafan-500 underline-offset-2 hover:decoration-darah-600">{g.name}</a>
                   </>
                 ))}
               </p>
-              <p class="muted text-sm">UFBoot {p.support} · {[...new Set(p.ghosts.map((g) => g.regionGroup))].join(", ")}</p>
+              <p class="muted text-sm">UFBoot {p.support} · {[...new Set(p.ghosts.map((g) => regionName(lang, g.regionGroup)))].join(", ")}</p>
             </div>
           </li>
         ))
@@ -169,14 +170,14 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
   </section>
 
   <section class="glass mt-10 p-6 sm:p-8" aria-labelledby="how">
-    <h2 id="how" class="font-serif text-2xl font-semibold tracking-tight">How the tree is built</h2>
+    <h2 id="how" class="font-serif text-2xl font-semibold tracking-tight">{t("howBuilt")}</h2>
     <ol class="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
       {
         [
-          ["Parse", `Read ${meta.taxa} taxa from the workbook and clean names, clades, and regions.`],
-          ["Encode", `Write a ${meta.taxa} × ${meta.characters} morphological matrix in Nexus format.`],
-          ["Infer", `${meta.analysis.software} picks ${meta.analysis.model ?? "a model"} and runs 1000 ultrafast bootstraps.`],
-          ["Publish", "Root on the outgroups, draw a plate per ghost, and build this site."],
+          [t("stepParse"), t("stepParseText", meta.taxa)],
+          [t("stepEncode"), t("stepEncodeText", meta.taxa, meta.characters)],
+          [t("stepInfer"), t("stepInferText", meta.analysis.software, meta.analysis.model ?? "?")],
+          [t("stepPublish"), t("stepPublishText")],
         ].map(([step, text], i) => (
           <li class="rounded-2xl border border-kafan-300 bg-kafan-100/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
             <span class="accent font-serif text-2xl font-semibold" aria-hidden="true">{i + 1}</span>
@@ -187,7 +188,7 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
       }
     </ol>
     <p class="mt-4 text-sm">
-      Every push that touches the data reruns all four steps in a GitHub workflow. <a href={withBase("/methods")} class="accent font-semibold underline underline-offset-2">Read the methods</a>.
+      {t("workflowNote")} <a href={localePath(lang, "/methods")} class="accent font-semibold underline underline-offset-2">{t("readMethods")}</a>.
     </p>
   </section>
 </Layout>

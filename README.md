@@ -8,7 +8,8 @@ A comparative dataset of 110 Indonesian ghosts, spirits, and cryptids (plus outg
 
 | Path | What it holds |
 |---|---|
-| `data/indonesian-ghosts-comprehensive-dataset.xlsx` | Source workbook (v3). The only file edited by hand. |
+| `data/indonesian-ghosts-comprehensive-dataset.xlsx` | Source workbook (v3). Edited by hand. |
+| `data/translations/id.json` | Curated Indonesian translations of every text value in the data. Edited by hand. |
 | `ghostphylo/` | Python pipeline: parse → encode → infer → export → draw. |
 | `data/processed/` | Cleaned taxon table, character matrix (`ghosts.nex`, `ghosts.phy`), character definitions. Generated. |
 | `results/iqtree/` | IQ-TREE output, plus `ghosts.rooted.tre` (rooted on the outgroups, ladderized). Generated. |
@@ -48,6 +49,8 @@ Most codings beyond the original 61 taxa come from folklore synthesis rather tha
 - **Bestiary** (`/bestiary`): filterable field guide with side-by-side comparison.
 - **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map with Pleistocene sea levels (today, −40, −80, −120 m) and Wallace's, Huxley's, Weber's, and Lydekker's lines, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
 - **Specimen pages** (`/ghosts/<taxon_id>`): every field and coded character for one ghost.
+
+**Languages.** The site is bilingual: American English at `/…` and Indonesian at `/id/…`, with an EN | ID switcher in the header that keeps you on the same page. Interface strings live in `web/src/i18n/index.ts`. Text from the data (clades, traits, origins, behaviors, deterrents, and so on) is translated through `data/translations/id.json`; `ghostphylo export` embeds the strings the site uses and lists any that are missing, which then fall back to English. Parsing also converts the workbook's British spellings to American.
 
 Accessibility targets WCAG 2.2 AA: text on glass keeps at least 4.5:1 against the darkest and brightest parts of the scene, controls have 3:1 boundaries, trait states differ in shape as well as colour, interactive trees are keyboard operable with announced selections, scrollable regions are focusable, and scene motion stops under `prefers-reduced-motion`. The Patterns map uses Natural Earth coastlines and NOAA ETOPO1 shelf outlines (both public domain), with line placements after hhandika-com's speciation map.
 

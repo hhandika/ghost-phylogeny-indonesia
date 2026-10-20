@@ -1,13 +1,17 @@
 ---
-const { class: className = "" } = Astro.props;
+import { useT, type Lang } from "../i18n";
+const { class: className = "", lang } = Astro.props as { class?: string; lang: Lang };
+const t = useT(lang);
 ---
 
 <button
   type="button"
   data-theme-toggle
   class={`control inline-flex h-10 w-10 items-center justify-center transition hover:text-darah-700 dark:hover:text-prada-300 ${className}`}
-  aria-label="Switch to dark mode"
-  title="Toggle dark mode"
+  aria-label={t("toDark")}
+  title={t("toggleDark")}
+  data-label-dark={t("toDark")}
+  data-label-light={t("toLight")}
 >
   <!-- Sun shows in dark mode (switch to light); moon in light mode. -->
   <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -25,7 +29,7 @@ const { class: className = "" } = Astro.props;
   const syncLabels = () => {
     const dark = root.classList.contains("dark");
     buttons.forEach((b) => {
-      b.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+      b.setAttribute("aria-label", (dark ? b.dataset.labelLight : b.dataset.labelDark) ?? "");
       b.setAttribute("aria-pressed", String(dark));
     });
   };

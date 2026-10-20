@@ -84,30 +84,12 @@ export const data = raw as unknown as Dataset;
 export const ghosts = data.ghosts;
 export const byId = new Map(ghosts.map((g) => [g.id, g]));
 
-/** Clade colour as a CSS variable (defined in styles/tailwind.css). */
+/** Clade color as a CSS variable (defined in styles/tailwind.css). */
 export const cladeVar = (clade: string, clades = data.clades) =>
   `var(--clade-${clades.indexOf(clade)})`;
-
-export const DANGER = ["", "Benign", "Unsettling", "Frightening", "Dangerous", "Lethal"];
-
-export const CODING_LABEL: Record<Coding, string> = {
-  source: "Coded in the source matrix",
-  filled: "Some traits filled by folklore synthesis",
-  new: "New entry coded by folklore synthesis",
-};
 
 /** Prefix a site path with the deploy base (GitHub Pages serves under /<repo>/). */
 export const withBase = (path: string, base = import.meta.env.BASE_URL) =>
   `${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
 
 export const plateUrl = (id: string, base?: string) => withBase(`ghosts/${id}.svg`, base);
-
-/** Present traits in plain words, for chips and summaries. */
-export const presentTraits = (g: Ghost, chars = data.characters) =>
-  chars
-    .slice(0, 18)
-    .filter((c) => c.id !== "sex" && g.traits[c.id] === 1)
-    .map((c) => c.label);
-
-export const sexLabel = (g: Ghost) =>
-  g.traits.sex === 1 ? "Female" : g.traits.sex === 0 ? "Male" : "Unspecified";

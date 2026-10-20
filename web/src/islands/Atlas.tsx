@@ -1,5 +1,5 @@
 /**
- * Design A, "Atlas": the classic phylogenetics figure. A rectangular tree on
+ * "Atlas": the classic phylogenetics figure. A rectangular tree on
  * the left, tip plates and names, and the coded trait matrix aligned to the
  * tips, with a sticky detail card. Built for desktop reading; scrolls
  * sideways on phones.
@@ -8,14 +8,17 @@ import { useMemo, useState } from "preact/hooks";
 import { byId, cladeVar, data, plateUrl } from "../utils/data";
 import { ancestry, connector, elbow, layout, type Mode } from "../utils/tree";
 import GhostCard from "./GhostCard";
+import { tr, useT, type Lang } from "../i18n";
 
 const ROW = 22;
-const TOP = 124; // room for the rotated matrix headers
 const TREE_W = 330;
 const LABEL_W = 196;
 const CELL = 13;
 
-export default function Atlas() {
+export default function Atlas({ lang }: { lang: Lang }) {
+  const t = useT(lang);
+  // Room for the rotated matrix headers, sized to the longest label.
+  const TOP = Math.max(124, Math.ceil(24 + Math.max(...data.characters.map((c) => tr(lang, c.label).length)) * 4.9));
   const [mode, setMode] = useState<Mode>("cladogram");
   const [selected, setSelected] = useState<string>(data.ghosts[0].id);
   const [query, setQuery] = useState("");
@@ -28,20 +31,22 @@ export default function Atlas() {
   const sy = (y: number) => TOP + y * ROW + ROW / 2;
   const labelX = TREE_W + 4;
   const matrixX = TREE_W + LABEL_W;
-  const W = matrixX + data.characters.length * CELL + 8;
+  // Rotated headers lean right; leave room for the last ones (10px text, -60°).
+  const headerLean = Math.max(...data.characters.slice(-4).map((c, k) => tr(lang, c.label).length * 5.6 * 0.5 - (3 - k) * CELL));
+  const W = matrixX + data.characters.length * CELL + Math.max(8, headerLean + 8);
   const H = TOP + L.nTips * ROW + 8;
 
   const q = query.trim().toLowerCase();
   const matches = (id: string) => {
     const g = byId.get(id)!;
-    const okQuery = !q || g.name.toLowerCase().includes(q) || g.region.toLowerCase().includes(q);
+    const okQuery = !q || [g.name, g.region, tr(lang, g.region)].some((s) => s.toLowerCase().includes(q));
     const okTrait = !trait || g.traits[trait] === 1;
     return okQuery && okTrait;
   };
-  const tipById = new Map(L.tips.map((t) => [t.id!, t]));
+  const tipById = new Map(L.tips.map((tip) => [tip.id!, tip]));
   const path = ancestry(tipById.get(selected));
   const ghost = byId.get(selected)!;
-  const nMatch = L.tips.filter((t) => matches(t.id!)).length;
+  const nMatch = L.tips.filter((tip) => matches(tip.id!)).length;
   const filtering = !!q || !!trait;
 
   const select = (id: string) => {
@@ -49,7 +54,7 @@ export default function Atlas() {
     document.getElementById(`row-${id}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   };
 
-  // States differ in shape as well as colour: filled square = present,
+  // States differ in shape as well as color: filled square = present,
   // outlined square = absent, half-filled = variable, dot = unknown, letter =
   // multistate code (body plan, diet).
   // Filtered-out rows fade their shapes; letters keep full contrast.
@@ -80,16 +85,16 @@ export default function Atlas() {
     <div class="mx-auto max-w-7xl">
       <div class="glass mb-4 flex flex-wrap items-center gap-3 !rounded-2xl p-3 lg:sticky lg:top-[6.25rem] lg:z-30">
         <label class="flex min-w-[12rem] flex-1 items-center gap-2 control px-3 py-1.5">
-          <span class="sr-only">Search ghosts</span>
+          <span class="sr-only">{t("searchGhosts")}</span>
           <svg class="h-4 w-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           <input
             type="search"
             value={query}
-            placeholder="Search by name or island"
+            placeholder={t("searchNameIsland")}
             onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                const first = L.tips.find((t) => matches(t.id!));
+                const first = L.tips.find((tip) => matches(tip.id!));
                 if (first) select(first.id!);
               }
             }}
@@ -97,44 +102,44 @@ export default function Atlas() {
           />
         </label>
         <label class="flex items-center gap-2 text-sm">
-          <span class="font-semibold">Highlight</span>
+          <span class="font-semibold">{t("highlight")}</span>
           <select
             value={trait}
             onChange={(e) => setTrait((e.target as HTMLSelectElement).value)}
             class="control px-3 py-1.5"
           >
-            <option value="">No trait</option>
+            <option value="">{t("noTrait")}</option>
             {data.characters.slice(0, 18).filter((c) => c.id !== "sex").map((c) => (
-              <option key={c.id} value={c.id}>{c.label}</option>
+              <option key={c.id} value={c.id}>{tr(lang, c.label)}</option>
             ))}
           </select>
         </label>
-        <div class="control flex p-0.5 text-sm" role="group" aria-label="Branch lengths">
+        <div class="control flex p-0.5 text-sm" role="group" aria-label={t("branchLengths")}>
           {(["cladogram", "phylogram"] as Mode[]).map((m) => (
             <button
               key={m}
               type="button"
               aria-pressed={mode === m}
               onClick={() => setMode(m)}
-              class={`rounded-full px-3 py-1 capitalize transition ${mode === m ? "bg-malam-900 text-prada-200 dark:bg-prada-300 dark:text-malam-950" : "hover:bg-kafan-200 dark:hover:bg-malam-800"}`}
+              class={`rounded-full px-3 py-1 transition ${mode === m ? "bg-malam-900 text-prada-200 dark:bg-prada-300 dark:text-malam-950" : "hover:bg-kafan-200 dark:hover:bg-malam-800"}`}
             >
-              {m}
+              {t(m)}
             </button>
           ))}
         </div>
         <p class="text-xs muted" aria-live="polite">
-          {nMatch} of {L.nTips} match
+          {t("nMatch", nMatch, L.nTips)}
         </p>
-        <p class="sr-only" aria-live="polite">Showing the card for {ghost.name}.</p>
+        <p class="sr-only" aria-live="polite">{t("showingCard", ghost.name)}</p>
       </div>
 
       <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        <figure class="glass overflow-x-auto p-2" tabIndex={0} aria-label="Tree and trait matrix (scrolls sideways on small screens)">
+        <figure class="glass overflow-x-auto p-2" tabIndex={0} aria-label={t("atlasFigure")}>
           <svg
             viewBox={`0 0 ${W} ${H}`}
             class="block h-auto w-full min-w-[680px]"
             role="group"
-            aria-label={`Maximum-likelihood tree of ${L.nTips} ghosts with their coded traits. ${ghost.name} is selected.`}
+            aria-label={t("atlasSvg", L.nTips, ghost.name)}
           >
             {/* Matrix headers */}
             {data.characters.map((c, i) => (
@@ -143,22 +148,22 @@ export default function Atlas() {
                 transform={`translate(${matrixX + i * CELL + CELL / 2 + 3} ${TOP - 6}) rotate(-60)`}
                 class={`text-[10px] ${trait === c.id ? "fill-darah-700 font-bold dark:fill-prada-300" : "fill-kafan-800 dark:fill-kemenyan-200"}`}
               >
-                {c.label}
+                {tr(lang, c.label)}
               </text>
             ))}
 
             {/* Row bands for selected and hovered tips */}
-            {L.tips.map((t) =>
-              t.id === selected || t.id === hover ? (
+            {L.tips.map((tip) =>
+              tip.id === selected || tip.id === hover ? (
                 <rect
-                  key={`band-${t.id}`}
+                  key={`band-${tip.id}`}
                   x={0}
-                  y={sy(t.y) - ROW / 2}
+                  y={sy(tip.y) - ROW / 2}
                   width={W}
                   height={ROW}
                   rx={6}
-                  class={t.id === selected ? "fill-prada-200/80 dark:fill-malam-800" : "fill-kafan-200/70 stroke-darah-700 dark:fill-malam-900 dark:stroke-prada-300"}
-                  stroke-width={t.id === selected ? 0 : 1.5}
+                  class={tip.id === selected ? "fill-prada-200/80 dark:fill-malam-800" : "fill-kafan-200/70 stroke-darah-700 dark:fill-malam-900 dark:stroke-prada-300"}
+                  stroke-width={tip.id === selected ? 0 : 1.5}
                 />
               ) : null,
             )}
@@ -194,34 +199,34 @@ export default function Atlas() {
               ))}
 
             {/* Tips: leader, plate, name, matrix row */}
-            {L.tips.map((t) => {
-              const g = byId.get(t.id!)!;
-              const y = sy(t.y);
-              const on = matches(t.id!);
+            {L.tips.map((tip) => {
+              const g = byId.get(tip.id!)!;
+              const y = sy(tip.y);
+              const on = matches(tip.id!);
               return (
                 <g
-                  key={t.id}
-                  id={`row-${t.id}`}
+                  key={tip.id}
+                  id={`row-${tip.id}`}
                   class="cursor-pointer"
-                  onClick={() => select(t.id!)}
-                  onMouseEnter={() => setHover(t.id!)}
+                  onClick={() => select(tip.id!)}
+                  onMouseEnter={() => setHover(tip.id!)}
                   onMouseLeave={() => setHover(null)}
-                  onFocus={() => setHover(t.id!)}
+                  onFocus={() => setHover(tip.id!)}
                   onBlur={() => setHover(null)}
                   role="button"
                   tabIndex={0}
-                  aria-label={`${g.name}, ${g.clade}`}
-                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), select(t.id!))}
+                  aria-label={`${g.name}, ${tr(lang, g.clade)}`}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), select(tip.id!))}
                 >
                   {mode === "phylogram" && (
-                    <path d={`M${sx(t.x) + 2} ${y} H${labelX}`} class="stroke-kafan-400 dark:stroke-malam-600" stroke-dasharray="1 3" />
+                    <path d={`M${sx(tip.x) + 2} ${y} H${labelX}`} class="stroke-kafan-400 dark:stroke-malam-600" stroke-dasharray="1 3" />
                   )}
                   <image href={plateUrl(g.id)} x={labelX} y={y - 9} width={18} height={18} opacity={on ? 1 : 0.3} />
                   <text
                     x={labelX + 23}
                     y={y + 4}
                     class={`text-[12px] ${
-                      t.id === selected
+                      tip.id === selected
                         ? "fill-darah-800 font-bold dark:fill-prada-200"
                         : !on
                           ? "fill-kafan-800 dark:fill-kemenyan-200"
@@ -237,7 +242,7 @@ export default function Atlas() {
                   {g.row.split("").map((s, i) => (
                     <g key={i}>
                       {cell(s, i, matrixX + i * CELL, y, !on)}
-                      <title>{`${g.name} · ${data.characters[i].label}: ${s === "?" ? "unknown" : data.characters[i].states[data.symbols.indexOf(s)]}`}</title>
+                      <title>{`${g.name} · ${tr(lang, data.characters[i].label)}: ${s === "?" ? t("unknown") : tr(lang, data.characters[i].states[data.symbols.indexOf(s)])}`}</title>
                     </g>
                   ))}
                 </g>
@@ -245,12 +250,12 @@ export default function Atlas() {
             })}
           </svg>
           <figcaption class="px-3 pb-3 pt-2 text-xs leading-relaxed muted">
-            Branches take the clade colour where every tip below shares it. Filled dots mark ultrafast bootstrap ≥ 95, open dots 80–94. In the matrix, a filled square means present, an outlined square absent, a half-filled square variable, and a dot unknown; the last two columns give body plan and diet as state codes (see Methods). † outgroup, ◆ some or all traits coded by folklore synthesis.
+            {t("atlasCaption")}
           </figcaption>
         </figure>
 
-        <aside class="lg:sticky lg:top-[11.5rem] lg:self-start" aria-label="Selected ghost">
-          <GhostCard ghost={ghost} onSelect={select} />
+        <aside class="lg:sticky lg:top-[11.5rem] lg:self-start" aria-label={t("selectedGhost")}>
+          <GhostCard ghost={ghost} lang={lang} onSelect={select} />
         </aside>
       </div>
     </div>

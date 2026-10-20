@@ -43,6 +43,30 @@ def _distances(tree: newick.Node) -> dict[str, dict[str, tuple[float, int]]]:
     return out
 
 
+def _translations(taxa: list[dict]) -> dict[str, dict[str, str]]:
+    """Embed the translations the site needs; warn about any that are missing."""
+    used: set[str] = set(C.CLADES) | set(C.REGIONS) | set(C.DIETS) | {"Unknown"}
+    used |= {label for _, label in C.BODY_PLANS}
+    for c in encode.characters():
+        used.add(c["label"])
+        used.update(c["states"])
+    for t in taxa:
+        used.update(v for k in ("region", "culture", "morphology", "diet", "origin", "behavior", "deterrents") if (v := t[k]))
+    out = {}
+    for f in sorted(C.TRANSLATIONS.glob("*.json")):
+        table: dict[str, str] = {}
+        for section, entries in json.loads(f.read_text()).items():
+            if not section.startswith("_"):
+                table.update(entries)
+        missing = sorted(u for u in used if u not in table and u not in C.REGIONS)
+        if missing:
+            print(f"export: {len(missing)} strings missing from {f.name}; English is shown instead:")
+            for m in missing:
+                print(f"  - {m}")
+        out[f.stem] = {k: table[k] for k in sorted(used) if k in table and table[k] != k}
+    return out
+
+
 def run(taxa: list[dict]) -> dict:
     tree = newick.parse((C.RESULTS / f"{C.PREFIX}.treefile").read_text())
     outgroups = {t["id"] for t in taxa if t["outgroup"]}
@@ -73,6 +97,7 @@ def run(taxa: list[dict]) -> dict:
         )
 
     supports = [n.support for n in tree.walk() if n.support is not None]
+    i18n = _translations(taxa)
     data = {
         "meta": {
             "title": "Ghost phylogeny of Indonesia",
@@ -95,6 +120,7 @@ def run(taxa: list[dict]) -> dict:
         "symbols": encode.SYMBOLS,
         "tree": _to_json(tree),
         "ghosts": ghosts,
+        "i18n": i18n,
     }
     C.WEB_DATA.parent.mkdir(parents=True, exist_ok=True)
     C.WEB_DATA.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n")

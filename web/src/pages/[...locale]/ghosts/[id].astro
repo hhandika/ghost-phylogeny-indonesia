@@ -1,0 +1,116 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../../layouts/Layout.astro";
+import { byId, cladeVar, data, ghosts, plateUrl, type Ghost } from "../../../utils/data";
+import { layout } from "../../../utils/tree";
+import { codingLabel, dangerLabel, langOf, localeParams, localePath, regionName, sexLabel, tr, useT } from "../../../i18n";
+
+export const getStaticPaths = (() =>
+  localeParams().flatMap(({ params }) => ghosts.map((g) => ({ params: { ...params, id: g.id } })))) satisfies GetStaticPaths;
+
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+const ghost = byId.get(Astro.params.id!) as Ghost;
+const L = layout(data.tree, (id) => byId.get(id)!.clade);
+const order = L.tips.map((tip) => tip.id!);
+const at = order.indexOf(ghost.id);
+const prev = byId.get(order[(at - 1 + order.length) % order.length])!;
+const next = byId.get(order[(at + 1) % order.length])!;
+const relatives = ghost.relatives.map((id) => byId.get(id)!);
+const fields: [string, string | null][] = [
+  [t("form"), tr(lang, ghost.morphology)],
+  [t("origin"), tr(lang, ghost.origin)],
+  [t("behavior"), tr(lang, ghost.behavior)],
+  [t("deterrentsLong"), tr(lang, ghost.deterrents)],
+  [t("diet"), tr(lang, ghost.diet)],
+  [t("culture"), tr(lang, ghost.culture)],
+  [t("region"), tr(lang, ghost.region)],
+  [t("sampling"), ghost.inSourceTree ? t("inBothTrees") : t("newOnTree")],
+];
+const state = (i: number) => {
+  const s = ghost.row[i];
+  return s === "?" ? t("unknown") : tr(lang, data.characters[i].states[data.symbols.indexOf(s)]);
+};
+---
+
+<Layout lang={lang} title={t("title", ghost.name)} description={t("ghostDescription", ghost.name, tr(lang, ghost.morphology), tr(lang, ghost.region))}>
+  <nav class="mt-6 flex items-center justify-between gap-2 text-sm" aria-label={t("neighbors")}>
+    <a href={localePath(lang, `/ghosts/${prev.id}`)} class="glass !rounded-full flex min-w-0 items-center gap-2 py-1 pl-1 pr-3">
+      <img src={plateUrl(prev.id)} alt="" width="30" height="30" class="rounded-full" /><span class="truncate"><span aria-hidden="true">←</span> <span class="sr-only">{t("previous")} </span>{prev.name}</span>
+    </a>
+    <a href={localePath(lang, `/ghosts/${next.id}`)} class="glass !rounded-full flex min-w-0 items-center gap-2 py-1 pl-3 pr-1">
+      <span class="truncate"><span class="sr-only">{t("next")} </span>{next.name} <span aria-hidden="true">→</span></span><img src={plateUrl(next.id)} alt="" width="30" height="30" class="rounded-full" />
+    </a>
+  </nav>
+
+  <article class="mt-6 grid gap-6 md:grid-cols-[18rem_minmax(0,1fr)]">
+    <div class="glass self-start p-6 text-center md:sticky md:top-28">
+      <img src={plateUrl(ghost.id)} alt={t("drawnAs", ghost.name, tr(lang, ghost.morphology))} width="240" height="240" class="mx-auto animate-drift rounded-full shadow-2xl shadow-malam-950/30" />
+      <a href={plateUrl(ghost.id)} download class="muted mt-4 inline-block text-sm underline underline-offset-2">{t("downloadPlate")}</a>
+    </div>
+    <div class="grid gap-6">
+      <div class="glass p-6">
+        <p class="accent text-xs font-semibold uppercase tracking-[0.25em]">{ghost.outgroup ? t("outgroup") : regionName(lang, ghost.regionGroup)}</p>
+        <h1 class="mt-1 font-serif text-5xl font-semibold tracking-tight">{ghost.name}</h1>
+        <div class="mt-3 flex flex-wrap items-center gap-3 text-sm">
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-kafan-700 px-3 py-1 font-semibold dark:border-kemenyan-400">
+            <span class="h-2.5 w-2.5 rounded-full" style={`background: ${cladeVar(ghost.clade)}`}></span>
+            {tr(lang, ghost.clade)}
+          </span>
+          <span>{t("dangerLine", ghost.danger, dangerLabel(lang, ghost.danger))}</span>
+        </div>
+        <dl class="mt-6 grid gap-3 sm:grid-cols-2">
+          {
+            fields.filter(([, v]) => v).map(([k, v]) => (
+              <div class="rounded-2xl border border-kafan-300 bg-kafan-100/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
+                <dt class="muted text-xs font-semibold uppercase tracking-wider">{k}</dt>
+                <dd class="mt-1">{v}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <section class="glass p-6" aria-labelledby="chars">
+        <h2 id="chars" class="font-serif text-2xl font-semibold">{t("codedCharacters")}</h2>
+        <p class="muted mt-1 text-sm">
+          {ghost.coding !== "source" && "◆ "}{codingLabel(lang, ghost.coding)}. {t("sexIs", sexLabel(lang, ghost))}
+        </p>
+        <table class="mt-3 w-full text-left text-sm">
+          <caption class="sr-only">{t("charsCaption", data.characters.length, ghost.name)}</caption>
+          <tbody>
+            {
+              data.characters.map((c, i) => (
+                <tr class="border-t border-kafan-300 dark:border-malam-700">
+                  <th scope="row" class="w-1/3 py-1.5 pr-3 font-semibold">{tr(lang, c.label)}</th>
+                  <td class={`py-1.5 ${ghost.row[i] === "1" && i < 18 ? "accent font-semibold" : ""}`}>
+                    {ghost.row[i] === "1" && i < 18 && <span aria-hidden="true">● </span>}
+                    {state(i)}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <section class="glass p-6" aria-labelledby="near">
+        <h2 id="near" class="font-serif text-2xl font-semibold">{t("nearest")}</h2>
+        {ghost.twins.length > 0 && <p class="muted mt-1 text-sm">{t("twinsPage", ghost.twins.map((x) => byId.get(x)!.name).join(", "))}</p>}
+        <ul class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {
+            relatives.map((r) => (
+              <li>
+                <a href={localePath(lang, `/ghosts/${r.id}`)} class="flex h-full flex-col items-center rounded-2xl border border-kafan-300 bg-kafan-100/70 p-3 text-center text-sm transition hover:border-darah-600 dark:border-malam-700 dark:bg-malam-900/70 dark:hover:border-prada-400">
+                  <img src={plateUrl(r.id)} alt="" width="64" height="64" class="rounded-full" />
+                  <span class="mt-1 font-semibold leading-tight">{r.name}</span>
+                  <span class="muted text-xs">{regionName(lang, r.regionGroup)}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </article>
+</Layout>
