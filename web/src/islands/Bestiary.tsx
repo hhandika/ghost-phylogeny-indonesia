@@ -60,14 +60,14 @@ export default function Bestiary() {
     `rounded-full border px-3 py-1 text-xs transition ${
       on
         ? "border-malam-900 bg-malam-900 text-prada-200 dark:border-prada-300 dark:bg-prada-300 dark:text-malam-950"
-        : "border-kafan-300 hover:bg-kafan-200 dark:border-malam-700 dark:hover:bg-malam-800"
+        : "border-kafan-700 hover:bg-kafan-200 dark:border-kemenyan-400 dark:hover:bg-malam-800"
     }`;
 
   return (
-    <div class="mx-auto max-w-7xl">
-      <section class="rounded-3xl border border-kafan-300 bg-kafan-50/80 p-4 dark:border-malam-700 dark:bg-malam-950/70" aria-label="Filters">
+    <div class="mx-auto max-w-7xl pb-16">
+      <section class="glass p-4" aria-label="Filters">
         <div class="flex flex-wrap items-center gap-3">
-          <label class="flex min-w-[14rem] flex-1 items-center gap-2 rounded-full border border-kafan-300 bg-kafan-100 px-3 py-1.5 dark:border-malam-700 dark:bg-malam-900">
+          <label class="flex min-w-[14rem] flex-1 items-center gap-2 control px-3 py-1.5">
             <span class="sr-only">Search</span>
             <svg class="h-4 w-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
             <input
@@ -75,14 +75,14 @@ export default function Bestiary() {
               value={query}
               placeholder="Search names, places, behaviour"
               onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
-              class="w-full bg-transparent text-sm outline-none placeholder:text-kafan-600 dark:placeholder:text-kemenyan-400"
+              class="w-full bg-transparent text-sm outline-none placeholder:text-kafan-800 dark:placeholder:text-kemenyan-300"
             />
           </label>
           <select
             aria-label="Island"
             value={region}
             onChange={(e) => setRegion((e.target as HTMLSelectElement).value)}
-            class="rounded-full border border-kafan-300 bg-kafan-100 px-3 py-1.5 text-sm dark:border-malam-700 dark:bg-malam-900"
+            class="control px-3 py-1.5 text-sm"
           >
             <option value="">All islands</option>
             {data.regions.map((r) => (
@@ -93,7 +93,7 @@ export default function Bestiary() {
             aria-label="Minimum danger"
             value={minDanger}
             onChange={(e) => setMinDanger(Number((e.target as HTMLSelectElement).value))}
-            class="rounded-full border border-kafan-300 bg-kafan-100 px-3 py-1.5 text-sm dark:border-malam-700 dark:bg-malam-900"
+            class="control px-3 py-1.5 text-sm"
           >
             {[1, 2, 3, 4, 5].map((d) => (
               <option key={d} value={d}>{d === 1 ? "Any danger" : `${DANGER[d]} or worse`}</option>
@@ -103,7 +103,7 @@ export default function Bestiary() {
             aria-label="Sort"
             value={sort}
             onChange={(e) => setSort((e.target as HTMLSelectElement).value as Sort)}
-            class="rounded-full border border-kafan-300 bg-kafan-100 px-3 py-1.5 text-sm dark:border-malam-700 dark:bg-malam-900"
+            class="control px-3 py-1.5 text-sm"
           >
             <option value="tree">Tree order</option>
             <option value="name">Name</option>
@@ -125,7 +125,7 @@ export default function Bestiary() {
             </button>
           ))}
         </div>
-        <p class="mt-3 text-xs text-kafan-700 dark:text-kemenyan-300" aria-live="polite">
+        <p class="mt-3 text-xs muted" aria-live="polite">
           {list.length} of {data.ghosts.length} specimens.{" "}
           {list.length < data.ghosts.length && (
             <button type="button" onClick={reset} class="font-semibold text-darah-700 underline underline-offset-2 dark:text-prada-300">
@@ -137,29 +137,29 @@ export default function Bestiary() {
 
       <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {list.map((g) => (
-          <li key={g.id} class="group relative">
+          <li key={g.id} class="glass group relative transition hover:-translate-y-0.5 hover:!border-darah-600 dark:hover:!border-prada-400">
             <button
               type="button"
               onClick={() => setOpen(g.id)}
-              class="flex h-full w-full flex-col items-center rounded-3xl border border-kafan-300 bg-kafan-50/90 p-3 pb-10 text-center transition hover:-translate-y-0.5 hover:border-darah-400 hover:shadow-lg dark:border-malam-700 dark:bg-malam-900/80 dark:hover:border-prada-400"
+              class="flex h-full w-full flex-col items-center rounded-3xl p-3 pb-10 text-center"
             >
               <span class="block h-1 w-12 rounded-full" style={{ background: cladeVar(g.clade) }} />
               <img src={plateUrl(g.id)} alt="" width={112} height={112} loading="lazy" class="mt-2 rounded-full transition duration-500 group-hover:scale-105" />
               <span class="mt-2 font-serif text-lg font-semibold leading-tight">{g.name}</span>
-              <span class="mt-0.5 text-xs text-kafan-700 dark:text-kemenyan-300">{g.regionGroup === "Outgroup" ? g.region.replace(" (Outgroup)", "") : g.regionGroup}</span>
-              <span class="mt-1 text-[11px] leading-snug text-kafan-700 dark:text-kemenyan-400">{g.clade}</span>
+              <span class="mt-0.5 text-xs muted">{g.regionGroup === "Outgroup" ? g.region.replace(" (Outgroup)", "") : g.regionGroup}</span>
+              <span class="muted mt-1 text-xs leading-snug">{g.clade}</span>
               <span class="mt-2"><DangerMeter level={g.danger} /></span>
             </button>
-            <label class="absolute bottom-3 left-1/2 flex -translate-x-1/2 cursor-pointer items-center gap-1 text-[11px] text-kafan-700 dark:text-kemenyan-300">
-              <input type="checkbox" checked={compare.includes(g.id)} onChange={() => pick(g.id)} class="accent-darah-600" />
-              Compare
+            <label class="muted absolute bottom-2 left-1/2 flex -translate-x-1/2 cursor-pointer items-center gap-1.5 rounded-full px-2 py-1 text-xs">
+              <input type="checkbox" checked={compare.includes(g.id)} onChange={() => pick(g.id)} class="h-4 w-4 accent-darah-700" />
+              Compare<span class="sr-only"> {g.name}</span>
             </label>
           </li>
         ))}
       </ul>
 
       {compare.length > 0 && (
-        <div class="fixed inset-x-0 bottom-4 z-40 mx-auto flex w-fit items-center gap-3 rounded-full border border-kafan-300 bg-kafan-50/95 py-1.5 pl-2 pr-2 shadow-xl backdrop-blur dark:border-malam-700 dark:bg-malam-900/95">
+        <div class="fixed inset-x-0 bottom-4 z-40 mx-auto flex w-fit items-center gap-3 glass glass-solid !rounded-full py-1.5 pl-2 pr-2">
           {compare.map((id) => (
             <img key={id} src={plateUrl(id)} alt={byId.get(id)!.name} width={36} height={36} class="rounded-full" />
           ))}
@@ -197,7 +197,22 @@ function Dialog({ label, onClose, wide = false, children }: { label: string; onC
   useEffect(() => {
     const before = document.activeElement as HTMLElement | null;
     ref.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    // Escape closes; Tab stays inside the dialog.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") return onClose();
+      if (e.key !== "Tab" || !ref.current) return;
+      const items = [...ref.current.querySelectorAll<HTMLElement>("a[href], button, input, select, summary, [tabindex='0']")];
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === ref.current)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
@@ -208,12 +223,12 @@ function Dialog({ label, onClose, wide = false, children }: { label: string; onC
   }, []);
   return (
     <div class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-malam-950/60 p-4 backdrop-blur-sm sm:items-center" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} class={`relative my-6 w-full outline-none ${wide ? "max-w-3xl" : "max-w-xl"}`}>
+      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} class={`glass-solid relative my-6 w-full outline-none ${wide ? "max-w-3xl" : "max-w-xl"}`}>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          class="absolute -top-3 right-0 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-kafan-300 bg-kafan-100 dark:border-malam-700 dark:bg-malam-800 sm:-right-3"
+          class="control absolute -top-3 right-0 z-10 flex h-10 w-10 items-center justify-center sm:-right-3"
         >
           ✕
         </button>
@@ -234,7 +249,7 @@ function Compare({ a, b, ancestors }: { a: Ghost; b: Ghost; ancestors: (id: stri
     return s === "?" ? "Unknown" : data.characters[i].states[data.symbols.indexOf(s)];
   };
   return (
-    <article class="rounded-3xl border border-kafan-300 bg-kafan-50 p-5 dark:border-malam-700 dark:bg-malam-900">
+    <article class="glass p-5">
       <div class="grid grid-cols-2 gap-4 text-center">
         {[a, b].map((g) => (
           <div key={g.id}>
@@ -250,7 +265,7 @@ function Compare({ a, b, ancestors }: { a: Ghost; b: Ghost; ancestors: (id: stri
       </p>
       <table class="mt-4 w-full text-left text-sm">
         <thead>
-          <tr class="text-xs uppercase tracking-wider text-kafan-600 dark:text-kemenyan-400">
+          <tr class="text-xs uppercase tracking-wider muted">
             <th class="py-1 font-semibold">Character</th>
             <th class="py-1 font-semibold">{a.name}</th>
             <th class="py-1 font-semibold">{b.name}</th>

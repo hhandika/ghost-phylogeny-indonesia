@@ -1,15 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageTitle from "../components/PageTitle.astro";
-import DesignBar from "../components/DesignBar.astro";
 import CladeLegend from "../components/CladeLegend.astro";
 import Lantern from "../islands/Lantern";
 ---
 
-<Layout title="Lantern · Ghost phylogeny of Indonesia" wide>
-  <DesignBar current="/lantern" />
-  <PageTitle title="By lantern light" kicker="Design B">
-    The same tree, bent into a circle and read at night. Pass the lantern over a ghost to trace its lineage back to the root.
+<Layout title="Lantern · Ghost phylogeny, literally" wide>
+  <PageTitle title="By lantern light" kicker="The circular tree">
+    The same tree bent into a circle and read at night. Pass the lantern over a ghost to trace its lineage to the root, or pick an island to see where its ghosts fall.
   </PageTitle>
   <CladeLegend />
   <Lantern client:load />

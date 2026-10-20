@@ -6,10 +6,10 @@ interface Props {
 const { title, kicker } = Astro.props;
 ---
 
-<div class="mx-auto max-w-3xl pb-6 pt-8 text-center sm:pt-12">
-  {kicker && <p class="text-xs font-semibold uppercase tracking-[0.25em] text-darah-700 dark:text-prada-300">{kicker}</p>}
+<div class="glass mx-auto mb-6 mt-6 max-w-3xl px-6 py-8 text-center sm:mt-10 sm:px-10">
+  {kicker && <p class="accent text-xs font-semibold uppercase tracking-[0.25em]">{kicker}</p>}
   <h1 class="mt-2 text-balance font-serif text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
-  <div class="mt-4 text-pretty text-base leading-relaxed text-kafan-800 dark:text-kemenyan-200">
+  <div class="muted mt-4 text-pretty text-base leading-relaxed">
     <slot />
   </div>
 </div>

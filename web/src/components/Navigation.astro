@@ -4,60 +4,74 @@ import Gunungan from "./Gunungan.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 import { withBase } from "../utils/data";
 
-export const navItems = [
+const navItems = [
   { path: "/", label: "Overview" },
   { path: "/atlas", label: "Atlas" },
   { path: "/lantern", label: "Lantern" },
   { path: "/bestiary", label: "Bestiary" },
+  { path: "/patterns", label: "Patterns" },
   { path: "/methods", label: "Methods" },
 ];
 
 const here = Astro.url.pathname.replace(/\/$/, "");
 const isCurrent = (path: string) => here === withBase(path).replace(/\/$/, "");
 
-const pillBar = cntl`
-  flex gap-x-1 rounded-full border border-kafan-300 bg-kafan-200/80 p-1.5
-  backdrop-blur dark:border-malam-700 dark:bg-malam-900/80
-`;
-const linkBase = cntl`rounded-full px-4 py-1.5 font-semibold transition-colors duration-200`;
+const linkBase = cntl`rounded-full px-3.5 py-1.5 font-semibold transition-colors duration-200`;
 const active = cntl`bg-malam-900 text-prada-200 dark:bg-prada-300 dark:text-malam-950`;
-const inactive = cntl`
-  text-malam-800 hover:bg-kafan-300 hover:text-malam-950
-  dark:text-kafan-100 dark:hover:bg-malam-800 dark:hover:text-kafan-50
-`;
+const inactive = cntl`text-malam-900 hover:bg-kafan-200 dark:text-kafan-100 dark:hover:bg-malam-800`;
 ---
 
-<nav class="flex items-center justify-between gap-4 p-4 lg:px-8" aria-label="Global">
-  <div class="flex lg:flex-1">
-    <a href={withBase("/")} class="group flex items-center gap-2">
-      <Gunungan class="h-9 w-8 transition-transform duration-500 group-hover:rotate-6" />
-      <span class="hidden font-serif text-lg font-semibold tracking-tight sm:inline">Hantu Nusantara</span>
-    </a>
-  </div>
-  <div class={`hidden md:flex ${pillBar}`}>
+<nav class="flex items-center justify-between gap-3 py-2 pl-3 pr-2 sm:pl-4" aria-label="Main">
+  <a href={withBase("/")} class="group flex items-center gap-2 rounded-full">
+    <Gunungan class="h-9 w-8 transition-transform duration-500 group-hover:rotate-6" />
+    <span class="font-serif text-lg font-semibold leading-none tracking-tight">
+      Ghost phylogeny<span class="hidden sm:inline">, <i>literally</i>.</span>
+    </span>
+  </a>
+  <ul class="hidden items-center gap-1 lg:flex">
     {
       navItems.map(({ path, label }) => (
-        <a href={withBase(path)} aria-current={isCurrent(path) ? "page" : undefined} class={`${linkBase} ${isCurrent(path) ? active : inactive}`}>
-          {label}
-        </a>
+        <li>
+          <a href={withBase(path)} aria-current={isCurrent(path) ? "page" : undefined} class={`${linkBase} ${isCurrent(path) ? active : inactive}`}>
+            {label}
+          </a>
+        </li>
       ))
     }
-  </div>
-  <div class="flex items-center gap-2 lg:flex-1 lg:justify-end">
+  </ul>
+  <div class="flex items-center gap-2">
     <ThemeIcon />
-    <details class="relative md:hidden">
-      <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-kafan-300 bg-kafan-200 dark:border-malam-700 dark:bg-malam-900" aria-label="Open menu">
+    <details class="relative lg:hidden" data-menu>
+      <summary class="control flex h-10 w-10 cursor-pointer list-none items-center justify-center [&::-webkit-details-marker]:hidden">
+        <span class="sr-only">Menu</span>
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
       </summary>
-      <div class="absolute right-0 z-50 mt-2 w-48 rounded-2xl border border-kafan-300 bg-kafan-100 p-2 shadow-xl dark:border-malam-700 dark:bg-malam-900">
+      <ul class="glass absolute right-0 z-50 mt-3 w-52 !rounded-2xl !bg-kafan-50/[0.97] p-2 dark:!bg-malam-950/[0.97]">
         {
           navItems.map(({ path, label }) => (
-            <a href={withBase(path)} aria-current={isCurrent(path) ? "page" : undefined} class={`block ${linkBase} ${isCurrent(path) ? active : inactive}`}>
-              {label}
-            </a>
+            <li>
+              <a href={withBase(path)} aria-current={isCurrent(path) ? "page" : undefined} class={`block ${linkBase} ${isCurrent(path) ? active : inactive}`}>
+                {label}
+              </a>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </details>
   </div>
 </nav>
+
+<script>
+  // Close the phone menu on Escape (returning focus) or a click outside it.
+  document.querySelectorAll<HTMLDetailsElement>("details[data-menu]").forEach((menu) => {
+    menu.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.open) {
+        menu.open = false;
+        menu.querySelector("summary")?.focus();
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (menu.open && !menu.contains(e.target as Node)) menu.open = false;
+    });
+  });
+</script>

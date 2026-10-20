@@ -41,13 +41,15 @@ Most codings beyond the original 61 taxa come from folklore synthesis rather tha
 
 ## Site
 
-The site offers three candidate designs on the same data and theme, a spooky Indonesian palette (shroud ivory, midnight indigo, gold leaf, blood red, incense smoke) with a batik *kawung* texture and a wayang *gunungan* mark:
+*Ghost phylogeny, literally.* A spooky Indonesian theme: frosted-glass panels over a fixed night scene (a smoking volcano under the moon, a ruined *rumah panggung* with something pale in the window, a banyan and *nisan* gravestones, and a camp with a tent and campfire), with a batik *kawung* texture on the header and footer and a wayang *gunungan* mark. Light mode is a misty dusk; dark mode is night.
 
 - **Atlas** (`/atlas`): rectangular tree, aligned trait matrix, sticky detail card.
 - **Lantern** (`/lantern`): circular tree on a night canvas, the selected ghost lit at its centre.
 - **Bestiary** (`/bestiary`): filterable field guide with side-by-side comparison.
+- **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
+- **Specimen pages** (`/ghosts/<taxon_id>`): every field and coded character for one ghost.
 
-Every ghost also has a static page at `/ghosts/<taxon_id>`.
+Accessibility targets WCAG 2.2 AA: text on glass keeps at least 4.5:1 against the darkest and brightest parts of the scene, controls have 3:1 boundaries, trait states differ in shape as well as colour, interactive trees are keyboard operable with announced selections, scrollable regions are focusable, and scene motion stops under `prefers-reduced-motion`. The coastline on the Patterns map is Natural Earth (public domain).
 
 ```bash
 cd web

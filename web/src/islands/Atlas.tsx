@@ -10,7 +10,7 @@ import { ancestry, connector, elbow, layout, type Mode } from "../utils/tree";
 import GhostCard from "./GhostCard";
 
 const ROW = 22;
-const TOP = 96; // room for the rotated matrix headers
+const TOP = 124; // room for the rotated matrix headers
 const TREE_W = 330;
 const LABEL_W = 196;
 const CELL = 13;
@@ -42,24 +42,44 @@ export default function Atlas() {
   const path = ancestry(tipById.get(selected));
   const ghost = byId.get(selected)!;
   const nMatch = L.tips.filter((t) => matches(t.id!)).length;
+  const filtering = !!q || !!trait;
 
   const select = (id: string) => {
     setSelected(id);
     document.getElementById(`row-${id}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   };
 
-  const cellFill = (state: string, i: number) => {
-    if (state === "?") return "fill-transparent";
-    if (i >= 18) return "fill-kafan-300 dark:fill-malam-700"; // multistate: letter shown on top
-    if (state === "1") return "fill-malam-800 dark:fill-prada-300";
-    if (state === "2") return "fill-kemenyan-400 dark:fill-kemenyan-500";
-    return "fill-kafan-200 dark:fill-malam-800";
+  // States differ in shape as well as colour: filled square = present,
+  // outlined square = absent, half-filled = variable, dot = unknown, letter =
+  // multistate code (body plan, diet).
+  // Filtered-out rows fade their shapes; letters keep full contrast.
+  const cell = (state: string, i: number, x: number, y: number, faded: boolean) => {
+    const s = CELL - 3;
+    const op = faded ? 0.3 : 1;
+    const box = { x, y: y - s / 2, width: s, height: s, rx: 2, opacity: op };
+    if (state === "?") return <circle cx={x + s / 2} cy={y} r={1.6} opacity={op} class="fill-kafan-800 dark:fill-kemenyan-200" />;
+    if (i >= 18)
+      return (
+        <>
+          <rect {...box} class="fill-kafan-200 stroke-kafan-700 dark:fill-malam-800 dark:stroke-kemenyan-400" stroke-width={0.8} />
+          <text x={x + s / 2} y={y + 3} text-anchor="middle" class="fill-malam-950 text-[8px] font-bold dark:fill-kafan-100">{state}</text>
+        </>
+      );
+    if (state === "1") return <rect {...box} class="fill-malam-800 dark:fill-prada-300" />;
+    if (state === "2")
+      return (
+        <>
+          <rect {...box} class="fill-none stroke-malam-800 dark:stroke-prada-300" stroke-width={1} />
+          <path d={`M${x} ${y + s / 2} L${x + s} ${y - s / 2} V${y + s / 2} Z`} opacity={op} class="fill-malam-800 dark:fill-prada-300" />
+        </>
+      );
+    return <rect x={x + 0.5} y={y - s / 2 + 0.5} width={s - 1} height={s - 1} rx={2} opacity={op} class="fill-none stroke-kafan-700 dark:stroke-kemenyan-400" stroke-width={1} />;
   };
 
   return (
     <div class="mx-auto max-w-7xl">
-      <div class="sticky top-[4.5rem] z-30 mb-4 flex flex-wrap items-center gap-3 rounded-2xl border border-kafan-300 bg-kafan-100/90 p-3 backdrop-blur dark:border-malam-700 dark:bg-malam-950/90">
-        <label class="flex min-w-[12rem] flex-1 items-center gap-2 rounded-full border border-kafan-300 bg-kafan-50 px-3 py-1.5 dark:border-malam-700 dark:bg-malam-900">
+      <div class="glass mb-4 flex flex-wrap items-center gap-3 !rounded-2xl p-3 lg:sticky lg:top-[4.75rem] lg:z-30">
+        <label class="flex min-w-[12rem] flex-1 items-center gap-2 control px-3 py-1.5">
           <span class="sr-only">Search ghosts</span>
           <svg class="h-4 w-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           <input
@@ -73,7 +93,7 @@ export default function Atlas() {
                 if (first) select(first.id!);
               }
             }}
-            class="w-full bg-transparent text-sm outline-none placeholder:text-kafan-600 dark:placeholder:text-kemenyan-400"
+            class="w-full bg-transparent text-sm outline-none placeholder:text-kafan-800 dark:placeholder:text-kemenyan-300"
           />
         </label>
         <label class="flex items-center gap-2 text-sm">
@@ -81,7 +101,7 @@ export default function Atlas() {
           <select
             value={trait}
             onChange={(e) => setTrait((e.target as HTMLSelectElement).value)}
-            class="rounded-full border border-kafan-300 bg-kafan-50 px-3 py-1.5 dark:border-malam-700 dark:bg-malam-900"
+            class="control px-3 py-1.5"
           >
             <option value="">No trait</option>
             {data.characters.slice(0, 18).filter((c) => c.id !== "sex").map((c) => (
@@ -89,7 +109,7 @@ export default function Atlas() {
             ))}
           </select>
         </label>
-        <div class="flex rounded-full border border-kafan-300 p-0.5 text-sm dark:border-malam-700" role="group" aria-label="Branch lengths">
+        <div class="control flex p-0.5 text-sm" role="group" aria-label="Branch lengths">
           {(["cladogram", "phylogram"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -102,17 +122,18 @@ export default function Atlas() {
             </button>
           ))}
         </div>
-        <p class="text-xs text-kafan-700 dark:text-kemenyan-300" aria-live="polite">
-          {nMatch} of {L.nTips} shown
+        <p class="text-xs muted" aria-live="polite">
+          {nMatch} of {L.nTips} match
         </p>
+        <p class="sr-only" aria-live="polite">Showing the card for {ghost.name}.</p>
       </div>
 
       <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        <figure class="overflow-x-auto rounded-3xl border border-kafan-300 bg-kafan-50/80 p-2 dark:border-malam-700 dark:bg-malam-950/70">
+        <figure class="glass overflow-x-auto p-2" tabIndex={0} aria-label="Tree and trait matrix (scrolls sideways on small screens)">
           <svg
             viewBox={`0 0 ${W} ${H}`}
             class="block h-auto w-full min-w-[680px]"
-            role="img"
+            role="group"
             aria-label={`Maximum-likelihood tree of ${L.nTips} ghosts with their coded traits. ${ghost.name} is selected.`}
           >
             {/* Matrix headers */}
@@ -120,7 +141,7 @@ export default function Atlas() {
               <text
                 key={c.id}
                 transform={`translate(${matrixX + i * CELL + CELL / 2 + 3} ${TOP - 6}) rotate(-60)`}
-                class={`text-[10px] ${trait === c.id ? "fill-darah-700 font-bold dark:fill-prada-300" : "fill-kafan-700 dark:fill-kemenyan-300"}`}
+                class={`text-[10px] ${trait === c.id ? "fill-darah-700 font-bold dark:fill-prada-300" : "fill-kafan-800 dark:fill-kemenyan-200"}`}
               >
                 {c.label}
               </text>
@@ -136,7 +157,8 @@ export default function Atlas() {
                   width={W}
                   height={ROW}
                   rx={6}
-                  class={t.id === selected ? "fill-prada-200/70 dark:fill-malam-800" : "fill-kafan-200/60 dark:fill-malam-900"}
+                  class={t.id === selected ? "fill-prada-200/80 dark:fill-malam-800" : "fill-kafan-200/70 stroke-darah-700 dark:fill-malam-900 dark:stroke-prada-300"}
+                  stroke-width={t.id === selected ? 0 : 1.5}
                 />
               ) : null,
             )}
@@ -181,10 +203,11 @@ export default function Atlas() {
                   key={t.id}
                   id={`row-${t.id}`}
                   class="cursor-pointer"
-                  opacity={on ? 1 : 0.22}
                   onClick={() => select(t.id!)}
                   onMouseEnter={() => setHover(t.id!)}
                   onMouseLeave={() => setHover(null)}
+                  onFocus={() => setHover(t.id!)}
+                  onBlur={() => setHover(null)}
                   role="button"
                   tabIndex={0}
                   aria-label={`${g.name}, ${g.clade}`}
@@ -193,21 +216,27 @@ export default function Atlas() {
                   {mode === "phylogram" && (
                     <path d={`M${sx(t.x) + 2} ${y} H${labelX}`} class="stroke-kafan-400 dark:stroke-malam-600" stroke-dasharray="1 3" />
                   )}
-                  <image href={plateUrl(g.id)} x={labelX} y={y - 9} width={18} height={18} />
-                  <text x={labelX + 23} y={y + 4} class={`text-[12px] ${t.id === selected ? "fill-darah-800 font-bold dark:fill-prada-200" : "fill-malam-950 dark:fill-kafan-100"}`}>
+                  <image href={plateUrl(g.id)} x={labelX} y={y - 9} width={18} height={18} opacity={on ? 1 : 0.3} />
+                  <text
+                    x={labelX + 23}
+                    y={y + 4}
+                    class={`text-[12px] ${
+                      t.id === selected
+                        ? "fill-darah-800 font-bold dark:fill-prada-200"
+                        : !on
+                          ? "fill-kafan-800 dark:fill-kemenyan-200"
+                          : filtering
+                            ? "fill-malam-950 font-bold dark:fill-kafan-50"
+                            : "fill-malam-950 dark:fill-kafan-100"
+                    }`}
+                  >
                     {g.name}
                     {g.outgroup ? " †" : ""}
                     {g.coding !== "source" ? " ◆" : ""}
                   </text>
                   {g.row.split("").map((s, i) => (
                     <g key={i}>
-                      <rect x={matrixX + i * CELL} y={y - CELL / 2 + 1} width={CELL - 2} height={CELL - 2} rx={2} class={cellFill(s, i)} />
-                      {s === "?" && <circle cx={matrixX + i * CELL + CELL / 2 - 1} cy={y + 0.5} r={1.2} class="fill-kafan-500" />}
-                      {i >= 18 && s !== "?" && (
-                        <text x={matrixX + i * CELL + CELL / 2 - 1} y={y + 4} text-anchor="middle" class="fill-malam-900 text-[8px] font-bold dark:fill-kafan-100">
-                          {s}
-                        </text>
-                      )}
+                      {cell(s, i, matrixX + i * CELL, y, !on)}
                       <title>{`${g.name} · ${data.characters[i].label}: ${s === "?" ? "unknown" : data.characters[i].states[data.symbols.indexOf(s)]}`}</title>
                     </g>
                   ))}
@@ -215,12 +244,12 @@ export default function Atlas() {
               );
             })}
           </svg>
-          <figcaption class="px-3 pb-3 pt-2 text-xs leading-relaxed text-kafan-700 dark:text-kemenyan-300">
-            Branches take the clade colour where every tip below shares it. Filled dots mark ultrafast bootstrap ≥ 95, open dots 80–94. In the matrix, dark cells are present, pale cells absent, grey cells variable; the last two columns are body plan and diet as state codes. † outgroup, ◆ some or all traits coded by folklore synthesis.
+          <figcaption class="px-3 pb-3 pt-2 text-xs leading-relaxed muted">
+            Branches take the clade colour where every tip below shares it. Filled dots mark ultrafast bootstrap ≥ 95, open dots 80–94. In the matrix, a filled square means present, an outlined square absent, a half-filled square variable, and a dot unknown; the last two columns give body plan and diet as state codes (see Methods). † outgroup, ◆ some or all traits coded by folklore synthesis.
           </figcaption>
         </figure>
 
-        <aside class="lg:sticky lg:top-40 lg:self-start">
+        <aside class="lg:sticky lg:top-44 lg:self-start" aria-label="Selected ghost">
           <GhostCard ghost={ghost} onSelect={select} />
         </aside>
       </div>

@@ -1,6 +1,7 @@
 ---
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
+import Scene from "../components/Scene.astro";
 import "../styles/tailwind.css";
 import { withBase } from "../utils/data";
 
@@ -13,7 +14,7 @@ interface Props {
 
 const {
   title,
-  description = "An interactive maximum-likelihood phylogeny of Indonesian ghosts, spirits, and cryptids, built from a coded trait matrix with IQ-TREE.",
+  description = "Ghost phylogeny, literally: a maximum-likelihood tree of Indonesian ghosts, spirits, and cryptids, built from a coded trait matrix with IQ-TREE.",
   wide = false,
 } = Astro.props;
 ---
@@ -53,14 +54,16 @@ const {
       })();
     </script>
   </head>
-  <body class="batik bg-paper text-malam-950 antialiased dark:bg-night dark:text-kafan-100">
+  <body class="bg-paper text-malam-950 antialiased dark:bg-night dark:text-kafan-100">
+    <a href="#main" class="sr-only z-50 rounded-full bg-malam-950 px-4 py-2 font-semibold text-prada-200 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to content</a>
+    <Scene />
     <div class="relative isolate min-h-screen overflow-x-clip">
-      <!-- Moonglow at the top of every page. -->
-      <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(ellipse_at_top,rgba(217,171,60,0.18),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(125,116,230,0.22),transparent_60%)]"></div>
-      <header class="sticky top-0 z-40 border-b border-transparent bg-paper/85 backdrop-blur-md dark:bg-night/85">
-        <Navigation />
+      <header class="sticky top-0 z-40 px-2 pt-2 sm:px-4">
+        <div class="glass batik !rounded-full">
+          <Navigation />
+        </div>
       </header>
-      <main class={wide ? "px-4 lg:px-8" : "mx-auto max-w-5xl px-6"}>
+      <main id="main" tabindex="-1" class={`outline-none ${wide ? "px-3 sm:px-4 lg:px-8" : "mx-auto max-w-5xl px-3 sm:px-6"}`}>
         <slot />
       </main>
       <Footer />

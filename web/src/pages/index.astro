@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { designs } from "../components/DesignBar.astro";
 import { byId, data, plateUrl, withBase } from "../utils/data";
 import { layout } from "../utils/tree";
 
@@ -22,134 +21,146 @@ const stats = [
   { value: meta.characters, label: "coded characters" },
   { value: islands, label: "island regions" },
 ];
+
+const views = [
+  { path: "/atlas", name: "Atlas", kind: "Tree and traits", blurb: "The rectangular tree with every coded character lined up beside it, and a card for whichever ghost you pick." },
+  { path: "/lantern", name: "Lantern", kind: "Circular tree", blurb: "The tree bent into a circle on a night canvas. Light a ghost's lineage back to the root, or filter by island." },
+  { path: "/bestiary", name: "Bestiary", kind: "Field guide", blurb: "Specimen cards in tree order, with filters for clade, island, danger, and trait, and a two-ghost comparison." },
+  { path: "/patterns", name: "Patterns", kind: "The whole dataset", blurb: "A map of the archipelago, a trait heatmap, a danger chart made of the plates themselves, and more." },
+];
+const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indonesia", "orang_bati_seram_indonesia", "naga_besukih_bali_indonesia", "preta_indonesian_archipelago", "lampor_java_indonesia"].filter((id) => byId.has(id));
 ---
 
-<Layout title="Ghost phylogeny of Indonesia">
-  <section class="relative pt-10 text-center sm:pt-16">
-    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-darah-700 dark:text-prada-300">Pohon kekerabatan hantu Nusantara</p>
+<Layout title="Ghost phylogeny, literally">
+  <section class="glass mt-6 px-5 py-10 text-center sm:mt-10 sm:px-10 sm:py-14">
+    <p class="accent text-xs font-semibold uppercase tracking-[0.3em]" lang="id">Pohon kekerabatan hantu Nusantara</p>
     <h1 class="mx-auto mt-3 max-w-3xl text-balance font-serif text-5xl font-semibold tracking-tight sm:text-6xl">
-      A family tree of Indonesian ghosts
+      Ghost phylogeny, <i>literally</i>.
     </h1>
-    <p class="mx-auto mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-kafan-800 dark:text-kemenyan-200">
-      Literally, not conceptually. Kuntilanak, pocong, tuyul, and {meta.taxa - 3} more spirits are scored like specimens on {meta.characters} traits, and <a href="http://www.iqtree.org/" class="underline decoration-darah-500 underline-offset-2 dark:decoration-prada-400">IQ-TREE</a> infers how they are related.
+    <p class="muted mx-auto mt-5 max-w-2xl text-pretty text-lg leading-relaxed">
+      Not a metaphor. Kuntilanak, pocong, tuyul, and {meta.taxa - 3} more spirits of the archipelago are scored like museum specimens on {meta.characters} traits, and <a href="http://www.iqtree.org/" class="accent font-semibold underline underline-offset-2">IQ-TREE</a> infers their family tree the way biologists do for animals.
     </p>
-    <div class="mt-10 flex flex-wrap items-end justify-center gap-3 sm:gap-5" aria-hidden="true">
+    <ul class="mt-10 flex flex-wrap items-end justify-center gap-3 sm:gap-5" aria-label="A few of the ghosts">
       {
-        heroIds.map((id, i) => (
-          <img
-            src={plateUrl(id)}
-            alt=""
-            width={i === 3 ? 132 : 96}
-            height={i === 3 ? 132 : 96}
-            class="animate-drift rounded-full shadow-xl shadow-malam-950/25"
-            style={`animation-delay: ${i * -0.7}s`}
-          />
-        ))
+        heroIds.map((id, i) => {
+          const g = byId.get(id)!;
+          const size = i === 3 ? 132 : 92;
+          return (
+            <li>
+              <a href={withBase(`/ghosts/${id}`)} class="group block rounded-full" aria-label={g.name}>
+                <img src={plateUrl(id)} alt="" width={size} height={size} class="animate-drift rounded-full shadow-xl shadow-malam-950/30 transition group-hover:scale-105" style={`animation-delay: ${i * -0.7}s`} />
+              </a>
+            </li>
+          );
+        })
       }
-    </div>
+    </ul>
     <dl class="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
       {
         stats.map((s) => (
-          <div class="rounded-2xl border border-kafan-300 bg-kafan-50/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
-            <dd class="font-serif text-3xl font-semibold text-darah-700 dark:text-prada-300">{s.value}</dd>
-            <dt class="text-xs text-kafan-700 dark:text-kemenyan-300">{s.label}</dt>
+          <div class="flex flex-col-reverse rounded-2xl border border-kafan-300 bg-kafan-100/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
+            <dt class="muted text-sm">{s.label}</dt>
+            <dd class="accent font-serif text-3xl font-semibold">{s.value}</dd>
           </div>
         ))
       }
     </dl>
   </section>
 
-  <section class="mt-20" aria-labelledby="designs">
-    <div class="batik-band mx-auto mb-8 max-w-xs"></div>
-    <h2 id="designs" class="text-center font-serif text-3xl font-semibold tracking-tight">Choose a design</h2>
-    <p class="mx-auto mt-2 max-w-2xl text-center text-kafan-800 dark:text-kemenyan-200">
-      Three ways to read the same tree. Each one is live, with the same data and theme; pick the one to keep.
-    </p>
-    <div class="mt-8 grid gap-5 md:grid-cols-3">
+  <section class="mt-10" aria-labelledby="views">
+    <div class="glass px-6 py-6 text-center">
+      <h2 id="views" class="font-serif text-3xl font-semibold tracking-tight">Four ways in</h2>
+      <p class="muted mx-auto mt-2 max-w-2xl">Three ways to read the same tree, and one for everything else in the data. Every ghost also has its own specimen page.</p>
+    </div>
+    <ul class="mt-4 grid gap-4 sm:grid-cols-2">
       {
-        designs.map((d) => (
-          <a
-            href={withBase(d.path)}
-            class="group flex flex-col overflow-hidden rounded-3xl border border-kafan-300 bg-kafan-50/80 transition hover:-translate-y-1 hover:border-darah-400 hover:shadow-xl dark:border-malam-700 dark:bg-malam-900/80 dark:hover:border-prada-400"
-          >
-            <div class={`flex h-44 items-center justify-center ${d.letter === "B" ? "bg-night" : "bg-kafan-200/70 dark:bg-malam-950"}`}>
-              {d.letter === "A" && (
-                <svg viewBox="0 0 200 120" class="h-36 w-auto" aria-hidden="true">
-                  <g fill="none" stroke-width="2" stroke-linecap="round">
-                    <path d="M10 60 H30 M30 25 V95 M30 25 H55 M55 15 V35 M55 15 H80 M55 35 H80 M30 95 H50 M50 55 V110 M50 55 H80 M50 80 H80 M50 110 H80" stroke="var(--neutral-branch)" />
-                    <path d="M55 15 H80 M55 35 H80" stroke="var(--clade-0)" />
-                    <path d="M50 55 H80 M50 80 H80" stroke="var(--clade-2)" />
-                    <path d="M50 110 H80" stroke="var(--clade-7)" />
-                  </g>
-                  {[15, 35, 55, 80, 110].map((y, r) => (
-                    <g>
-                      <circle cx="88" cy={y} r="5" fill="#1c1830" />
-                      {Array.from({ length: 8 }, (_, c) => (
-                        <rect x={128 + c * 9} y={y - 4} width="7" height="7" rx="1.5" class={(r * 3 + c * 5) % 3 === 0 ? "fill-malam-800 dark:fill-prada-300" : "fill-kafan-300 dark:fill-malam-700"} />
-                      ))}
+        views.map((v) => (
+          <li>
+            <a href={withBase(v.path)} class="glass group flex h-full flex-col overflow-hidden transition hover:-translate-y-1">
+              <div class={`flex h-40 items-center justify-center ${v.name === "Lantern" ? "bg-night/90" : "bg-kafan-200/50 dark:bg-malam-900/50"}`} aria-hidden="true">
+                {v.name === "Atlas" && (
+                  <svg viewBox="0 0 200 120" class="h-32 w-auto">
+                    <g fill="none" stroke-width="2" stroke-linecap="round">
+                      <path d="M10 60 H30 M30 25 V95 M30 25 H55 M55 15 V35 M30 95 H50 M50 55 V110" stroke="var(--neutral-branch)" />
+                      <path d="M55 15 H80 M55 35 H80" stroke="var(--clade-0)" />
+                      <path d="M50 55 H80 M50 80 H80" stroke="var(--clade-2)" />
+                      <path d="M50 110 H80" stroke="var(--clade-7)" />
                     </g>
-                  ))}
-                </svg>
-              )}
-              {d.letter === "B" && (
-                <svg viewBox="-60 -60 120 120" class="h-36 w-auto" aria-hidden="true">
-                  <circle r="54" fill="none" stroke="#e0b03e" stroke-opacity=".3" />
-                  {Array.from({ length: 28 }, (_, i) => {
-                    const a = (i / 28) * Math.PI * 2;
-                    return <path d={`M${Math.cos(a) * 22} ${Math.sin(a) * 22} L${Math.cos(a) * 44} ${Math.sin(a) * 44}`} stroke={`var(--clade-${i % 9})`} stroke-width="1.6" />;
-                  })}
-                  <circle r="18" fill="#110e1b" stroke="#e0b03e" stroke-width="1" />
-                  <circle r="9" fill="#f1e9d8" class="animate-flicker" />
-                </svg>
-              )}
-              {d.letter === "C" && (
-                <div class="grid grid-cols-3 gap-2" aria-hidden="true">
-                  {["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indonesia", "orang_bati_seram_indonesia", "naga_besukih_bali_indonesia", "preta_indonesian_archipelago", "lampor_java_indonesia"].filter((id) => byId.has(id)).map((id) => (
-                    <span class="rounded-xl border border-kafan-300 bg-kafan-50 p-1 dark:border-malam-700 dark:bg-malam-900">
-                      <img src={plateUrl(id)} alt="" width="44" height="44" class="rounded-full" />
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div class="flex flex-1 flex-col p-5">
-              <p class="text-xs font-semibold uppercase tracking-widest text-darah-700 dark:text-prada-300">Design {d.letter}</p>
-              <h3 class="mt-1 font-serif text-2xl font-semibold">{d.name}</h3>
-              <p class="mt-1 flex-1 text-sm text-kafan-800 dark:text-kemenyan-200">{d.blurb}</p>
-              <span class="mt-4 text-sm font-semibold text-darah-700 group-hover:underline dark:text-prada-300">Open {d.name} →</span>
-            </div>
-          </a>
+                    {[15, 35, 55, 80, 110].map((y, r) => (
+                      <g>
+                        <circle cx="88" cy={y} r="5" fill="#1c1830" />
+                        {Array.from({ length: 8 }, (_, c) => (
+                          <rect x={128 + c * 9} y={y - 4} width="7" height="7" rx="1.5" class={(r * 3 + c * 5) % 3 === 0 ? "fill-malam-800 dark:fill-prada-300" : "fill-none stroke-kafan-700 dark:stroke-kemenyan-400"} />
+                        ))}
+                      </g>
+                    ))}
+                  </svg>
+                )}
+                {v.name === "Lantern" && (
+                  <svg viewBox="-60 -60 120 120" class="h-32 w-auto">
+                    <circle r="54" fill="none" stroke="#e0b03e" stroke-opacity=".3" />
+                    {Array.from({ length: 28 }, (_, i) => {
+                      const a = (i / 28) * Math.PI * 2;
+                      return <path d={`M${Math.cos(a) * 22} ${Math.sin(a) * 22} L${Math.cos(a) * 44} ${Math.sin(a) * 44}`} stroke={`var(--clade-${i % 9})`} stroke-width="1.6" />;
+                    })}
+                    <circle r="18" fill="#110e1b" stroke="#e0b03e" stroke-width="1" />
+                    <circle r="9" fill="#f1e9d8" class="animate-flicker" />
+                  </svg>
+                )}
+                {v.name === "Bestiary" && (
+                  <div class="grid grid-cols-3 gap-2">
+                    {bestiaryIds.map((id) => (
+                      <span class="rounded-xl bg-kafan-50/80 p-1 dark:bg-malam-900/80">
+                        <img src={plateUrl(id)} alt="" width="40" height="40" class="rounded-full" />
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {v.name === "Patterns" && (
+                  <svg viewBox="0 0 200 110" class="h-32 w-auto">
+                    {Array.from({ length: 6 }, (_, r) =>
+                      Array.from({ length: 8 }, (_, c) => <rect x={20 + c * 20} y={8 + r * 16} width="18" height="14" rx="3" style={`fill: var(--seq-${(r * 7 + c * 3) % 6})`} />),
+                    )}
+                  </svg>
+                )}
+              </div>
+              <div class="flex flex-1 flex-col p-5">
+                <p class="accent text-xs font-semibold uppercase tracking-widest">{v.kind}</p>
+                <h3 class="mt-1 font-serif text-2xl font-semibold">{v.name}</h3>
+                <p class="muted mt-1 flex-1 text-sm">{v.blurb}</p>
+                <span class="accent mt-4 text-sm font-semibold group-hover:underline">Open {v.name} <span aria-hidden="true">→</span></span>
+              </div>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </section>
 
-  <section class="mt-20" aria-labelledby="pairs">
+  <section class="glass mt-10 p-6 sm:p-8" aria-labelledby="pairs">
     <h2 id="pairs" class="text-center font-serif text-3xl font-semibold tracking-tight">Strongest kinships</h2>
-    <p class="mx-auto mt-2 max-w-2xl text-center text-kafan-800 dark:text-kemenyan-200">
+    <p class="muted mx-auto mt-2 max-w-2xl text-center">
       Small clades with ultrafast bootstrap of 90 or more. Most of the deep tree is unresolved: only {meta.strongNodes} of {meta.nodes} nodes reach 95.
     </p>
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {
         pairs.map((p) => (
-          <li class="flex items-center gap-3 rounded-3xl border border-kafan-300 bg-kafan-50/80 p-4 dark:border-malam-700 dark:bg-malam-900/80">
-            <div class="flex -space-x-4">
+          <li class="flex items-center gap-3 rounded-2xl border border-kafan-300 bg-kafan-100/70 p-3 dark:border-malam-700 dark:bg-malam-900/70">
+            <div class="flex shrink-0 -space-x-4">
               {p.ghosts.map((g) => (
-                <img src={plateUrl(g.id)} alt="" width="56" height="56" class="rounded-full ring-2 ring-kafan-50 dark:ring-malam-900" />
+                <img src={plateUrl(g.id)} alt="" width="52" height="52" class="rounded-full ring-2 ring-kafan-50 dark:ring-malam-900" />
               ))}
             </div>
             <div class="min-w-0">
               <p class="font-semibold leading-snug">
                 {p.ghosts.map((g, i) => (
                   <>
-                    {i > 0 && <span class="text-kafan-600"> + </span>}
-                    <a href={withBase(`/ghosts/${g.id}`)} class="hover:underline">{g.name}</a>
+                    {i > 0 && <span class="muted"> + </span>}
+                    <a href={withBase(`/ghosts/${g.id}`)} class="underline decoration-kafan-500 underline-offset-2 hover:decoration-darah-600">{g.name}</a>
                   </>
                 ))}
               </p>
-              <p class="text-xs text-kafan-700 dark:text-kemenyan-300">
-                UFBoot {p.support} · {[...new Set(p.ghosts.map((g) => g.regionGroup))].join(", ")}
-              </p>
+              <p class="muted text-sm">UFBoot {p.support} · {[...new Set(p.ghosts.map((g) => g.regionGroup))].join(", ")}</p>
             </div>
           </li>
         ))
@@ -157,9 +168,9 @@ const stats = [
     </ul>
   </section>
 
-  <section class="mt-20 rounded-3xl border border-kafan-300 bg-kafan-50/70 p-6 dark:border-malam-700 dark:bg-malam-900/70 sm:p-8" aria-labelledby="how">
+  <section class="glass mt-10 p-6 sm:p-8" aria-labelledby="how">
     <h2 id="how" class="font-serif text-2xl font-semibold tracking-tight">How the tree is built</h2>
-    <ol class="mt-4 grid gap-4 text-sm sm:grid-cols-4">
+    <ol class="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
       {
         [
           ["Parse", `Read ${meta.taxa} taxa from the workbook and clean names, clades, and regions.`],
@@ -167,16 +178,16 @@ const stats = [
           ["Infer", `${meta.analysis.software} picks ${meta.analysis.model ?? "a model"} and runs 1000 ultrafast bootstraps.`],
           ["Publish", "Root on the outgroups, draw a plate per ghost, and build this site."],
         ].map(([step, text], i) => (
-          <li class="rounded-2xl border border-kafan-300 p-4 dark:border-malam-700">
-            <span class="font-serif text-2xl font-semibold text-darah-700 dark:text-prada-300">{i + 1}</span>
+          <li class="rounded-2xl border border-kafan-300 bg-kafan-100/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
+            <span class="accent font-serif text-2xl font-semibold" aria-hidden="true">{i + 1}</span>
             <p class="mt-1 font-semibold">{step}</p>
-            <p class="mt-1 text-kafan-800 dark:text-kemenyan-200">{text}</p>
+            <p class="muted mt-1">{text}</p>
           </li>
         ))
       }
     </ol>
     <p class="mt-4 text-sm">
-      Each push that touches the data reruns all four steps in a GitHub workflow. <a href={withBase("/methods")} class="font-semibold text-darah-700 underline underline-offset-2 dark:text-prada-300">Read the methods</a>.
+      Every push that touches the data reruns all four steps in a GitHub workflow. <a href={withBase("/methods")} class="accent font-semibold underline underline-offset-2">Read the methods</a>.
     </p>
   </section>
 </Layout>

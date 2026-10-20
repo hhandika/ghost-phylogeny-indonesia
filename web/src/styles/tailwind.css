@@ -18,8 +18,40 @@
   --clade-6: #b8348f;
   --clade-7: #4f8a1e;
   --clade-8: #8b5cf6;
-  --neutral-branch: #a88f68;
-  --surface: #f5efe2;
+  --neutral-branch: #8a7253;
+  /* Sequential ramp (one hue, light to dark) for counts and shares. */
+  --seq-0: #f1f0f7;
+  --seq-1: #c6c0dd;
+  --seq-2: #a29ac4;
+  --seq-3: #7d73a6;
+  --seq-4: #4a426e;
+  --seq-5: #1c1830;
+
+  /* Backdrop: a misty dusk. */
+  --scene-sky-1: #b9aecb;
+  --scene-sky-2: #ece2d4;
+  --scene-moon: #fbf3df;
+  --scene-moon-shade: #e6dcc4;
+  --scene-cloud: #d8cfdc;
+  --scene-far: #b0a5c2;
+  --scene-volcano: #9d90b3;
+  --scene-ridge: #b5aac7;
+  --scene-smoke: #e9e2ea;
+  --scene-mid: #7f7298;
+  --scene-fog: #f2ebe0;
+  --scene-near: #4f4569;
+  --scene-ground: #2e2840;
+  --scene-ink: #1f1a2e;
+  --scene-ink-line: #3a3150;
+  --scene-stone: #6d6385;
+  --scene-window: #d9c48a;
+  --scene-specter: #fbf8f1;
+  --scene-tent: #7a4a3a;
+  --scene-tent-glow: #ffcf7a;
+  --scene-log: #4a3326;
+  --scene-wisp: #c7f0ff;
+  --scene-stars: 0;
+  --label-halo: #fbf8f1;
 }
 .dark {
   --clade-0: #e04a62;
@@ -31,28 +63,175 @@
   --clade-6: #cc5aa6;
   --clade-7: #6aa23a;
   --clade-8: #9d7cf0;
-  --neutral-branch: #635879;
-  --surface: #110e1b;
+  --neutral-branch: #958aab;
+  --seq-0: #1c1830;
+  --seq-1: #36210e;
+  --seq-2: #6e4a20;
+  --seq-3: #a87622;
+  --seq-4: #e0b03e;
+  --seq-5: #faefc8;
+
+  /* Backdrop: night. */
+  --scene-sky-1: #05040a;
+  --scene-sky-2: #1f1838;
+  --scene-moon: #f4ecd6;
+  --scene-moon-shade: #d9cfb6;
+  --scene-cloud: #2a2442;
+  --scene-far: #231d3a;
+  --scene-volcano: #2b2447;
+  --scene-ridge: #3a3358;
+  --scene-smoke: #4a426e;
+  --scene-mid: #1a152c;
+  --scene-fog: #3a3358;
+  --scene-near: #120f20;
+  --scene-ground: #0a0812;
+  --scene-ink: #06050b;
+  --scene-ink-line: #1c1830;
+  --scene-stone: #3a3358;
+  --scene-window: #3d3418;
+  --scene-specter: #e8e4f2;
+  --scene-tent: #4a2e26;
+  --scene-tent-glow: #ffb347;
+  --scene-log: #2a1c14;
+  --scene-wisp: #9fe8ff;
+  --scene-stars: 1;
+  --label-halo: #110e1b;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 3px solid #961b30;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .dark :focus-visible {
+    outline-color: #edc556;
+  }
+  /* SVG groups do not draw outlines in every browser; mark them instead. */
+  g[role="button"]:focus-visible {
+    outline: none;
+  }
+  /* Keep focused elements clear of the sticky header and floating bars
+     (WCAG 2.4.11). */
+  html {
+    scroll-padding-top: 6rem;
+    scroll-padding-bottom: 5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
 }
 
 @layer components {
-  /* Kawung: the four-petal batik motif, kept faint behind the page. */
+  /* Frosted glass: a window onto the scene. 82% opacity keeps AA text
+     contrast even over the moon or the campfire (checked worst case). */
+  .glass {
+    @apply min-w-0 rounded-3xl border border-white/60 bg-kafan-50/[0.82] shadow-xl shadow-malam-950/10 backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-malam-950/[0.82] dark:shadow-black/40;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.5),
+      0 20px 40px -20px rgb(17 14 27 / 0.35);
+  }
+  .dark .glass {
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.08),
+      0 20px 40px -20px rgb(0 0 0 / 0.6);
+  }
+  /* Overlays sit on top of text, so they are near-opaque. */
+  .glass-solid,
+  .glass-solid .glass {
+    @apply !bg-kafan-50/[0.97] dark:!bg-malam-950/[0.97];
+  }
+  /* Kawung: the four-petal batik motif, for the header and footer only. */
   .batik {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23a88f68' stroke-width='1' opacity='.2'%3E%3Cellipse cx='24' cy='12' rx='6' ry='11'/%3E%3Cellipse cx='24' cy='36' rx='6' ry='11'/%3E%3Cellipse cx='12' cy='24' rx='11' ry='6'/%3E%3Cellipse cx='36' cy='24' rx='11' ry='6'/%3E%3Ccircle cx='24' cy='24' r='1.6' fill='%23a88f68'/%3E%3Ccircle cx='0' cy='0' r='1.6' fill='%23a88f68'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%238a7253' stroke-width='1' opacity='.32'%3E%3Cellipse cx='24' cy='12' rx='6' ry='11'/%3E%3Cellipse cx='24' cy='36' rx='6' ry='11'/%3E%3Cellipse cx='12' cy='24' rx='11' ry='6'/%3E%3Cellipse cx='36' cy='24' rx='11' ry='6'/%3E%3Ccircle cx='24' cy='24' r='1.6' fill='%238a7253'/%3E%3Ccircle cx='0' cy='0' r='1.6' fill='%238a7253'/%3E%3C/g%3E%3C/svg%3E");
   }
   .dark .batik {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23524863' stroke-width='1' opacity='.3'%3E%3Cellipse cx='24' cy='12' rx='6' ry='11'/%3E%3Cellipse cx='24' cy='36' rx='6' ry='11'/%3E%3Cellipse cx='12' cy='24' rx='11' ry='6'/%3E%3Cellipse cx='36' cy='24' rx='11' ry='6'/%3E%3Ccircle cx='24' cy='24' r='1.6' fill='%23524863'/%3E%3Ccircle cx='0' cy='0' r='1.6' fill='%23524863'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23e0b03e' stroke-width='1' opacity='.16'%3E%3Cellipse cx='24' cy='12' rx='6' ry='11'/%3E%3Cellipse cx='24' cy='36' rx='6' ry='11'/%3E%3Cellipse cx='12' cy='24' rx='11' ry='6'/%3E%3Cellipse cx='36' cy='24' rx='11' ry='6'/%3E%3Ccircle cx='24' cy='24' r='1.6' fill='%23e0b03e'/%3E%3Ccircle cx='0' cy='0' r='1.6' fill='%23e0b03e'/%3E%3C/g%3E%3C/svg%3E");
   }
-  /* A narrow band of the motif, used as a divider under headings. */
-  .batik-band {
-    @apply batik h-3 w-full rounded-full;
-    background-size: 24px 24px;
+  /* Form controls need a 3:1 boundary (WCAG 1.4.11). */
+  .control {
+    @apply rounded-full border border-kafan-700 bg-kafan-50 text-malam-950 dark:border-kemenyan-400 dark:bg-malam-900 dark:text-kafan-100;
+  }
+  .muted {
+    @apply text-kafan-800 dark:text-kemenyan-200;
+  }
+  .accent {
+    @apply text-darah-700 dark:text-prada-300;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-drift,
-  .animate-flicker {
-    animation: none;
+/* ---- Scene motion (off when the reader asks for reduced motion) ---------- */
+.scene-stars {
+  opacity: var(--scene-stars);
+  transition: opacity 0.6s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scene-drift {
+    animation: scene-drift 40s ease-in-out infinite alternate;
   }
+  .scene-drift-slow {
+    animation: scene-drift 70s ease-in-out infinite alternate-reverse;
+  }
+  .scene-smoke {
+    animation: scene-rise 18s ease-in-out infinite alternate;
+  }
+  .scene-flicker {
+    animation: flicker 3.2s ease-in-out infinite;
+  }
+  .scene-flame {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: scene-flame 0.9s ease-in-out infinite alternate;
+  }
+  .scene-sparks circle {
+    animation: scene-spark 3.6s linear infinite;
+  }
+  .scene-wisp {
+    animation: scene-wisp 9s ease-in-out infinite;
+  }
+  .scene-ghost {
+    animation: scene-ghost 11s ease-in-out infinite;
+  }
+  .animate-drift {
+    animation: drift 5s ease-in-out infinite;
+  }
+  .animate-flicker {
+    animation: flicker 4s ease-in-out infinite;
+  }
+}
+@keyframes scene-drift {
+  from { transform: translateX(-40px); }
+  to { transform: translateX(40px); }
+}
+@keyframes scene-rise {
+  from { transform: translate(0, 0); }
+  to { transform: translate(24px, -10px); }
+}
+@keyframes scene-flame {
+  from { transform: scale(1, 1); }
+  to { transform: scale(0.92, 1.12); }
+}
+@keyframes scene-spark {
+  from { transform: translate(0, 0); opacity: 1; }
+  to { transform: translate(14px, -120px); opacity: 0; }
+}
+@keyframes scene-wisp {
+  0%, 100% { transform: translate(0, 0); opacity: 0.2; }
+  50% { transform: translate(18px, -26px); opacity: 0.9; }
+}
+@keyframes scene-ghost {
+  0%, 60%, 100% { opacity: 0; }
+  70%, 88% { opacity: 0.85; }
+}
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.82; }
+  50% { opacity: 0.6; }
+  55% { opacity: 0.9; }
 }

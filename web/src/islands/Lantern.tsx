@@ -13,6 +13,8 @@ const HALF = 560;
 const INNER = 120;
 const OUTER = 330;
 const GAP = 0.22; // radians left open at the top for the title
+// Space between the label start and the clade ring, in SVG units.
+const LABEL_ROOM = 150;
 
 export default function Lantern() {
   const [selected, setSelected] = useState(data.ghosts[0].id);
@@ -49,7 +51,8 @@ export default function Lantern() {
 
   return (
     <div class="mx-auto max-w-7xl">
-      <div class="mb-4 flex flex-wrap justify-center gap-2" role="group" aria-label="Filter by island">
+      <p class="sr-only" aria-live="polite">Showing the card for {ghost.name}.</p>
+      <div class="glass mx-auto mb-4 flex max-w-5xl flex-wrap justify-center gap-2 px-3 py-3" role="group" aria-label="Filter by island">
         {["", ...data.regions].map((r) => (
           <button
             key={r || "all"}
@@ -59,22 +62,24 @@ export default function Lantern() {
             class={`rounded-full border px-3 py-1 text-sm transition ${
               region === r
                 ? "border-malam-900 bg-malam-900 text-prada-200 dark:border-prada-300 dark:bg-prada-300 dark:text-malam-950"
-                : "border-kafan-300 hover:bg-kafan-200 dark:border-malam-700 dark:hover:bg-malam-800"
+                : "border-kafan-700 hover:bg-kafan-200 dark:border-kemenyan-400 dark:hover:bg-malam-800"
             }`}
           >
             {r || "All islands"}
-            {r && <span class="ml-1 opacity-60">{counts.get(r) ?? 0}</span>}
+            {r && <span class="ml-1">{counts.get(r) ?? 0}</span>}
           </button>
         ))}
       </div>
 
       <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        <figure class="dark relative overflow-hidden rounded-[2.5rem] border border-malam-700 bg-night p-2 text-kafan-100 shadow-2xl shadow-malam-950/40">
+        {/* The night canvas: `dark` on a wrapper so dark variants and clade colours apply inside. */}
+        <div class="dark min-w-0">
+        <figure class="glass relative overflow-hidden !rounded-[2.5rem] !bg-malam-950/[0.85] p-2 text-kafan-100">
           <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(217,171,60,0.20),transparent_45%)]" />
           <svg
             viewBox={`${-HALF} ${-HALF} ${HALF * 2} ${HALF * 2}`}
             class="relative block h-auto w-full"
-            role="img"
+            role="group"
             aria-label={`Circular tree of ${L.nTips} ghosts. ${ghost.name} is in the centre.`}
           >
             {/* Stars */}
@@ -136,7 +141,6 @@ export default function Lantern() {
                 <g
                   key={t.id}
                   class="cursor-pointer"
-                  opacity={dim ? 0.18 : 1}
                   onMouseEnter={() => setHover(t.id!)}
                   onMouseLeave={() => setHover(null)}
                   onClick={() => setSelected(t.id!)}
@@ -148,12 +152,14 @@ export default function Lantern() {
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setSelected(t.id!))}
                 >
                   {isSel && <circle cx={px} cy={py} r={13} class="fill-prada-300" opacity={0.45} />}
-                  <image href={plateUrl(g.id)} x={px - 9} y={py - 9} width={18} height={18} />
+                  {t.id === hover && <circle cx={px} cy={py} r={13} fill="none" class="stroke-prada-200" stroke-width={2} />}
+                  <image href={plateUrl(g.id)} x={px - 9} y={py - 9} width={18} height={18} opacity={dim ? 0.25 : 1} />
                   <text
                     transform={`translate(${lx} ${ly}) rotate(${flip ? deg + 180 : deg})`}
                     text-anchor={flip ? "end" : "start"}
                     dominant-baseline="middle"
-                    class={`text-[12.5px] ${isSel || t.id === hover ? "fill-prada-200 font-bold" : "fill-kafan-200"}`}
+                    style={{ fontSize: `${Math.min(12.5, LABEL_ROOM / (g.name.length * 0.56))}px` }}
+                    class={isSel || t.id === hover ? "fill-prada-200 font-bold" : dim ? "fill-kemenyan-300" : region ? "fill-kafan-50 font-bold" : "fill-kafan-200"}
                   >
                     {g.name}
                   </text>
@@ -163,20 +169,24 @@ export default function Lantern() {
 
             {/* The lantern: focused ghost in the centre */}
             <circle r={INNER - 14} class="fill-malam-950" stroke="#e0b03e" stroke-opacity={0.5} stroke-width={1.5} />
-            <image href={plateUrl(focus.id)} x={-72} y={-88} width={144} height={144} class="animate-flicker" />
-            <text y={78} text-anchor="middle" class="fill-prada-200 font-serif text-[20px] font-semibold">
+            <image href={plateUrl(focus.id)} x={-62} y={-98} width={124} height={124} class="animate-flicker" />
+            <text y={50} text-anchor="middle" class="fill-prada-200 font-serif font-semibold" style={{ fontSize: `${Math.min(19, 180 / (focus.name.length * 0.5))}px` }}>
               {focus.name}
             </text>
-            <text y={98} text-anchor="middle" class="fill-kemenyan-300 text-[12px]">
-              {focus.regionGroup} · {focus.clade}
+            <text y={70} text-anchor="middle" class="fill-kemenyan-200 text-[11.5px]">
+              {focus.regionGroup === "Outgroup" ? "Outgroup" : focus.regionGroup}
+            </text>
+            <text y={86} text-anchor="middle" class="fill-kemenyan-200 text-[11.5px]">
+              {focus.clade}
             </text>
           </svg>
-          <figcaption class="relative px-4 pb-4 text-center text-xs text-kemenyan-300">
+          <figcaption class="relative px-4 pb-4 text-center text-sm text-kemenyan-200">
             Hover or focus a ghost to light its lineage; select it to read its card. Gold dots mark ultrafast bootstrap ≥ 95. The outer ring shows clades; the legend above names them.
           </figcaption>
         </figure>
+        </div>
 
-        <aside class="lg:sticky lg:top-24">
+        <aside class="lg:sticky lg:top-24" aria-label="Selected ghost">
           <GhostCard ghost={ghost} onSelect={setSelected} />
         </aside>
       </div>

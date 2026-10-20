@@ -84,22 +84,6 @@ export default {
           950: "#27222f",
         },
       },
-      keyframes: {
-        drift: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
-        },
-        flicker: {
-          "0%, 100%": { opacity: "1" },
-          "45%": { opacity: "0.82" },
-          "50%": { opacity: "0.55" },
-          "55%": { opacity: "0.9" },
-        },
-      },
-      animation: {
-        drift: "drift 5s ease-in-out infinite",
-        flicker: "flicker 4s ease-in-out infinite",
-      },
     },
   },
   plugins: [],

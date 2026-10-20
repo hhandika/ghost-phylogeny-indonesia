@@ -1,0 +1,218 @@
+---
+/**
+ * The fixed backdrop seen through every glass panel: a smoking volcano under
+ * the moon, a ruined rumah panggung (stilt house) with something pale in its
+ * window, a banyan and two nisan gravestones, and a camp with a tent and a
+ * campfire. Colours come from the --scene-* variables in styles/tailwind.css,
+ * so light mode is a misty dusk and dark mode is night. Purely decorative.
+ */
+
+// Deterministic pseudo-random numbers so the build is stable.
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+// A bumpy canopy line from x0 to x1 around baseline y.
+const canopy = (x0: number, x1: number, y: number, amp: number, step: number) => {
+  let d = `M${x0} 900 V${y}`;
+  for (let x = x0; x < x1; x += step) {
+    const w = step * (0.7 + rand() * 0.6);
+    d += ` q${(w / 2).toFixed(0)} ${(-amp * (0.5 + rand())).toFixed(0)} ${w.toFixed(0)} ${(rand() * 8 - 4).toFixed(0)}`;
+  }
+  return d + ` V900 Z`;
+};
+
+const palm = (x: number, base: number, h: number, lean: number) => {
+  const tx = x + lean;
+  const ty = base - h;
+  const trunk = `M${x - 4} ${base} Q${x + lean * 0.3} ${base - h * 0.5} ${tx - 2} ${ty} L${tx + 2} ${ty} Q${x + lean * 0.3 + 6} ${base - h * 0.5} ${x + 4} ${base} Z`;
+  const fronds = [-150, -115, -70, -35, -5, 20]
+    .map((deg) => {
+      const a = (deg * Math.PI) / 180;
+      const ex = tx + Math.cos(a) * 46;
+      const ey = ty + Math.sin(a) * 26 + 18;
+      const cx = tx + Math.cos(a) * 26;
+      const cy = ty + Math.sin(a) * 26 - 8;
+      return `M${tx} ${ty} Q${cx.toFixed(0)} ${cy.toFixed(0)} ${ex.toFixed(0)} ${ey.toFixed(0)} Q${(cx + 4).toFixed(0)} ${(cy + 8).toFixed(0)} ${tx} ${ty + 3} Z`;
+    })
+    .join(" ");
+  return trunk + " " + fronds;
+};
+
+const stars = Array.from({ length: 90 }, () => ({ x: rand() * 1600, y: rand() * 420, r: 0.6 + rand() * 1.4, o: 0.3 + rand() * 0.7 }));
+const grass = Array.from({ length: 140 }, (_, i) => {
+  const x = (i / 140) * 1600 + rand() * 10;
+  const h = 14 + rand() * 26;
+  const lean = rand() * 12 - 6;
+  return `M${x.toFixed(0)} 900 Q${(x + lean / 2).toFixed(0)} ${(880 - h / 2).toFixed(0)} ${(x + lean).toFixed(0)} ${(870 - h).toFixed(0)} Q${(x + 3).toFixed(0)} ${(880 - h / 2).toFixed(0)} ${(x + 5).toFixed(0)} 900 Z`;
+}).join(" ");
+const treeline = canopy(0, 1600, 690, 26, 34);
+const palms = [palm(470, 700, 120, 18), palm(1010, 690, 140, -22), palm(1090, 700, 100, 14), palm(60, 720, 110, 10)].join(" ");
+const sparks = Array.from({ length: 10 }, (_, i) => ({ x: 1200 + rand() * 30, y: 720 - rand() * 40, d: (i * 0.37).toFixed(2) }));
+const wisps = [
+  { x: 560, y: 690, d: 0 },
+  { x: 640, y: 640, d: 3 },
+  { x: 880, y: 700, d: 6 },
+  { x: 300, y: 600, d: 2 },
+  { x: 1520, y: 640, d: 5 },
+];
+---
+
+<div class="scene pointer-events-none fixed inset-0 -z-20" aria-hidden="true">
+  <svg id="scene-art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" class="h-full w-full">
+    <defs>
+      <linearGradient id="scene-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--scene-sky-1)"></stop>
+        <stop offset="0.7" stop-color="var(--scene-sky-2)"></stop>
+      </linearGradient>
+      <radialGradient id="scene-moon-glow">
+        <stop offset="0" stop-color="var(--scene-moon)" stop-opacity="0.55"></stop>
+        <stop offset="1" stop-color="var(--scene-moon)" stop-opacity="0"></stop>
+      </radialGradient>
+      <radialGradient id="scene-fire-glow">
+        <stop offset="0" stop-color="#ffb347" stop-opacity="0.55"></stop>
+        <stop offset="0.45" stop-color="#ff7a2a" stop-opacity="0.18"></stop>
+        <stop offset="1" stop-color="#ff7a2a" stop-opacity="0"></stop>
+      </radialGradient>
+      <radialGradient id="scene-wisp">
+        <stop offset="0" stop-color="var(--scene-wisp)" stop-opacity="0.9"></stop>
+        <stop offset="1" stop-color="var(--scene-wisp)" stop-opacity="0"></stop>
+      </radialGradient>
+      <linearGradient id="scene-fog" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--scene-fog)" stop-opacity="0"></stop>
+        <stop offset="0.5" stop-color="var(--scene-fog)" stop-opacity="1"></stop>
+        <stop offset="1" stop-color="var(--scene-fog)" stop-opacity="0"></stop>
+      </linearGradient>
+    </defs>
+
+    <rect width="1600" height="900" fill="url(#scene-sky)"></rect>
+    <g class="scene-stars">
+      {stars.map((s) => <circle cx={s.x.toFixed(0)} cy={s.y.toFixed(0)} r={s.r.toFixed(1)} fill="var(--scene-moon)" opacity={s.o.toFixed(2)} />)}
+    </g>
+
+    <!-- Moon with drifting cloud -->
+    <circle cx="1010" cy="170" r="230" fill="url(#scene-moon-glow)"></circle>
+    <circle cx="1010" cy="170" r="62" fill="var(--scene-moon)"></circle>
+    <circle cx="990" cy="155" r="10" fill="var(--scene-moon-shade)"></circle>
+    <circle cx="1030" cy="190" r="7" fill="var(--scene-moon-shade)"></circle>
+    <g class="scene-drift-slow">
+      <path d="M820 200 q60 -30 140 -10 q70 -26 150 4 q50 -10 90 14 q-120 22 -380 -8 Z" fill="var(--scene-cloud)"></path>
+      <path d="M180 120 q80 -26 170 -6 q60 -20 120 6 q-130 22 -290 0 Z" fill="var(--scene-cloud)"></path>
+    </g>
+
+    <!-- Far ridges and the volcano -->
+    <path d="M0 560 L110 520 L250 480 L340 500 L460 450 L560 470 L640 440 V700 H0 Z" fill="var(--scene-far)"></path>
+    <path d="M330 660 C460 520 600 360 712 252 L732 238 L748 250 L764 236 L782 248 L800 256 C930 380 1080 520 1240 660 Z" fill="var(--scene-volcano)"></path>
+    <path d="M748 252 L720 330 L740 420 M770 250 L790 340 L776 430 M700 300 L660 380 M820 300 L870 380" stroke="var(--scene-ridge)" stroke-width="3" fill="none" stroke-linecap="round"></path>
+    <g class="scene-smoke">
+      <ellipse cx="760" cy="214" rx="24" ry="16" fill="var(--scene-smoke)" opacity="0.8"></ellipse>
+      <ellipse cx="786" cy="180" rx="34" ry="22" fill="var(--scene-smoke)" opacity="0.65"></ellipse>
+      <ellipse cx="830" cy="142" rx="46" ry="26" fill="var(--scene-smoke)" opacity="0.5"></ellipse>
+      <ellipse cx="900" cy="108" rx="62" ry="30" fill="var(--scene-smoke)" opacity="0.35"></ellipse>
+      <ellipse cx="990" cy="84" rx="80" ry="30" fill="var(--scene-smoke)" opacity="0.2"></ellipse>
+    </g>
+    <path d="M880 700 L1080 470 L1190 520 L1320 400 L1440 480 L1600 420 V700 Z" fill="var(--scene-mid)"></path>
+    <path d="M0 700 V600 L130 520 L250 580 L380 540 L470 600 V700 Z" fill="var(--scene-mid)"></path>
+
+    <g class="scene-drift">
+      <rect x="-200" y="540" width="2000" height="150" fill="url(#scene-fog)"></rect>
+    </g>
+
+    <!-- Treeline and palms -->
+    <path d={treeline} fill="var(--scene-near)"></path>
+    <path d={palms} fill="var(--scene-near)"></path>
+
+    <!-- Ground -->
+    <path d="M0 900 V772 C260 760 520 792 820 778 C1080 766 1300 742 1600 750 V900 Z" fill="var(--scene-ground)"></path>
+
+    <!-- Left: banyan, nisan gravestones, and the ruined house (pinned to the left edge by the script below) -->
+    <g id="scene-left">
+    <g fill="var(--scene-ink)">
+      <path d="M560 784 C566 740 556 700 548 660 C530 650 500 640 470 646 C500 628 530 630 548 640 C540 610 520 590 500 584 C530 580 552 600 560 620 C566 590 580 570 610 562 C600 590 586 612 580 640 C600 630 630 628 656 640 C626 644 600 652 584 668 C580 710 586 750 594 784 Z"></path>
+    </g>
+    <path d="M500 590 L498 700 M520 640 L516 740 M630 640 L634 730 M650 642 L652 700 M610 566 L612 650" stroke="var(--scene-ink)" stroke-width="2" fill="none"></path>
+    <path d="M640 790 V766 Q650 752 660 766 V790 Z M672 792 V774 Q680 764 688 774 V792 Z" fill="var(--scene-stone)"></path>
+
+    <!-- The ruined rumah panggung -->
+    <g class="scene-house">
+      <!-- stilts: one snapped, one leaning -->
+      <path d="M150 662 h10 v118 h-10 Z M210 664 h10 v116 h-10 Z M270 666 h10 v112 h-10 Z M330 690 l10 2 l-4 50 l-9 -2 Z M392 690 l10 0 l14 92 h-10 Z" fill="var(--scene-ink)"></path>
+      <!-- sagging floor -->
+      <path d="M128 652 L300 660 L430 694 L428 708 L298 674 L128 666 Z" fill="var(--scene-ink)"></path>
+      <!-- woven bamboo walls with gaps -->
+      <path d="M140 652 V560 L300 556 V660 Z" fill="var(--scene-ink)"></path>
+      <path d="M300 660 V600 L330 586 L352 610 L372 592 L400 640 L420 690 Z" fill="var(--scene-ink)"></path>
+      <path d="M156 570 V646 M172 568 V648 M188 568 V648 M204 566 V650 M250 564 V652 M266 562 V654 M282 562 V656" stroke="var(--scene-ink-line)" stroke-width="1.6"></path>
+      <!-- window with a pale figure -->
+      <rect x="214" y="580" width="28" height="36" fill="var(--scene-window)"></rect>
+      <g class="scene-ghost">
+        <path d="M228 588 c-6 0 -8 6 -7 12 c-3 6 -4 12 -5 16 h24 c-1 -4 -2 -10 -5 -16 c1 -6 -1 -12 -7 -12 Z" fill="var(--scene-specter)"></path>
+        <path d="M222 592 c-2 8 -2 16 -4 24 M234 592 c2 8 2 16 4 24" stroke="var(--scene-ink)" stroke-width="2.4" fill="none"></path>
+      </g>
+      <path d="M214 598 h28 M228 580 v36" stroke="var(--scene-ink)" stroke-width="2"></path>
+      <!-- door hanging askew -->
+      <path d="M160 600 L190 596 L196 650 L166 654 Z" fill="var(--scene-ink-line)" opacity="0.6"></path>
+      <!-- roof: one slope standing, the other caved in -->
+      <path d="M112 574 L232 446 L250 452 L150 584 Z" fill="var(--scene-ink)"></path>
+      <path d="M232 446 L262 470 L300 520 L326 516 L346 548 L372 538 L320 470 L250 452 Z" fill="var(--scene-ink)"></path>
+      <path d="M262 470 L282 420 M300 520 L316 470 M346 548 L370 500" stroke="var(--scene-ink)" stroke-width="4" stroke-linecap="round"></path>
+      <path d="M120 580 l-2 14 M132 584 l0 16 M144 586 l2 12 M330 520 l-2 18 M352 548 l2 20 M362 544 l0 14" stroke="var(--scene-ink)" stroke-width="1.6"></path>
+      <!-- ladder with missing rungs -->
+      <path d="M110 780 L136 664 M128 782 L152 668 M118 744 L140 748 M126 706 L146 710" stroke="var(--scene-ink)" stroke-width="4" stroke-linecap="round"></path>
+      <!-- debris -->
+      <path d="M200 786 l70 -10 l2 6 l-70 10 Z M300 790 l44 4 l-1 6 l-44 -4 Z M380 784 l30 -18 l4 4 l-30 18 Z" fill="var(--scene-ink)"></path>
+    </g>
+    </g>
+
+    <!-- Right: the camp, pinned to the right edge by the script below -->
+    <g id="scene-right">
+    <circle class="scene-flicker" cx="1210" cy="756" r="200" fill="url(#scene-fire-glow)"></circle>
+    <path d="M1300 758 L1384 636 L1478 758 Z" fill="var(--scene-tent)"></path>
+    <path d="M1384 636 L1478 758 L1460 758 L1384 650 Z" fill="var(--scene-ink)" opacity="0.35"></path>
+    <path class="scene-flicker" d="M1364 758 L1386 692 L1406 758 Z" fill="var(--scene-tent-glow)"></path>
+    <path d="M1300 758 L1270 776 M1478 758 L1510 776 M1384 636 L1384 620" stroke="var(--scene-ink)" stroke-width="2"></path>
+    <path d="M1100 772 h70 a6 6 0 0 1 0 12 h-70 a6 6 0 0 1 0 -12 Z" fill="var(--scene-ink)"></path>
+    <path d="M1186 770 L1236 754 M1188 754 L1234 772" stroke="var(--scene-log)" stroke-width="8" stroke-linecap="round"></path>
+    <g class="scene-flame">
+      <path d="M1210 762 C1190 746 1196 722 1206 708 C1208 724 1216 724 1214 700 C1232 716 1232 748 1210 762 Z" fill="#ff7a2a"></path>
+      <path d="M1211 760 C1200 750 1202 736 1209 726 C1211 738 1218 738 1216 724 C1226 738 1224 752 1211 760 Z" fill="#ffb347"></path>
+      <path d="M1211 758 C1206 752 1207 744 1211 738 C1214 746 1218 750 1211 758 Z" fill="#ffe08a"></path>
+    </g>
+    <g class="scene-sparks">
+      {sparks.map((s) => <circle cx={s.x.toFixed(0)} cy={s.y.toFixed(0)} r="1.6" fill="#ffcf7a" style={`animation-delay:-${s.d}s`} />)}
+    </g>
+    <path class="scene-drift-slow" d="M1212 700 C1200 660 1230 640 1214 600 C1200 570 1226 540 1214 500" stroke="var(--scene-smoke)" stroke-width="10" fill="none" opacity="0.35" stroke-linecap="round"></path>
+    <path d="M1530 780 V690" stroke="var(--scene-ink)" stroke-width="4"></path>
+    <circle cx="1530" cy="686" r="30" fill="url(#scene-fire-glow)" class="scene-flicker"></circle>
+    <rect x="1523" y="676" width="14" height="16" rx="3" fill="#ffe08a"></rect>
+    </g>
+
+    <!-- Will-o'-the-wisps -->
+    {wisps.map((w) => <circle class="scene-wisp" cx={w.x} cy={w.y} r="9" fill="url(#scene-wisp)" style={`animation-delay:-${w.d}s`} />)}
+
+    <path d={grass} fill="var(--scene-ink)"></path>
+  </svg>
+</div>
+
+<script is:inline>
+  // The SVG is cropped to the window (slice). Keep the ruined house on the
+  // left edge and the camp on the right edge at any size, scaling both down on
+  // narrow screens so the volcano stays between them.
+  (() => {
+    const left = document.getElementById("scene-left");
+    const right = document.getElementById("scene-right");
+    if (!left || !right) return;
+    const GROUND = 790;
+    const fit = () => {
+      const a = innerWidth / innerHeight;
+      const vw = a < 16 / 9 ? 900 * a : 1600;
+      const x0 = 800 - vw / 2;
+      const x1 = 800 + vw / 2;
+      const s = Math.min(1, Math.max(0.36, vw / 1150));
+      const ty = GROUND * (1 - s);
+      left.setAttribute("transform", `translate(${x0 + 8 - 100 * s} ${ty}) scale(${s})`);
+      right.setAttribute("transform", `translate(${x1 - 8 - 1560 * s} ${ty}) scale(${s})`);
+    };
+    fit();
+    addEventListener("resize", fit, { passive: true });
+  })();
+</script>

@@ -1,23 +1,24 @@
-/** Detail card for one ghost, shared by the Atlas, Lantern, and Bestiary designs. */
+/** Detail card for one ghost, shared by the Atlas, Lantern, and Bestiary views. */
 import { byId, cladeVar, CODING_LABEL, DANGER, plateUrl, presentTraits, sexLabel, withBase, type Ghost } from "../utils/data";
 
 export function DangerMeter({ level }: { level: number }) {
   return (
-    <span class="inline-flex items-center gap-1" title={`Danger ${level} of 5: ${DANGER[level]}`}>
+    <span class="inline-flex items-center gap-1">
       {[1, 2, 3, 4, 5].map((i) => (
         <span
           key={i}
-          class={`h-2 w-2 rotate-45 ${i <= level ? "bg-darah-600 dark:bg-darah-400" : "bg-kafan-300 dark:bg-malam-700"}`}
+          aria-hidden="true"
+          class={`h-2 w-2 rotate-45 border ${i <= level ? "border-darah-700 bg-darah-700 dark:border-darah-300 dark:bg-darah-300" : "border-kafan-700 dark:border-kemenyan-400"}`}
         />
       ))}
-      <span class="ml-1 text-xs text-kafan-700 dark:text-kemenyan-300">{DANGER[level]}</span>
+      <span class="muted ml-1 text-xs"><span class="sr-only">Danger {level} of 5: </span>{DANGER[level]}</span>
     </span>
   );
 }
 
 export function CladePill({ clade }: { clade: string }) {
   return (
-    <span class="inline-flex items-center gap-1.5 rounded-full border border-kafan-300 px-2.5 py-0.5 text-xs font-semibold dark:border-malam-700">
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-kafan-700 px-2.5 py-0.5 text-xs font-semibold dark:border-kemenyan-400">
       <span class="h-2.5 w-2.5 rounded-full" style={{ background: cladeVar(clade) }} />
       {clade}
     </span>
@@ -42,7 +43,7 @@ function Field({ label, value }: { label: string; value: string | null }) {
   if (!value) return null;
   return (
     <div>
-      <dt class="text-xs font-semibold uppercase tracking-wider text-kafan-600 dark:text-kemenyan-400">{label}</dt>
+      <dt class="text-xs font-semibold uppercase tracking-wider muted">{label}</dt>
       <dd class="mt-0.5 text-sm leading-relaxed">{value}</dd>
     </div>
   );
@@ -60,7 +61,7 @@ export default function GhostCard({
   const traits = presentTraits(ghost);
   const relatives = ghost.relatives.map((id) => byId.get(id)!).filter(Boolean);
   return (
-    <article class="rounded-3xl border border-kafan-300 bg-kafan-50/90 p-5 shadow-sm backdrop-blur dark:border-malam-700 dark:bg-malam-900/90">
+    <article class="glass p-5" aria-label={`${ghost.name} card`}>
       <div class="flex items-start gap-4">
         <img
           src={plateUrl(ghost.id)}
@@ -71,7 +72,7 @@ export default function GhostCard({
         />
         <div class="min-w-0">
           <h2 class="font-serif text-2xl font-semibold leading-tight tracking-tight">{ghost.name}</h2>
-          <p class="mt-0.5 text-sm text-kafan-700 dark:text-kemenyan-300">
+          <p class="mt-0.5 text-sm muted">
             {ghost.region}
             {ghost.culture ? ` · ${ghost.culture}` : ""}
           </p>
@@ -98,7 +99,7 @@ export default function GhostCard({
       </dl>
 
       <div class="mt-4">
-        <p class="text-xs font-semibold uppercase tracking-wider text-kafan-600 dark:text-kemenyan-400">Coded traits</p>
+        <p class="text-xs font-semibold uppercase tracking-wider muted">Coded traits</p>
         <div class="mt-1.5 flex flex-wrap gap-1.5">
           <span class="rounded-full bg-kafan-200 px-2 py-0.5 text-xs dark:bg-malam-800">{sexLabel(ghost)}</span>
           {traits.map((t) => (
@@ -107,7 +108,7 @@ export default function GhostCard({
             </span>
           ))}
         </div>
-        <p class="mt-2 text-xs text-kafan-700 dark:text-kemenyan-300">
+        <p class="mt-2 text-xs muted">
           {ghost.coding !== "source" && <span class="mr-1 text-darah-700 dark:text-darah-300">◆</span>}
           {CODING_LABEL[ghost.coding]}.
           {ghost.twins.length > 0 &&
@@ -117,14 +118,14 @@ export default function GhostCard({
 
       {!compact && (
         <div class="mt-4">
-          <p class="text-xs font-semibold uppercase tracking-wider text-kafan-600 dark:text-kemenyan-400">Nearest on the tree</p>
+          <p class="text-xs font-semibold uppercase tracking-wider muted">Nearest on the tree</p>
           <ul class="mt-2 flex flex-wrap gap-2">
             {relatives.map((r) => (
               <li key={r.id}>
                 <button
                   type="button"
                   onClick={() => onSelect?.(r.id)}
-                  class="flex items-center gap-1.5 rounded-full border border-kafan-300 py-0.5 pl-0.5 pr-2.5 text-xs transition hover:border-darah-500 hover:bg-kafan-200 dark:border-malam-700 dark:hover:border-prada-400 dark:hover:bg-malam-800"
+                  class="control flex min-h-[28px] items-center gap-1.5 py-0.5 pl-0.5 pr-2.5 text-xs transition hover:bg-kafan-200 dark:hover:bg-malam-800"
                 >
                   <Plate ghost={r} size={22} />
                   {r.name}
