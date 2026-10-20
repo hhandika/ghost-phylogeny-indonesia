@@ -46,10 +46,10 @@ Most codings beyond the original 61 taxa come from folklore synthesis rather tha
 - **Atlas** (`/atlas`): rectangular tree, aligned trait matrix, sticky detail card.
 - **Lantern** (`/lantern`): circular tree on a night canvas, the selected ghost lit at its centre.
 - **Bestiary** (`/bestiary`): filterable field guide with side-by-side comparison.
-- **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
+- **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map with Pleistocene sea levels (today, −40, −80, −120 m) and Wallace's, Huxley's, Weber's, and Lydekker's lines, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
 - **Specimen pages** (`/ghosts/<taxon_id>`): every field and coded character for one ghost.
 
-Accessibility targets WCAG 2.2 AA: text on glass keeps at least 4.5:1 against the darkest and brightest parts of the scene, controls have 3:1 boundaries, trait states differ in shape as well as colour, interactive trees are keyboard operable with announced selections, scrollable regions are focusable, and scene motion stops under `prefers-reduced-motion`. The coastline on the Patterns map is Natural Earth (public domain).
+Accessibility targets WCAG 2.2 AA: text on glass keeps at least 4.5:1 against the darkest and brightest parts of the scene, controls have 3:1 boundaries, trait states differ in shape as well as colour, interactive trees are keyboard operable with announced selections, scrollable regions are focusable, and scene motion stops under `prefers-reduced-motion`. The Patterns map uses Natural Earth coastlines and NOAA ETOPO1 shelf outlines (both public domain), with line placements after hhandika-com's speciation map.
 
 ```bash
 cd web

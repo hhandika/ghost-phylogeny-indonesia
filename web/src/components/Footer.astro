@@ -1,22 +1,16 @@
 ---
-import { data, withBase } from "../utils/data";
+import { withBase } from "../utils/data";
 const year = new Date().getFullYear();
 const sourceUrl = "https://github.com/hhandika/ghost-phylogeny-indonesia";
 ---
 
 <footer class="mx-auto mt-20 max-w-5xl px-3 pb-10 sm:px-6">
-  <div class="glass batik px-6 py-8 text-center text-sm">
-    <p class="font-serif text-lg font-semibold">Ghost phylogeny, literally.</p>
-    <p class="muted mx-auto mt-2 max-w-2xl">
-      A comparative folklore exercise, not ethnography. Traits marked ◆ are editorial codings from folklore synthesis; local tellings differ by village and teller.
-    </p>
-    <p class="muted mt-4 flex flex-wrap items-center justify-center gap-x-1.5">
-      <span>© {year} Heru Handika.</span>
-      <span>
-        Tree rebuilt from <code class="text-xs">{data.meta.source}</code> on {data.meta.generated}.
-        <a href={withBase("/methods")} class="accent font-semibold underline underline-offset-2">Methods</a> ·
-        <a href={sourceUrl} target="_blank" rel="noopener" class="accent font-semibold underline underline-offset-2">Source on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-      </span>
+  <div class="glass batik flex flex-col items-center justify-between gap-3 px-6 py-6 text-sm sm:flex-row">
+    <p class="font-serif text-base font-semibold">Ghost phylogeny, <i>literally</i>.</p>
+    <p class="muted flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+      <span>© {year} Heru Handika</span>
+      <a href={withBase("/methods")} class="accent font-semibold underline underline-offset-2">Methods</a>
+      <a href={sourceUrl} target="_blank" rel="noopener" class="accent font-semibold underline underline-offset-2">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
     </p>
   </div>
 </footer>

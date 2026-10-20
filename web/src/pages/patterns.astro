@@ -2,16 +2,15 @@
 import Layout from "../layouts/Layout.astro";
 import PageTitle from "../components/PageTitle.astro";
 import GlassSection from "../components/GlassSection.astro";
-import { ArchipelagoMap, BodyDiet, DangerUnits, Provenance, SupportHistogram, TraitHeatmap, Twins } from "../islands/Patterns";
+import { ArchipelagoMap, MAP_BBOX, MAP_SCALE, BodyDiet, DangerUnits, Provenance, SupportHistogram, TraitHeatmap, Twins } from "../islands/Patterns";
 import land from "../data/indonesia-land.json";
+import iaa from "../data/iaa-shelves.json";
 import { byId, data } from "../utils/data";
 import { layout } from "../utils/tree";
 
-// Equirectangular projection of the coastline to a fixed SVG frame.
-const W = 960;
-const H = Math.round((W * (land.bbox.north - land.bbox.south)) / (land.bbox.east - land.bbox.west));
-const px = (lon: number) => (((lon - land.bbox.west) / (land.bbox.east - land.bbox.west)) * W).toFixed(1);
-const py = (lat: number) => (((land.bbox.north - lat) / (land.bbox.north - land.bbox.south)) * H).toFixed(1);
+// Project the coastline into the map frame (equirectangular, 20 units per degree).
+const px = (lon: number) => ((lon - MAP_BBOX.west) * MAP_SCALE).toFixed(1);
+const py = (lat: number) => ((MAP_BBOX.north - lat) * MAP_SCALE).toFixed(1);
 const landPath = (land.rings as number[][][]).map((r) => "M" + r.map(([x, y]) => `${px(x)} ${py(y)}`).join("L") + "Z").join("");
 
 const L = layout(data.tree, (id) => byId.get(id)!.clade);
@@ -62,8 +61,8 @@ const sections = [
   </nav>
 
   <div class="mx-auto grid max-w-5xl gap-6">
-    <GlassSection id="where" title="Where they haunt" lead={`${regionCounts[0][0]} has the most ghosts (${regionCounts[0][1]}), then ${regionCounts[1][0]} (${regionCounts[1][1]}) and ${regionCounts[2][0]} (${regionCounts[2][1]}). Widespread motifs and outgroups from beyond Indonesia sit in the dashed boxes.`}>
-      <ArchipelagoMap client:visible land={landPath} width={W} height={H} />
+    <GlassSection id="where" title="Where they haunt" lead={`${regionCounts[0][0]} has the most ghosts (${regionCounts[0][1]}), then ${regionCounts[1][0]} (${regionCounts[1][1]}) and ${regionCounts[2][0]} (${regionCounts[2][1]}). Widespread motifs and outgroups from beyond Indonesia sit in the dashed boxes. Lower the sea to see the Pleistocene coastlines.`}>
+      <ArchipelagoMap client:visible land={landPath} shelves={iaa.shelves} />
     </GlassSection>
 
     <GlassSection id="traits" title="What each clade is made of" lead={`Each row is a clade, each column a coded trait. ${blood[0]} is the bloodiest clade: ${Math.round(blood[1] * 100)}% of its members target blood, flesh, or organs.`}>

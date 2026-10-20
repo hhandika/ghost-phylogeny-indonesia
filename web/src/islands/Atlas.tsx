@@ -78,7 +78,7 @@ export default function Atlas() {
 
   return (
     <div class="mx-auto max-w-7xl">
-      <div class="glass mb-4 flex flex-wrap items-center gap-3 !rounded-2xl p-3 lg:sticky lg:top-[4.75rem] lg:z-30">
+      <div class="glass mb-4 flex flex-wrap items-center gap-3 !rounded-2xl p-3 lg:sticky lg:top-[6.25rem] lg:z-30">
         <label class="flex min-w-[12rem] flex-1 items-center gap-2 control px-3 py-1.5">
           <span class="sr-only">Search ghosts</span>
           <svg class="h-4 w-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
@@ -249,7 +249,7 @@ export default function Atlas() {
           </figcaption>
         </figure>
 
-        <aside class="lg:sticky lg:top-44 lg:self-start" aria-label="Selected ghost">
+        <aside class="lg:sticky lg:top-[11.5rem] lg:self-start" aria-label="Selected ghost">
           <GhostCard ghost={ghost} onSelect={select} />
         </aside>
       </div>

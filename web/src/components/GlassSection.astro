@@ -7,7 +7,7 @@ interface Props {
 const { id, title, lead } = Astro.props;
 ---
 
-<section id={id} aria-labelledby={`${id}-h`} class="glass scroll-mt-24 p-5 sm:p-7">
+<section id={id} aria-labelledby={`${id}-h`} class="glass scroll-mt-28 p-5 sm:p-7">
   <h2 id={`${id}-h`} class="font-serif text-2xl font-semibold tracking-tight">{title}</h2>
   {lead && <p class="muted mt-1" set:html={lead} />}
   <div class="mt-4"><slot /></div>

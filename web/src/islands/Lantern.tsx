@@ -186,7 +186,7 @@ export default function Lantern() {
         </figure>
         </div>
 
-        <aside class="lg:sticky lg:top-24" aria-label="Selected ghost">
+        <aside class="lg:sticky lg:top-28" aria-label="Selected ghost">
           <GhostCard ghost={ghost} onSelect={setSelected} />
         </aside>
       </div>

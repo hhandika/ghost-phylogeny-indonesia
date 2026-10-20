@@ -114,7 +114,7 @@
   /* Keep focused elements clear of the sticky header and floating bars
      (WCAG 2.4.11). */
   html {
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7rem;
     scroll-padding-bottom: 5rem;
   }
   @media (prefers-reduced-motion: no-preference) {
