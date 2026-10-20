@@ -1,0 +1,63 @@
+---
+import cntl from "cntl";
+import Gunungan from "./Gunungan.astro";
+import ThemeIcon from "./ThemeIcon.astro";
+import { withBase } from "../utils/data";
+
+export const navItems = [
+  { path: "/", label: "Overview" },
+  { path: "/atlas", label: "Atlas" },
+  { path: "/lantern", label: "Lantern" },
+  { path: "/bestiary", label: "Bestiary" },
+  { path: "/methods", label: "Methods" },
+];
+
+const here = Astro.url.pathname.replace(/\/$/, "");
+const isCurrent = (path: string) => here === withBase(path).replace(/\/$/, "");
+
+const pillBar = cntl`
+  flex gap-x-1 rounded-full border border-kafan-300 bg-kafan-200/80 p-1.5
+  backdrop-blur dark:border-malam-700 dark:bg-malam-900/80
+`;
+const linkBase = cntl`rounded-full px-4 py-1.5 font-semibold transition-colors duration-200`;
+const active = cntl`bg-malam-900 text-prada-200 dark:bg-prada-300 dark:text-malam-950`;
+const inactive = cntl`
+  text-malam-800 hover:bg-kafan-300 hover:text-malam-950
+  dark:text-kafan-100 dark:hover:bg-malam-800 dark:hover:text-kafan-50
+`;
+---
+
+<nav class="flex items-center justify-between gap-4 p-4 lg:px-8" aria-label="Global">
+  <div class="flex lg:flex-1">
+    <a href={withBase("/")} class="group flex items-center gap-2">
+      <Gunungan class="h-9 w-8 transition-transform duration-500 group-hover:rotate-6" />
+      <span class="hidden font-serif text-lg font-semibold tracking-tight sm:inline">Hantu Nusantara</span>
+    </a>
+  </div>
+  <div class={`hidden md:flex ${pillBar}`}>
+    {
+      navItems.map(({ path, label }) => (
+        <a href={withBase(path)} aria-current={isCurrent(path) ? "page" : undefined} class={`${linkBase} ${isCurrent(path) ? active : inactive}`}>
+          {label}
+        </a>
+      ))
+    }
+  </div>
+  <div class="flex items-center gap-2 lg:flex-1 lg:justify-end">
+    <ThemeIcon />
+    <details class="relative md:hidden">
+      <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-kafan-300 bg-kafan-200 dark:border-malam-700 dark:bg-malam-900" aria-label="Open menu">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </summary>
+      <div class="absolute right-0 z-50 mt-2 w-48 rounded-2xl border border-kafan-300 bg-kafan-100 p-2 shadow-xl dark:border-malam-700 dark:bg-malam-900">
+        {
+          navItems.map(({ path, label }) => (
+            <a href={withBase(path)} aria-current={isCurrent(path) ? "page" : undefined} class={`block ${linkBase} ${isCurrent(path) ? active : inactive}`}>
+              {label}
+            </a>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+</nav>

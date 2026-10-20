@@ -1,0 +1,15 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageTitle from "../components/PageTitle.astro";
+import DesignBar from "../components/DesignBar.astro";
+import Bestiary from "../islands/Bestiary";
+import { data } from "../utils/data";
+---
+
+<Layout title="Bestiary · Ghost phylogeny of Indonesia" wide>
+  <DesignBar current="/bestiary" />
+  <PageTitle title="The bestiary" kicker="Design C">
+    A field guide to {data.ghosts.length} specimens, kept in tree order so neighbours are relatives. Filter by island, clade, or trait, and tick two cards to compare them.
+  </PageTitle>
+  <Bestiary client:load />
+</Layout>

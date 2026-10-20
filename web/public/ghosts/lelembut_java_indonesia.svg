@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="g39b6d6-t">
+<title id="g39b6d6-t">Lelembut, fine / subtle spirit (lembut = refined)</title>
+<defs>
+<radialGradient id="g39b6d6-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="g39b6d6-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g39b6d6-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="g39b6d6-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="g39b6d6-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#g39b6d6-disc)">
+<rect width="160" height="160" fill="url(#g39b6d6-sky)"/>
+<circle cx="139.0" cy="64.8" r="1.0" fill="#f4ecd6" opacity="0.48"/><circle cx="27.9" cy="68.3" r="0.9" fill="#f4ecd6" opacity="0.88"/><circle cx="109.5" cy="33.2" r="0.8" fill="#f4ecd6" opacity="0.67"/><circle cx="65.6" cy="34.7" r="0.7" fill="#f4ecd6" opacity="0.50"/><circle cx="130.5" cy="28.1" r="1.2" fill="#f4ecd6" opacity="0.61"/><circle cx="40.0" cy="29.5" r="1.1" fill="#f4ecd6" opacity="0.76"/><circle cx="48.1" cy="69.1" r="0.7" fill="#f4ecd6" opacity="0.81"/><circle cx="117.0" cy="31.6" r="0.8" fill="#f4ecd6" opacity="0.89"/><circle cx="55.8" cy="47.9" r="1.2" fill="#f4ecd6" opacity="0.51"/><circle cx="91.2" cy="16.3" r="1.1" fill="#f4ecd6" opacity="0.46"/><circle cx="118.0" cy="34.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="123.0" cy="31.0" r="10.0" fill="url(#g39b6d6-sky)"/>
+<path d="M104 134 L104 104 L152 104 L152 134 Z" fill="#3a3150" stroke="#15111f" stroke-width="1.2"/><path d="M94 106 L114 86 L120 74 L136 74 L142 86 L162 106 Z" fill="#4a3d62" stroke="#15111f" stroke-width="1.2"/><rect x="122" y="112" width="10" height="10" fill="#ffd27a" opacity="0.85"/><circle cx="127.0" cy="117.0" r="12.0" fill="#ffd27a" opacity="0.12"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(3.3) scale(1.008) translate(-80 -134)"><path d="M66.0 54.0 C62.0 24.0 98.0 24.0 94.0 54.0 C98.0 84.0 102.0 104.0 110.0 120.0 C96.0 114.0 88.0 122.0 78.0 116.0 C70.0 124.0 60.0 116.0 56.0 110.0 C62.0 94.0 64.0 74.0 66.0 54.0 Z" fill="#e6e2f2" stroke="#15111f" stroke-width="2" opacity="0.92"/><path d="M66.0 62.0 C54.0 72.0 50.0 82.0 52.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><path d="M94.0 62.0 C106.0 72.0 110.0 82.0 108.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><circle cx="75.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="75.7" cy="43.3" r="0.7" fill="#ffffff"/><circle cx="85.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="85.7" cy="43.3" r="0.7" fill="#ffffff"/><ellipse cx="80.0" cy="53.0" rx="2.4" ry="3.4" fill="#15111f"/></g>
+<path d="M28 126 L44 126 L41 134 L31 134 Z" fill="#6a4a2a" stroke="#15111f" stroke-width="1.2"/><circle cx="36.0" cy="125.0" r="2.0" fill="#ff8a3a"/><path d="M36 123 C42 114 30 108 38 98 C44 90 36 84 40 76" fill="none" stroke="#c9c2d6" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#cc5aa6" stroke-width="4"/>
+</svg>

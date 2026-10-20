@@ -1,0 +1,182 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { designs } from "../components/DesignBar.astro";
+import { byId, data, plateUrl, withBase } from "../utils/data";
+import { layout } from "../utils/tree";
+
+const { meta } = data;
+const L = layout(data.tree, (id) => byId.get(id)!.clade);
+
+// Well-supported small clades, read straight from the tree.
+const pairs = L.all
+  .filter((p) => p.children.length && p.tips.length <= 3 && (p.support ?? 0) >= 90)
+  .sort((a, b) => (b.support ?? 0) - (a.support ?? 0))
+  .slice(0, 6)
+  .map((p) => ({ support: p.support!, ghosts: p.tips.map((id) => byId.get(id)!) }));
+
+const heroIds = ["kuntilanak_indonesian_archipelago", "pocong_java_indonesia", "banaspati_java_indonesia", "kuyang_kalimantan_indonesia", "rangda_bali_indonesia", "genderuwo_java_indonesia", "toyol_tuyul_indonesian_archipelago"].filter((id) => byId.has(id));
+const islands = data.regions.filter((r) => r !== "Outgroup" && r !== "Widespread").length;
+const stats = [
+  { value: meta.taxa - meta.outgroups, label: "Indonesian ghosts" },
+  { value: meta.outgroups, label: "outgroup cousins" },
+  { value: meta.characters, label: "coded characters" },
+  { value: islands, label: "island regions" },
+];
+---
+
+<Layout title="Ghost phylogeny of Indonesia">
+  <section class="relative pt-10 text-center sm:pt-16">
+    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-darah-700 dark:text-prada-300">Pohon kekerabatan hantu Nusantara</p>
+    <h1 class="mx-auto mt-3 max-w-3xl text-balance font-serif text-5xl font-semibold tracking-tight sm:text-6xl">
+      A family tree of Indonesian ghosts
+    </h1>
+    <p class="mx-auto mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-kafan-800 dark:text-kemenyan-200">
+      Literally, not conceptually. Kuntilanak, pocong, tuyul, and {meta.taxa - 3} more spirits are scored like specimens on {meta.characters} traits, and <a href="http://www.iqtree.org/" class="underline decoration-darah-500 underline-offset-2 dark:decoration-prada-400">IQ-TREE</a> infers how they are related.
+    </p>
+    <div class="mt-10 flex flex-wrap items-end justify-center gap-3 sm:gap-5" aria-hidden="true">
+      {
+        heroIds.map((id, i) => (
+          <img
+            src={plateUrl(id)}
+            alt=""
+            width={i === 3 ? 132 : 96}
+            height={i === 3 ? 132 : 96}
+            class="animate-drift rounded-full shadow-xl shadow-malam-950/25"
+            style={`animation-delay: ${i * -0.7}s`}
+          />
+        ))
+      }
+    </div>
+    <dl class="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+      {
+        stats.map((s) => (
+          <div class="rounded-2xl border border-kafan-300 bg-kafan-50/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
+            <dd class="font-serif text-3xl font-semibold text-darah-700 dark:text-prada-300">{s.value}</dd>
+            <dt class="text-xs text-kafan-700 dark:text-kemenyan-300">{s.label}</dt>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="mt-20" aria-labelledby="designs">
+    <div class="batik-band mx-auto mb-8 max-w-xs"></div>
+    <h2 id="designs" class="text-center font-serif text-3xl font-semibold tracking-tight">Choose a design</h2>
+    <p class="mx-auto mt-2 max-w-2xl text-center text-kafan-800 dark:text-kemenyan-200">
+      Three ways to read the same tree. Each one is live, with the same data and theme; pick the one to keep.
+    </p>
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      {
+        designs.map((d) => (
+          <a
+            href={withBase(d.path)}
+            class="group flex flex-col overflow-hidden rounded-3xl border border-kafan-300 bg-kafan-50/80 transition hover:-translate-y-1 hover:border-darah-400 hover:shadow-xl dark:border-malam-700 dark:bg-malam-900/80 dark:hover:border-prada-400"
+          >
+            <div class={`flex h-44 items-center justify-center ${d.letter === "B" ? "bg-night" : "bg-kafan-200/70 dark:bg-malam-950"}`}>
+              {d.letter === "A" && (
+                <svg viewBox="0 0 200 120" class="h-36 w-auto" aria-hidden="true">
+                  <g fill="none" stroke-width="2" stroke-linecap="round">
+                    <path d="M10 60 H30 M30 25 V95 M30 25 H55 M55 15 V35 M55 15 H80 M55 35 H80 M30 95 H50 M50 55 V110 M50 55 H80 M50 80 H80 M50 110 H80" stroke="var(--neutral-branch)" />
+                    <path d="M55 15 H80 M55 35 H80" stroke="var(--clade-0)" />
+                    <path d="M50 55 H80 M50 80 H80" stroke="var(--clade-2)" />
+                    <path d="M50 110 H80" stroke="var(--clade-7)" />
+                  </g>
+                  {[15, 35, 55, 80, 110].map((y, r) => (
+                    <g>
+                      <circle cx="88" cy={y} r="5" fill="#1c1830" />
+                      {Array.from({ length: 8 }, (_, c) => (
+                        <rect x={128 + c * 9} y={y - 4} width="7" height="7" rx="1.5" class={(r * 3 + c * 5) % 3 === 0 ? "fill-malam-800 dark:fill-prada-300" : "fill-kafan-300 dark:fill-malam-700"} />
+                      ))}
+                    </g>
+                  ))}
+                </svg>
+              )}
+              {d.letter === "B" && (
+                <svg viewBox="-60 -60 120 120" class="h-36 w-auto" aria-hidden="true">
+                  <circle r="54" fill="none" stroke="#e0b03e" stroke-opacity=".3" />
+                  {Array.from({ length: 28 }, (_, i) => {
+                    const a = (i / 28) * Math.PI * 2;
+                    return <path d={`M${Math.cos(a) * 22} ${Math.sin(a) * 22} L${Math.cos(a) * 44} ${Math.sin(a) * 44}`} stroke={`var(--clade-${i % 9})`} stroke-width="1.6" />;
+                  })}
+                  <circle r="18" fill="#110e1b" stroke="#e0b03e" stroke-width="1" />
+                  <circle r="9" fill="#f1e9d8" class="animate-flicker" />
+                </svg>
+              )}
+              {d.letter === "C" && (
+                <div class="grid grid-cols-3 gap-2" aria-hidden="true">
+                  {["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indonesia", "orang_bati_seram_indonesia", "naga_besukih_bali_indonesia", "preta_indonesian_archipelago", "lampor_java_indonesia"].filter((id) => byId.has(id)).map((id) => (
+                    <span class="rounded-xl border border-kafan-300 bg-kafan-50 p-1 dark:border-malam-700 dark:bg-malam-900">
+                      <img src={plateUrl(id)} alt="" width="44" height="44" class="rounded-full" />
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div class="flex flex-1 flex-col p-5">
+              <p class="text-xs font-semibold uppercase tracking-widest text-darah-700 dark:text-prada-300">Design {d.letter}</p>
+              <h3 class="mt-1 font-serif text-2xl font-semibold">{d.name}</h3>
+              <p class="mt-1 flex-1 text-sm text-kafan-800 dark:text-kemenyan-200">{d.blurb}</p>
+              <span class="mt-4 text-sm font-semibold text-darah-700 group-hover:underline dark:text-prada-300">Open {d.name} →</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-20" aria-labelledby="pairs">
+    <h2 id="pairs" class="text-center font-serif text-3xl font-semibold tracking-tight">Strongest kinships</h2>
+    <p class="mx-auto mt-2 max-w-2xl text-center text-kafan-800 dark:text-kemenyan-200">
+      Small clades with ultrafast bootstrap of 90 or more. Most of the deep tree is unresolved: only {meta.strongNodes} of {meta.nodes} nodes reach 95.
+    </p>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        pairs.map((p) => (
+          <li class="flex items-center gap-3 rounded-3xl border border-kafan-300 bg-kafan-50/80 p-4 dark:border-malam-700 dark:bg-malam-900/80">
+            <div class="flex -space-x-4">
+              {p.ghosts.map((g) => (
+                <img src={plateUrl(g.id)} alt="" width="56" height="56" class="rounded-full ring-2 ring-kafan-50 dark:ring-malam-900" />
+              ))}
+            </div>
+            <div class="min-w-0">
+              <p class="font-semibold leading-snug">
+                {p.ghosts.map((g, i) => (
+                  <>
+                    {i > 0 && <span class="text-kafan-600"> + </span>}
+                    <a href={withBase(`/ghosts/${g.id}`)} class="hover:underline">{g.name}</a>
+                  </>
+                ))}
+              </p>
+              <p class="text-xs text-kafan-700 dark:text-kemenyan-300">
+                UFBoot {p.support} · {[...new Set(p.ghosts.map((g) => g.regionGroup))].join(", ")}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="mt-20 rounded-3xl border border-kafan-300 bg-kafan-50/70 p-6 dark:border-malam-700 dark:bg-malam-900/70 sm:p-8" aria-labelledby="how">
+    <h2 id="how" class="font-serif text-2xl font-semibold tracking-tight">How the tree is built</h2>
+    <ol class="mt-4 grid gap-4 text-sm sm:grid-cols-4">
+      {
+        [
+          ["Parse", `Read ${meta.taxa} taxa from the workbook and clean names, clades, and regions.`],
+          ["Encode", `Write a ${meta.taxa} × ${meta.characters} morphological matrix in Nexus format.`],
+          ["Infer", `${meta.analysis.software} picks ${meta.analysis.model ?? "a model"} and runs 1000 ultrafast bootstraps.`],
+          ["Publish", "Root on the outgroups, draw a plate per ghost, and build this site."],
+        ].map(([step, text], i) => (
+          <li class="rounded-2xl border border-kafan-300 p-4 dark:border-malam-700">
+            <span class="font-serif text-2xl font-semibold text-darah-700 dark:text-prada-300">{i + 1}</span>
+            <p class="mt-1 font-semibold">{step}</p>
+            <p class="mt-1 text-kafan-800 dark:text-kemenyan-200">{text}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-4 text-sm">
+      Each push that touches the data reruns all four steps in a GitHub workflow. <a href={withBase("/methods")} class="font-semibold text-darah-700 underline underline-offset-2 dark:text-prada-300">Read the methods</a>.
+    </p>
+  </section>
+</Layout>

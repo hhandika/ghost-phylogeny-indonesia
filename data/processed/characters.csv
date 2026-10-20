@@ -1,0 +1,21 @@
+number,id,label,states
+1,domain_human_like,Human-like,"0 Non-human, animal, or object; 1 Humanoid, witch, or human spirit; 2 Variable"
+2,sex,Sex,"0 Male; 1 Female; 2 Male, unspecified, or variable"
+3,origin_death_birth,Death or birth origin,"0 Not death or birth related; 1 Death, childbirth, or infant origin; 2 Variable"
+4,corporeality,Incorporeal,"0 Embodied creature or witch; 1 Ghost, spirit, or undead; 2 Variable"
+5,locomotion_flight,Flight,0 Grounded; 1 Flies or floats; 2 Variable
+6,burial_association,Burial,"0 None or weak; 1 Grave, shroud, or cemetery; 2 Variable"
+7,child_association,Children,"0 None; 1 Child spirit, child theft, or infant targeting; 2 Variable"
+8,predation_blood_organs,Blood and organs,"0 None; 1 Targets blood, flesh, or organs; 2 Variable"
+9,theft_mischief,Theft and mischief,"0 None; 1 Theft, pranks, or mischief central; 2 Variable"
+10,body_hair_or_fur,Hair or fur,"0 None; 1 Hairy, furry, or ape-like; 2 Variable"
+11,animal_transformation,Animal form,0 None; 1 Animal form or shapeshifting central; 2 Variable
+12,head_detachment,Detached head,0 None; 1 Detached or flying head; 2 Variable
+13,fire_luminosity,Fire or light,"0 None; 1 Fireball, flaming, or luminous; 2 Variable"
+14,aquatic_association,Water,"0 None; 1 Sea, river, or water; 2 Variable"
+15,forest_association,Forest,"0 None; 1 Forest, jungle, or mountain; 2 Variable"
+16,domestic_settlement,Settlement,"0 Wild or liminal; 1 Village, house, hospital, or road; 2 Variable"
+17,apotropaic_magic,Black magic,0 No strong sorcery motif; 1 Black magic or witchcraft central; 2 Variable
+18,southeast_asia_wide,Widespread,0 Localized; 1 Widespread across Southeast Asia; 2 Variable
+19,body_plan,Body plan,0 Spectral female; 1 Detached flying head; 2 Detached upper torso; 3 Hairy biped; 4 Shrouded corpse; 5 Fireball; 6 Giant or ogre; 7 Winged hominid; 8 Tiger-human; 9 Elongated humanoid; A Haunted object or procession; B Serpent or naga; C Masked deity; D Human witch; E Animal or animal hybrid; F Humanoid spirit; G Aquatic spirit; H Child-like familiar; I Hungry ghost
+20,diet,Diet,0 Blood; 1 Flesh; 2 Life force or offerings; 3 Non-consumptive; 4 Omnivore

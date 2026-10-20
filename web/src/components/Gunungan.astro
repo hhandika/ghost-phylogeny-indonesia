@@ -1,0 +1,22 @@
+---
+/**
+ * The gunungan (kayon): the leaf-shaped wayang puppet that opens and closes a
+ * shadow play, standing for the world tree. Used as the site mark.
+ */
+const { class: className = "h-9 w-9" } = Astro.props;
+---
+
+<svg viewBox="0 0 40 48" class={className} aria-hidden="true">
+  <path
+    d="M20 2 C27 10 35 20 36 30 C37 38 31 44 20 46 C9 44 3 38 4 30 C5 20 13 10 20 2 Z"
+    class="fill-prada-400 stroke-malam-900 dark:fill-prada-300 dark:stroke-prada-100"
+    stroke-width="1.6"></path>
+  <path
+    d="M20 40 V14 M20 22 C16 20 13 22 10 26 M20 22 C24 20 27 22 30 26 M20 30 C15 28 11 31 9 34 M20 30 C25 28 29 31 31 34 M20 16 C17 15 15 16 14 18 M20 16 C23 15 25 16 26 18"
+    fill="none"
+    class="stroke-malam-900"
+    stroke-width="1.4"
+    stroke-linecap="round"></path>
+  <path d="M15 46 V39 H25 V46" class="fill-darah-600 stroke-malam-900" stroke-width="1.4"></path>
+  <circle cx="20" cy="9" r="1.6" class="fill-darah-600"></circle>
+</svg>

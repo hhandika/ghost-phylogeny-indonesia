@@ -1,0 +1,19 @@
+---
+import { data } from "../utils/data";
+const year = new Date().getFullYear();
+const sourceUrl = "https://github.com/hhandika/ghost-phylogeny-indonesia";
+---
+
+<footer class="mx-auto mt-24 max-w-5xl border-t border-kafan-300 pb-20 pt-8 text-center text-sm text-kafan-700 dark:border-malam-800 dark:text-kemenyan-300">
+  <div class="batik-band mx-auto mb-6 max-w-xs opacity-80"></div>
+  <p class="mx-auto max-w-2xl">
+    A comparative folklore exercise, not ethnography. Traits marked as folklore synthesis are editorial codings; local tellings differ by village and teller.
+  </p>
+  <p class="mt-4 flex flex-wrap items-center justify-center gap-x-1.5">
+    <span>© {year} Heru Handika.</span>
+    <span>
+      Tree rebuilt from <code class="text-xs">{data.meta.source}</code> on {data.meta.generated}. Source on
+      <a href={sourceUrl} target="_blank" rel="noopener" class="underline decoration-darah-500 underline-offset-2 transition hover:text-darah-700 dark:decoration-prada-400 dark:hover:text-prada-300">GitHub</a>.
+    </span>
+  </p>
+</footer>

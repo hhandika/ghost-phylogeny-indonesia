@@ -1,0 +1,102 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import { byId, cladeVar, CODING_LABEL, DANGER, data, ghosts, plateUrl, sexLabel, withBase, type Ghost } from "../../utils/data";
+import { layout } from "../../utils/tree";
+
+export const getStaticPaths = (() => ghosts.map((g) => ({ params: { id: g.id } }))) satisfies GetStaticPaths;
+
+const ghost = byId.get(Astro.params.id!) as Ghost;
+const L = layout(data.tree, (id) => byId.get(id)!.clade);
+const order = L.tips.map((t) => t.id!);
+const at = order.indexOf(ghost.id);
+const prev = byId.get(order[(at - 1 + order.length) % order.length])!;
+const next = byId.get(order[(at + 1) % order.length])!;
+const relatives = ghost.relatives.map((id) => byId.get(id)!);
+const fields: [string, string | null][] = [
+  ["Form", ghost.morphology],
+  ["Origin", ghost.origin],
+  ["Behaviour", ghost.behavior],
+  ["Deterrents and vulnerabilities", ghost.deterrents],
+  ["Diet", ghost.diet],
+  ["Culture", ghost.culture],
+];
+const state = (i: number) => {
+  const s = ghost.row[i];
+  return s === "?" ? "Unknown" : data.characters[i].states[data.symbols.indexOf(s)];
+};
+---
+
+<Layout title={`${ghost.name} · Ghost phylogeny of Indonesia`} description={`${ghost.name}: ${ghost.morphology} from ${ghost.region}, placed on a phylogeny of Indonesian ghosts.`}>
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Neighbours on the tree">
+    <a href={withBase(`/ghosts/${prev.id}`)} class="flex items-center gap-2 rounded-full border border-kafan-300 py-1 pl-1 pr-3 hover:bg-kafan-200 dark:border-malam-700 dark:hover:bg-malam-800">
+      <img src={plateUrl(prev.id)} alt="" width="28" height="28" class="rounded-full" /> ← {prev.name}
+    </a>
+    <a href={withBase(`/ghosts/${next.id}`)} class="flex items-center gap-2 rounded-full border border-kafan-300 py-1 pl-3 pr-1 hover:bg-kafan-200 dark:border-malam-700 dark:hover:bg-malam-800">
+      {next.name} → <img src={plateUrl(next.id)} alt="" width="28" height="28" class="rounded-full" />
+    </a>
+  </nav>
+
+  <article class="mt-8 grid gap-10 md:grid-cols-[18rem_minmax(0,1fr)]">
+    <div class="text-center md:sticky md:top-24 md:self-start">
+      <img src={plateUrl(ghost.id)} alt={`${ghost.name}, drawn as ${ghost.morphology.toLowerCase()}`} width="288" height="288" class="mx-auto animate-drift rounded-full shadow-2xl shadow-malam-950/30" />
+      <a href={plateUrl(ghost.id)} download class="mt-3 inline-block text-xs text-kafan-700 underline underline-offset-2 dark:text-kemenyan-300">Download plate (SVG)</a>
+    </div>
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.25em] text-darah-700 dark:text-prada-300">{ghost.region}</p>
+      <h1 class="mt-1 font-serif text-5xl font-semibold tracking-tight">{ghost.name}</h1>
+      <div class="mt-3 flex flex-wrap items-center gap-3 text-sm">
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-kafan-300 px-3 py-1 font-semibold dark:border-malam-700">
+          <span class="h-2.5 w-2.5 rounded-full" style={`background: ${cladeVar(ghost.clade)}`}></span>
+          {ghost.clade}
+        </span>
+        {ghost.outgroup && <span class="rounded-full bg-malam-100 px-3 py-1 font-semibold text-malam-800 dark:bg-malam-800 dark:text-malam-100">Outgroup</span>}
+        <span>Danger {ghost.danger} of 5 · {DANGER[ghost.danger]}</span>
+      </div>
+
+      <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+        {
+          fields.filter(([, v]) => v).map(([k, v]) => (
+            <div class="rounded-2xl border border-kafan-300 bg-kafan-50/70 p-4 dark:border-malam-700 dark:bg-malam-900/70">
+              <dt class="text-xs font-semibold uppercase tracking-wider text-kafan-600 dark:text-kemenyan-400">{k}</dt>
+              <dd class="mt-1">{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <h2 class="mt-10 font-serif text-2xl font-semibold">Coded characters</h2>
+      <p class="mt-1 text-sm text-kafan-700 dark:text-kemenyan-300">
+        {ghost.coding !== "source" && "◆ "}{CODING_LABEL[ghost.coding]}. Sex: {sexLabel(ghost)}.
+      </p>
+      <table class="mt-3 w-full text-left text-sm">
+        <tbody>
+          {
+            data.characters.map((c, i) => (
+              <tr class="border-t border-kafan-200 dark:border-malam-800">
+                <th class="w-1/3 py-1.5 pr-3 font-semibold">{c.label}</th>
+                <td class={`py-1.5 ${ghost.row[i] === "1" && i < 18 ? "font-semibold text-darah-700 dark:text-prada-300" : ""}`}>{state(i)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      <h2 class="mt-10 font-serif text-2xl font-semibold">Nearest on the tree</h2>
+      {ghost.twins.length > 0 && <p class="mt-1 text-sm text-kafan-700 dark:text-kemenyan-300">Identical coding to {ghost.twins.map((t) => byId.get(t)!.name).join(", ")}.</p>}
+      <ul class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-5">
+        {
+          relatives.map((r) => (
+            <li>
+              <a href={withBase(`/ghosts/${r.id}`)} class="flex flex-col items-center rounded-2xl border border-kafan-300 p-3 text-center text-sm transition hover:border-darah-400 dark:border-malam-700 dark:hover:border-prada-400">
+                <img src={plateUrl(r.id)} alt="" width="72" height="72" class="rounded-full" />
+                <span class="mt-1 font-semibold leading-tight">{r.name}</span>
+                <span class="text-xs text-kafan-700 dark:text-kemenyan-300">{r.regionGroup}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </article>
+</Layout>

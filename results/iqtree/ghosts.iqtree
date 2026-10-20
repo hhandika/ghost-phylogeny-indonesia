@@ -1,0 +1,595 @@
+IQ-TREE 2.3.6 built Aug  1 2024
+
+Input file name: /Users/hhandika/Codes/python/ghost-phylogeny-indonesia/data/processed/ghosts.nex
+Type of analysis: ModelFinder + tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 20261020
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Bui Quang Minh, Heiko A. Schmidt, Olga Chernomor, Dominik Schrempf,
+Michael D. Woodhams, Arndt von Haeseler, and Robert Lanfear (2020)
+IQ-TREE 2: New models and efficient methods for phylogenetic inference
+in the genomic era. Mol. Biol. Evol., in press.
+https://doi.org/10.1093/molbev/msaa015
+
+To cite ModelFinder please use: 
+
+Subha Kalyaanamoorthy, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler,
+and Lars S Jermiin (2017) ModelFinder: Fast model selection for
+accurate phylogenetic estimates. Nature Methods, 14:587–589.
+https://doi.org/10.1038/nmeth.4285
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 110 sequences with 20 morphological sites
+Number of constant sites: 0 (= 0% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 0 (= 0% of all sites)
+Number of parsimony informative sites: 20
+Number of distinct site patterns: 20
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: MK+FQ+ASC+R2
+
+List of models sorted by BIC scores: 
+
+Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+MK+FQ+ASC+R2      -1289.088    2984.176 +    0.575   85808.176 -        0    3186.309 +    0.649
+MK+FQ+R2          -1289.951    2985.902 +    0.242   85809.902 -        0    3188.036 +    0.274
+MK+FQ+ASC+R3      -1288.927    2987.854 +   0.0914   87447.854 -        0    3191.979 -   0.0381
+MK+FQ+R3          -1288.932    2987.864 +   0.0909   87447.864 -        0    3191.989 -   0.0379
+MK+FQ+ASC+G4      -1297.536    2999.072 - 0.000335   85011.072 - 2.76e-171    3200.209 - 0.000622
+MK+FQ+G4          -1297.655    2999.310 - 0.000297   85011.310 - 2.45e-171    3200.448 - 0.000552
+MK+FQ+ASC         -1310.499    3022.999 - 2.13e-09   84226.999 +    0.502    3223.141 - 6.52e-09
+MK+FQ             -1310.507    3023.014 - 2.12e-09   84227.014 +    0.498    3223.156 - 6.47e-09
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: MK+FQ+ASC+R2
+
+State frequencies: (equal frequencies)
+
+Model of rate heterogeneity: FreeRate with 2 categories
+Site proportion and rates:  (0.8984,0.7661) (0.1016,3.0678)
+
+ Category  Relative_rate  Proportion
+  1         0.7661         0.8984
+  2         3.0678         0.1016
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -1201.1574 (s.e. 151.8313)
+Unconstrained log-likelihood (without tree): -59.9146
+Number of free parameters (#branches + #model parameters): 203
+Akaike information criterion (AIC) score: 2808.3148
+Corrected Akaike information criterion (AICc) score: 85632.3148
+Bayesian information criterion (BIC) score: 3010.4485
+
+**************************** WARNING ****************************
+Number of parameters (K, model parameters and branch lengths): 203
+Sample size (n, alignment length): 20
+
+Given that K>=n, the parameter estimates might be inaccurate.
+Thus, phylogenetic estimates should be interpreted with caution.
+
+Ideally, it is desirable that n >> K. When selecting optimal models,
+1. use AIC or BIC if n > 40K;
+2. use AICc or BIC if 40K >= n > K;
+3. be extremely cautious if n <= K
+
+To improve the situation (3), consider the following options:
+  1. Increase the sample size (n)
+  2. Decrease the number of parameters (K) to be estimated. If
+     possible:
+     a. Remove the least important sequences from the alignment
+     b. Specify some of the parameter values for the substitution
+        model (e.g., the nucleotide or amino acid frequencies)
+     c. Specify some of the parameter values for the rates-across-
+        sites model (e.g., the shape parameter for the discrete
+        Gamma distribution, the proportion of invariable sites, or
+        the rates of change for different rate categories under
+        the FreeRate model)
+
+Reference:
+Burnham KR, Anderson DR (2002). Model Selection and Multimodel
+Inference: A Practical Information-Theoretic Approach. Springer,
+New York.
+************************ END OF WARNING ***********************
+
+Total tree length (sum of branch lengths): 10.0970
+Sum of internal branch lengths: 5.1828 (51.3302% of tree length)
+
+WARNING: 32 near-zero internal branches (<0.0500) should be treated with caution
+         Such branches are denoted by '**' in the figure below
+
+NOTE: Tree is UNROOTED although outgroup taxon 'kuntilanak_indonesian_archipelago' is drawn at root
+Numbers in parentheses are  ultrafast bootstrap support (%)
+
++--kuntilanak_indonesian_archipelago
+|
+|              +--sundel_bolong_java_indonesia
+|           +--| (57)
+|           |  +**antu_gerugugu_kalimantan
+|        +--| (40)
+|        |  |  +**si_manis_jembatan_ancol_java
+|        |  +**| (72)
+|        |     +**tosalili_toraja_sulawesi
+|     +--| (32)
+|     |  +**langsuyar_malaysia
+|  +--| (8)
+|  |  |                           +**leyak_bali_indonesia
+|  |  |                     +-----| (94)
+|  |  |                     |     |   +**leak_bali_indonesia
+|  |  |                     |     +---| (97)
+|  |  |                     |         +**leak_lombok_ntt
+|  |  |                  +**| (8)
+|  |  |                  |  |     +**palasik_west_sumatra_indonesia
+|  |  |                  |  |  +**| (78)
+|  |  |                  |  |  |  +**kuyang_kalimantan_indonesia
+|  |  |                  |  +--| (18)
+|  |  |                  |     |   +**antu_pala_dayak_kalimantan
+|  |  |                  |     +---| (69)
+|  |  |                  |         +--kepala_buntung_java_indonesia
+|  |  |               +--| (18)
+|  |  |               |  +**poppo_bugis_sulawesi
+|  |  |         +-----| (30)
+|  |  |         |     +**penanggalan_malaysia
+|  |  |      +--| (22)
+|  |  |      |  +**parakang_sulawesi_indonesia
+|  |  |   +--| (14)
+|  |  |   |  +--pokpok_sulawesi_indonesia
+|  |  +---| (30)
+|  |      +---aswang_philippines
++**| (6)
+|  |                                        +-----wewe_gombel_java_indonesia
+|  |                                     +--| (16)
+|  |                                     |  +**suster_ngesot_java_indonesia
+|  |                                  +--| (3)
+|  |                                  |  |  +**tetek_arum_kalimantan
+|  |                                  |  +--| (87)
+|  |                                  |     +**ina_ama_maluku_indonesia
+|  |                              +---| (16)
+|  |                              |   +--dewi_lanjar_java_indonesia
+|  |                           +**| (2)
+|  |                           |  |  +**orang_bunian_sumatra_kalimantan
+|  |                           |  +--| (91)
+|  |                           |     +**hantu_rimba_indonesian_archipelago
+|  |                        +**| (9)
+|  |                        |  |                                             +---------genderuwo_java_indonesia
+|  |                        |  |                                          +**| (1)
+|  |                        |  |                                          |  +**tandi_barane_sulawesi
+|  |                        |  |                                       +**| (2)
+|  |                        |  |                                       |  +**kapre_papua_indonesia
+|  |                        |  |                                    +**| (11)
+|  |                        |  |                                    |  |     +**ahool_java_indonesia
+|  |                        |  |                                    |  |  +--| (67)
+|  |                        |  |                                    |  |  |  |   +**orang_bati_seram_indonesia
+|  |                        |  |                                    |  |  |  +---| (79)
+|  |                        |  |                                    |  |  |      +-----kaiamunu_papua_indonesia
+|  |                        |  |                                    |  +--| (52)
+|  |                        |  |                                    |     +---momoa_maluku_indonesia
+|  |                        |  |                                 +--| (28)
+|  |                        |  |                                 |  |  +--orang_pendek_sumatra_indonesia
+|  |                        |  |                                 |  +--| (46)
+|  |                        |  |                                 |     +**ebu_gogo_flores_indonesia
+|  |                        |  |                              +**| (2)
+|  |                        |  |                              |  |         +**cindaku_sumatra_indonesia
+|  |                        |  |                              |  |      +--| (81)
+|  |                        |  |                              |  |      |  +**bakkara_makassar_sulawesi
+|  |                        |  |                              |  |   +--| (60)
+|  |                        |  |                              |  |   |  +**hantu_belian_kalimantan
+|  |                        |  |                              |  +---| (34)
+|  |                        |  |                              |      |  +**suanggi_maluku_indonesia
+|  |                        |  |                              |      +--| (31)
+|  |                        |  |                              |         |  +**homang_papua_indonesia
+|  |                        |  |                              |         +**| (1)
+|  |                        |  |                              |            +-----tikbalang_philippines
+|  |                        |  |                        +-----| (13)
+|  |                        |  |                        |     |      +**mariaban_kalimantan_indonesia
+|  |                        |  |                        |     |   +**| (27)
+|  |                        |  |                        |     |   |  |   +**kambe_sulawesi_indonesia
+|  |                        |  |                        |     |   |  +---| (74)
+|  |                        |  |                        |     |   |      +**orang_gigi_sumatra_indonesia
+|  |                        |  |                        |     +---| (39)
+|  |                        |  |                        |         +--aul_kalimantan_indonesia
+|  |                        |  |                  +-----| (17)
+|  |                        |  |                  |     |     +--babi_ngepet_java_indonesia
+|  |                        |  |                  |     |  +--| (68)
+|  |                        |  |                  |     |  |  +--jenglot_indonesian_archipelago
+|  |                        |  |                  |     +**| (18)
+|  |                        |  |                  |        |     +--buto_ijo_java_indonesia
+|  |                        |  |                  |        |  +**| (20)
+|  |                        |  |                  |        |  |  +**jero_gede_mecaling_bali
+|  |                        |  |                  |        +--| (11)
+|  |                        |  |                  |           |     +**batara_kala_java_indonesia
+|  |                        |  |                  |           |  +**| (16)
+|  |                        |  |                  |           |  |  |   +**bajang_java_indonesia
+|  |                        |  |                  |           |  |  +---| (87)
+|  |                        |  |                  |           |  |      +**celuluk_bali_indonesia
+|  |                        |  |                  |           +--| (22)
+|  |                        |  |                  |              |  +------rangda_bali_indonesia
+|  |                        |  |                  |              +--| (51)
+|  |                        |  |                  |                 +--barong_bali_indonesia
+|  |                        |  |               +**| (0)
+|  |                        |  |               |  +---nyi_roro_kidul_java_bali
+|  |                        |  |           +---| (12)
+|  |                        |  |           |   |   +**begu_ganjang_sumatra_indonesia
+|  |                        |  |           |   +---| (39)
+|  |                        |  |           |       +---antu_raya_dayak_kalimantan
+|  |                        |  |        +--| (4)
+|  |                        |  |        |  |   +**naga_ntt_indonesia
+|  |                        |  |        |  +---| (25)
+|  |                        |  |        |      |  +---mambang_malay_archipelago
+|  |                        |  |        |      +--| (15)
+|  |                        |  |        |         +---naga_besukih_bali_indonesia
+|  |                        |  |     +--| (3)
+|  |                        |  |     |  |  +--batitong_toraja_sulawesi
+|  |                        |  |     |  +--| (48)
+|  |                        |  |     |     +**kelimutu_spirit_flores_indonesia
+|  |                        |  +-----| (12)
+|  |                        |        +---nyai_blorong_java_indonesia
+|  |                    +---| (8)
+|  |                    |   |                                 +**toyol_tuyul_indonesian_archipelago
+|  |                    |   |                              +**| (99)
+|  |                    |   |                              |  +**tuyul_buncit_java_indonesia
+|  |                    |   |                          +---| (95)
+|  |                    |   |                          |   +---anak_sima_kalimantan_indonesia
+|  |                    |   |                    +-----| (50)
+|  |                    |   |                    |     |     +**calon_arang_java_bali
+|  |                    |   |                    |     +-----| (88)
+|  |                    |   |                    |           +--mak_lampir_java_indonesia
+|  |                    |   |                 +**| (2)
+|  |                    |   |                 |  |            +**hantu_galah_sumatra_indonesia
+|  |                    |   |                 |  |      +-----| (97)
+|  |                    |   |                 |  |      |     +**longga_sulawesi_indonesia
+|  |                    |   |                 |  |   +**| (7)
+|  |                    |   |                 |  |   |  +**hantu_tinggi_malaysia_sumatra
+|  |                    |   |                 |  +---| (17)
+|  |                    |   |                 |      +---siluman_indonesian_archipelago
+|  |                    |   |              +**| (1)
+|  |                    |   |              |  |      +--------banaspati_java_indonesia
+|  |                    |   |              |  |   +**| (1)
+|  |                    |   |              |  |   |  |        +-----grandong_java_indonesia
+|  |                    |   |              |  |   |  |  +-----| (86)
+|  |                    |   |              |  |   |  |  |     +--hantu_buaya_putih_indonesia
+|  |                    |   |              |  |   |  +**| (1)
+|  |                    |   |              |  |   |     +**hantu_banyu_kalimantan_indonesia
+|  |                    |   |              |  +---| (30)
+|  |                    |   |              |      +**hantu_air_indonesian_archipelago
+|  |                    |   |        +-----| (15)
+|  |                    |   |        |     +**kolor_ijo_java_indonesia
+|  |                    |   |     +**| (8)
+|  |                    |   |     |  |     +**pocong_java_indonesia
+|  |                    |   |     |  |  +--| (56)
+|  |                    |   |     |  |  |  |  +**bombo_toraja_sulawesi
+|  |                    |   |     |  |  |  +--| (35)
+|  |                    |   |     |  |  |     |  +**nitu_maluku_indonesia
+|  |                    |   |     |  |  |     +--| (68)
+|  |                    |   |     |  |  |        +--bake_asmat_papua_indonesia
+|  |                    |   |     |  +--| (16)
+|  |                    |   |     |     |     +--pastur_kepala_buntung_java
+|  |                    |   |     |     |  +**| (9)
+|  |                    |   |     |     |  |  +**pocong_gundul_java_indonesia
+|  |                    |   |     |     +--| (35)
+|  |                    |   |     |        +**pocong_merah_java_indonesia
+|  |                    |   |  +**| (3)
+|  |                    |   |  |  |  +-----nyi_pelet_java_indonesia
+|  |                    |   |  |  +--| (20)
+|  |                    |   |  |     |  +**jin_qarin_indonesian_archipelago
+|  |                    |   |  |     +**| (90)
+|  |                    |   |  |        +**lelembut_java_indonesia
+|  |                    |   +**| (8)
+|  |                    |      +--memedi_java_indonesia
+|  |                 +**| (6)
+|  |                 |  |  +--hantu_jeruk_purut_java
+|  |                 |  +--| (56)
+|  |                 |     +--waruga_spirit_sulawesi_indonesia
+|  |              +--| (10)
+|  |              |  |     +-----lampor_java_indonesia
+|  |              |  +-----| (87)
+|  |              |        |  +**kereta_hantu_manggarai_java
+|  |              |        +**| (98)
+|  |              |           +**hantu_ambulans_bandung_java
+|  |           +--| (12)
+|  |           |  +--phi_tai_hong_thailand
+|  |        +--| (18)
+|  |        |  +**hantu_kopek_java_indonesia
+|  |     +--| (22)
+|  |     |  |  +**putri_tangguk_sumatra_indonesia
+|  |     |  +**| (7)
+|  |     |     +--preta_indonesian_archipelago
+|  |  +**| (3)
+|  |  |  +--manananggal_philippines
+|  +**| (4)
+|     |      +**pontianak_kalimantan_indonesia
+|     |  +---| (93)
+|     |  |   +**kuntilanak_merah_java_indonesia
+|     +--| (50)
+|        +**churel_south_asia
+|
++------krasue_ap_thailand_cambodia
+
+Tree in newick format:
+
+(kuntilanak_indonesian_archipelago:0.0582863879,(((((sundel_bolong_java_indonesia:0.0513086522,antu_gerugugu_kalimantan:0.0000009720)57:0.0513086522,(si_manis_jembatan_ancol_java:0.0000009720,tosalili_toraja_sulawesi:0.0000009720)72:0.0000009720)40:0.0513086522,langsuyar_malaysia:0.0000009720)32:0.0513086522,(((((((leyak_bali_indonesia:0.0000009720,(leak_bali_indonesia:0.0000009720,leak_lombok_ntt:0.0000009720)97:0.1086723627)94:0.1732302020,((palasik_west_sumatra_indonesia:0.0000009720,kuyang_kalimantan_indonesia:0.0000009720)78:0.0000009720,(antu_pala_dayak_kalimantan:0.0000009720,kepala_buntung_java_indonesia:0.0513086522)69:0.1086723627)18:0.0513086522)8:0.0000009720,poppo_bugis_sulawesi:0.0000009720)18:0.0513086522,penanggalan_malaysia:0.0000009720)30:0.1732302020,parakang_sulawesi_indonesia:0.0000009720)22:0.0513086522,pokpok_sulawesi_indonesia:0.0513086522)14:0.0513086522,aswang_philippines:0.1086723627)30:0.1086723627)8:0.0511039456,(((((((((((((wewe_gombel_java_indonesia:0.1732302020,suster_ngesot_java_indonesia:0.0000009720)16:0.0513086522,(tetek_arum_kalimantan:0.0000009720,ina_ama_maluku_indonesia:0.0000009720)87:0.0513086522)3:0.0513086522,dewi_lanjar_java_indonesia:0.0513086522)16:0.1086723627,(orang_bunian_sumatra_kalimantan:0.0000009720,hantu_rimba_indonesian_archipelago:0.0000009720)91:0.0513086522)2:0.0001000613,((((((((((((genderuwo_java_indonesia:0.2603536307,tandi_barane_sulawesi:0.0000009720)1:0.0000009720,kapre_papua_indonesia:0.0000009720)2:0.0000009720,((ahool_java_indonesia:0.0000009720,(orang_bati_seram_indonesia:0.0000009720,kaiamunu_papua_indonesia:0.1732302020)79:0.1086723627)67:0.0513086522,momoa_maluku_indonesia:0.1086723627)52:0.0513086522)11:0.0000009720,(orang_pendek_sumatra_indonesia:0.0513086522,ebu_gogo_flores_indonesia:0.0000009720)46:0.0513086522)28:0.0513086522,(((cindaku_sumatra_indonesia:0.0000009720,bakkara_makassar_sulawesi:0.0000009720)81:0.0513086522,hantu_belian_kalimantan:0.0000009720)60:0.0513086522,(suanggi_maluku_indonesia:0.0000009720,(homang_papua_indonesia:0.0000009720,tikbalang_philippines:0.1732302020)1:0.0000009720)31:0.0513086522)34:0.1086723627)2:0.0000009720,((mariaban_kalimantan_indonesia:0.0000009720,(kambe_sulawesi_indonesia:0.0000009720,orang_gigi_sumatra_indonesia:0.0000009720)74:0.1086723627)27:0.0000009720,aul_kalimantan_indonesia:0.0513086522)39:0.1086723627)13:0.1732302020,((babi_ngepet_java_indonesia:0.0513086522,jenglot_indonesian_archipelago:0.0513086522)68:0.0875542059,((buto_ijo_java_indonesia:0.1040413070,jero_gede_mecaling_bali:0.0000009720)20:0.0000022278,((batara_kala_java_indonesia:0.0000009720,(bajang_java_indonesia:0.0000009720,celuluk_bali_indonesia:0.0000009720)87:0.1086723627)16:0.0001011823,(rangda_bali_indonesia:0.2031640306,barong_bali_indonesia:0.0567270511)51:0.0511546656)22:0.0680349758)11:0.0678941001)18:0.0001298587)17:0.1732302020,nyi_roro_kidul_java_bali:0.1086723627)0:0.0000009720,(begu_ganjang_sumatra_indonesia:0.0000009720,antu_raya_dayak_kalimantan:0.1086723627)39:0.1086723627)12:0.1086723627,(naga_ntt_indonesia:0.0000009720,(mambang_malay_archipelago:0.1086723627,naga_besukih_bali_indonesia:0.1086723627)15:0.0513086522)25:0.1086723627)4:0.0513086522,(batitong_toraja_sulawesi:0.0513086522,kelimutu_spirit_flores_indonesia:0.0000009720)48:0.0513086522)3:0.0513086522,nyai_blorong_java_indonesia:0.1086723627)12:0.1717241180)9:0.0276827956,(((((((((toyol_tuyul_indonesian_archipelago:0.0000009720,tuyul_buncit_java_indonesia:0.0000009720)99:0.0000009720,anak_sima_kalimantan_indonesia:0.1086723627)95:0.1086723627,(calon_arang_java_bali:0.0000009720,mak_lampir_java_indonesia:0.0513086522)88:0.1732302020)50:0.1732302020,(((hantu_galah_sumatra_indonesia:0.0000009720,longga_sulawesi_indonesia:0.0000009720)97:0.1732302020,hantu_tinggi_malaysia_sumatra:0.0000009720)7:0.0000009720,siluman_indonesian_archipelago:0.1086723627)17:0.1086723627)2:0.0000009720,((banaspati_java_indonesia:0.2464260620,((grandong_java_indonesia:0.1732302020,hantu_buaya_putih_indonesia:0.0513086522)86:0.1732302020,hantu_banyu_kalimantan_indonesia:0.0000009720)1:0.0000009720)1:0.0000009720,hantu_air_indonesian_archipelago:0.0000009720)30:0.1086723627)1:0.0000009720,kolor_ijo_java_indonesia:0.0000009720)15:0.1732302020,((pocong_java_indonesia:0.0000009720,(bombo_toraja_sulawesi:0.0000009720,(nitu_maluku_indonesia:0.0000009720,bake_asmat_papua_indonesia:0.0513086522)68:0.0513086522)35:0.0513086522)56:0.0513086522,((pastur_kepala_buntung_java:0.0513086522,pocong_gundul_java_indonesia:0.0000009720)9:0.0000009720,pocong_merah_java_indonesia:0.0000009720)35:0.0513086522)16:0.0513086522)8:0.0000025378,(nyi_pelet_java_indonesia:0.1732302020,(jin_qarin_indonesian_archipelago:0.0000009720,lelembut_java_indonesia:0.0000009720)90:0.0000009720)20:0.0506526671)3:0.0000009720,memedi_java_indonesia:0.0505959586)8:0.0422870774)8:0.1041337996,(hantu_jeruk_purut_java:0.0513086522,waruga_spirit_sulawesi_indonesia:0.0513086522)56:0.0513086522)6:0.0000009720,(lampor_java_indonesia:0.1732302020,(kereta_hantu_manggarai_java:0.0000009720,hantu_ambulans_bandung_java:0.0000009720)98:0.0000009720)87:0.1732302020)10:0.0513086522,phi_tai_hong_thailand:0.0513086522)12:0.0513086522,hantu_kopek_java_indonesia:0.0000009720)18:0.0506383831,(putri_tangguk_sumatra_indonesia:0.0000009720,preta_indonesian_archipelago:0.0680801349)7:0.0000009720)22:0.0680400720,manananggal_philippines:0.0680352014)3:0.0000009720,((pontianak_kalimantan_indonesia:0.0000009720,kuntilanak_merah_java_indonesia:0.0000009720)93:0.1086723627,churel_south_asia:0.0000009720)50:0.0505995897)4:0.0000025378)6:0.0424674554,krasue_ap_thailand_cambodia:0.1981775395);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -1305.714814
+Robinson-Foulds distance between ML tree and consensus tree: 89
+
+Branches with support >0.000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++--kuntilanak_indonesian_archipelago
+|
+|        +--sundel_bolong_java_indonesia
+|     +--| (57)
+|     |  +--antu_gerugugu_kalimantan
+|  +--| (40)
+|  |  |     +**si_manis_jembatan_ancol_java
+|  |  |  +--|
+|  |  |  |  +**ndope_sentani_papua_indonesia
+|  |  +--| (72)
+|  |     +--tosalili_toraja_sulawesi
++--| (32)
+|  +--langsuyar_malaysia
+|
+|                                                 +--wewe_gombel_java_indonesia
+|                                            +----| (60)
+|                                            |    +--dewi_lanjar_java_indonesia
+|                                         +--| (24)
+|                                         |  +--suster_ngesot_java_indonesia
+|                                +--------| (16)
+|                                |        |           +**tetek_arum_kalimantan
+|                                |        |        +**|
+|                                |        |        |  +**wedon_java_indonesia
+|                                |        |     +--|
+|                                |        |     |  +**senggiq_lombok_indonesia
+|                                |        +-----| (87)
+|                                |              +--ina_ama_maluku_indonesia
+|                       +--------| (1)
+|                       |        |                 +----------genderuwo_java_indonesia
+|                       |        |              +--| (13)
+|                       |        |              |  |     +--ahool_java_indonesia
+|                       |        |              |  |  +--| (67)
+|                       |        |              |  |  |  |  +--orang_bati_seram_indonesia
+|                       |        |              |  |  |  +--| (79)
+|                       |        |              |  |  |     +-----kaiamunu_papua_indonesia
+|                       |        |              |  +--| (52)
+|                       |        |              |     +---momoa_maluku_indonesia
+|                       |        |           +--| (28)
+|                       |        |           |  |     +--orang_pendek_sumatra_indonesia
+|                       |        |           |  |  +--| (46)
+|                       |        |           |  |  |  +--ebu_gogo_flores_indonesia
+|                       |        |           |  +--| (13)
+|                       |        |           |     |  +--tandi_barane_sulawesi
+|                       |        |           |     +--| (16)
+|                       |        |           |        +--kapre_papua_indonesia
+|                       |        |        +--| (10)
+|                       |        |        |  |       +--mariaban_kalimantan_indonesia
+|                       |        |        |  |    +--| (44)
+|                       |        |        |  |    |  +--aul_kalimantan_indonesia
+|                       |        |        |  +----| (39)
+|                       |        |        |       |  +--kambe_sulawesi_indonesia
+|                       |        |        |       +--| (74)
+|                       |        |        |          +--orang_gigi_sumatra_indonesia
+|                       |        |     +--| (13)
+|                       |        |     |  |             +--cindaku_sumatra_indonesia
+|                       |        |     |  |          +--| (81)
+|                       |        |     |  |          |  +--bakkara_makassar_sulawesi
+|                       |        |     |  |     +----| (60)
+|                       |        |     |  |     |    +--hantu_belian_kalimantan
+|                       |        |     |  |  +--| (43)
+|                       |        |     |  |  |  |  +--suanggi_maluku_indonesia
+|                       |        |     |  |  |  +--| (92)
+|                       |        |     |  |  |     +--homang_papua_indonesia
+|                       |        |     |  +--| (34)
+|                       |        |     |     +-----tikbalang_philippines
+|                       |        |  +--| (17)
+|                       |        |  |  |                        +--babi_ngepet_java_indonesia
+|                       |        |  |  |                  +-----| (68)
+|                       |        |  |  |                  |     +--jenglot_indonesian_archipelago
+|                       |        |  |  |               +--| (43)
+|                       |        |  |  |               |  +--buto_ijo_java_indonesia
+|                       |        |  |  |            +--| (20)
+|                       |        |  |  |            |  +--jero_gede_mecaling_bali
+|                       |        |  |  +------------| (18)
+|                       |        |  |               |     +--batara_kala_java_indonesia
+|                       |        |  |               |  +--| (16)
+|                       |        |  |               |  |  |  +--bajang_java_indonesia
+|                       |        |  |               |  |  +--| (87)
+|                       |        |  |               |  |     +--celuluk_bali_indonesia
+|                       |        |  |               +--| (22)
+|                       |        |  |                  |  +--------rangda_bali_indonesia
+|                       |        |  |                  +--| (51)
+|                       |        |  |                     +--barong_bali_indonesia
+|                       |        +--| (10)
+|                       |        |  |  +--begu_ganjang_sumatra_indonesia
+|                       |        |  +--| (39)
+|                       |        |     +--antu_raya_dayak_kalimantan
+|                       |        |
+|                       |        |               +-----------nyi_roro_kidul_java_bali
+|                       |        |            +--| (8)
+|                       |        |            |  |      +--naga_ntt_indonesia
+|                       |        |            |  |   +--| (24)
+|                       |        |            |  |   |  +----naga_besukih_bali_indonesia
+|                       |        |            |  +---| (25)
+|                       |        |            |      +--mambang_malay_archipelago
+|                       |        |        +---| (14)
+|                       |        |        |   |       +----hantu_jeruk_purut_java
+|                       |        |        |   |  +----| (56)
+|                       |        |        |   |  |    +--waruga_spirit_sulawesi_indonesia
+|                       |        |        |   +--| (19)
+|                       |        |        |      |              +**orang_bunian_sumatra_kalimantan
+|                       |        |        |      |           +**|
+|                       |        |        |      |           |  +**tonya_sulawesi_indonesia
+|                       |        |        |      |        +**|
+|                       |        |        |      |        |  +**hantu_pusako_sumatra_indonesia
+|                       |        |        |      |     +**|
+|                       |        |        |      |     |  +**hantu_penunggu_indonesia
+|                       |        |        |      |  +--|
+|                       |        |        |      |  |  +**dedemit_java_indonesia
+|                       |        |        |      +--| (91)
+|                       |        |        |         +--hantu_rimba_indonesian_archipelago
+|                       |        |     +--| (6)
+|                       |        |     |  |     +--lampor_java_indonesia
+|                       |        |     |  +-----| (87)
+|                       |        |     |        |    +--kereta_hantu_manggarai_java
+|                       |        |     |        +----| (98)
+|                       |        |     |             +--hantu_ambulans_bandung_java
+|                       |        |  +--| (8)
+|                       |        |  |  +-----------nyai_blorong_java_indonesia
+|                       |        +--| (5)
+|                       |           |  +--batitong_toraja_sulawesi
+|                       |           +--| (48)
+|                       |              +--kelimutu_spirit_flores_indonesia
+|                  +----| (10)
+|                  |    |                          +--toyol_tuyul_indonesian_archipelago
+|                  |    |                       +--| (99)
+|                  |    |                       |  +--tuyul_buncit_java_indonesia
+|                  |    |               +-------| (95)
+|                  |    |               |       +--anak_sima_kalimantan_indonesia
+|                  |    |            +--| (50)
+|                  |    |            |  |  +--calon_arang_java_bali
+|                  |    |            |  +--| (88)
+|                  |    |            |     +--mak_lampir_java_indonesia
+|                  |    |        +---| (17)
+|                  |    |        |   +--nyi_pelet_java_indonesia
+|                  |    |     +--| (5)
+|                  |    |     |  |  +--memedi_java_indonesia
+|                  |    |     |  +--| (25)
+|                  |    |     |     |  +--jin_qarin_indonesian_archipelago
+|                  |    |     |     +--| (90)
+|                  |    |     |        +--lelembut_java_indonesia
+|                  |    |  +--| (2)
+|                  |    |  |  |  +----------banaspati_java_indonesia
+|                  |    |  |  +--| (2)
+|                  |    |  |     |                +--kolor_ijo_java_indonesia
+|                  |    |  |     |            +---| (32)
+|                  |    |  |     |            |   |  +--hantu_banyu_kalimantan_indonesia
+|                  |    |  |     |            |   +--| (95)
+|                  |    |  |     |            |      +--hantu_air_indonesian_archipelago
+|                  |    |  |     |         +--| (15)
+|                  |    |  |     |         |  +--hantu_tinggi_malaysia_sumatra
+|                  |    |  |     |     +---| (14)
+|                  |    |  |     |     |   |         +-----grandong_java_indonesia
+|                  |    |  |     |     |   |  +------| (86)
+|                  |    |  |     |     |   |  |      +--hantu_buaya_putih_indonesia
+|                  |    |  |     |     |   +--| (20)
+|                  |    |  |     |     |      +--siluman_indonesian_archipelago
+|                  |    |  |     +-----| (13)
+|                  |    |  |           |  +--hantu_galah_sumatra_indonesia
+|                  |    |  |           +--| (97)
+|                  |    |  |              +--longga_sulawesi_indonesia
+|                  |    +--| (8)
+|                  |       |         +--pocong_java_indonesia
+|                  |       |      +--| (35)
+|                  |       |      |  +--bombo_toraja_sulawesi
+|                  |       |  +---| (56)
+|                  |       |  |   |  +--nitu_maluku_indonesia
+|                  |       |  |   +--| (68)
+|                  |       |  |      +--bake_asmat_papua_indonesia
+|                  |       +--| (16)
+|                  |          |  +--pastur_kepala_buntung_java
+|                  |          +--| (35)
+|                  |             |  +--pocong_merah_java_indonesia
+|                  |             +--| (76)
+|                  |                +--pocong_gundul_java_indonesia
+|              +---| (12)
+|              |   +--phi_tai_hong_thailand
+|           +--| (13)
+|           |  |  +--hantu_kopek_java_indonesia
+|           |  +--| (43)
+|           |     +--putri_tangguk_sumatra_indonesia
+|        +--| (22)
+|        |  +--preta_indonesian_archipelago
+|     +--| (3)
+|     |  |   +--manananggal_philippines
+|     |  +---| (40)
+|     |      +----krasue_ap_thailand_cambodia
+|  +--| (5)
+|  |  |                     +--leyak_bali_indonesia
+|  |  |              +------| (94)
+|  |  |              |      |  +--leak_bali_indonesia
+|  |  |              |      +--| (97)
+|  |  |              |         +--leak_lombok_ntt
+|  |  |           +--| (21)
+|  |  |           |  |        +--palasik_west_sumatra_indonesia
+|  |  |           |  |     +--| (78)
+|  |  |           |  |     |  +--kuyang_kalimantan_indonesia
+|  |  |           |  |  +--| (19)
+|  |  |           |  |  |  +--poppo_bugis_sulawesi
+|  |  |           |  +--| (23)
+|  |  |           |     +--penanggalan_malaysia
+|  |  |   +-------| (30)
+|  |  |   |       |  +--antu_pala_dayak_kalimantan
+|  |  |   |       +--| (69)
+|  |  |   |          +--kepala_buntung_java_indonesia
+|  |  +---| (30)
+|  |      |     +--parakang_sulawesi_indonesia
+|  |      |  +--| (44)
+|  |      |  |  +--pokpok_sulawesi_indonesia
+|  |      +--| (45)
+|  |         +---aswang_philippines
++--| (15)
+   |         +**pontianak_kalimantan_indonesia
+   |      +--|
+   |      |  +**matianak_kalimantan_indonesia
+   |  +---| (93)
+   |  |   +--kuntilanak_merah_java_indonesia
+   +--| (50)
+      +--churel_south_asia
+
+
+Consensus tree in newick format: 
+
+(kuntilanak_indonesian_archipelago:0.0513403304,(((sundel_bolong_java_indonesia:0.0000025259,antu_gerugugu_kalimantan:0.0000025259)57:0.0504997731,((si_manis_jembatan_ancol_java:0.0000000000,ndope_sentani_papua_indonesia:0.0000000000):0.0000025259,tosalili_toraja_sulawesi:0.0000025259)72:0.0000025259)40:0.0519912418,langsuyar_malaysia:0.0000025259)32:0.0521101087,(((((((((((wewe_gombel_java_indonesia:0.0586882099,dewi_lanjar_java_indonesia:0.0589380092)60:0.1212349455,suster_ngesot_java_indonesia:0.0000025259)24:0.0000025259,(((tetek_arum_kalimantan:0.0000000000,wedon_java_indonesia:0.0000000000):0.0000000000,senggiq_lombok_indonesia:0.0000000000):0.0000025259,ina_ama_maluku_indonesia:0.0000025259)87:0.1569656320)16:0.2180562664,((((((genderuwo_java_indonesia:0.2734028950,((ahool_java_indonesia:0.0000025259,(orang_bati_seram_indonesia:0.0000025259,kaiamunu_papua_indonesia:0.1618461168)79:0.0822424379)67:0.0708506143,momoa_maluku_indonesia:0.1141091731)52:0.0656932691)13:0.0000025259,((orang_pendek_sumatra_indonesia:0.0590197982,ebu_gogo_flores_indonesia:0.0000025259)46:0.0113389804,(tandi_barane_sulawesi:0.0000025259,kapre_papua_indonesia:0.0000025259)16:0.0000025259)13:0.0000025259)28:0.0613923610,((mariaban_kalimantan_indonesia:0.0000025259,aul_kalimantan_indonesia:0.0000025259)44:0.0515146757,(kambe_sulawesi_indonesia:0.0000025259,orang_gigi_sumatra_indonesia:0.0000025259)74:0.0629901249)39:0.1240922205)10:0.0694560031,((((cindaku_sumatra_indonesia:0.0000025259,bakkara_makassar_sulawesi:0.0000025259)81:0.0583365845,hantu_belian_kalimantan:0.0000025259)60:0.1208846661,(suanggi_maluku_indonesia:0.0000025259,homang_papua_indonesia:0.0000025259)92:0.0000025259)43:0.0000025259,tikbalang_philippines:0.1645368197)34:0.0815449027)13:0.0000025259,((((babi_ngepet_java_indonesia:0.0595950102,jenglot_indonesian_archipelago:0.0595377744)68:0.1624877449,buto_ijo_java_indonesia:0.0000025259)43:0.0905645444,jero_gede_mecaling_bali:0.0000025259)20:0.0000025259,((batara_kala_java_indonesia:0.0000025259,(bajang_java_indonesia:0.0000025259,celuluk_bali_indonesia:0.0000025259)87:0.0818410786)16:0.0000025259,(rangda_bali_indonesia:0.2367615813,barong_bali_indonesia:0.0749629063)51:0.0590250993)22:0.0871564222)18:0.3178720174)17:0.0798704152,(begu_ganjang_sumatra_indonesia:0.0792559277,antu_raya_dayak_kalimantan:0.0000025259)39:0.0750348539)10:0.0000025259,(((((nyi_roro_kidul_java_bali:0.3010550703,((naga_ntt_indonesia:0.0607608496,naga_besukih_bali_indonesia:0.1239786384)24:0.0702687845,mambang_malay_archipelago:0.0000025259)25:0.0971990644)8:0.0000025259,((hantu_jeruk_purut_java:0.1204973496,waruga_spirit_sulawesi_indonesia:0.0000025259)56:0.1208736840,(((((orang_bunian_sumatra_kalimantan:0.0000000000,tonya_sulawesi_indonesia:0.0000000000):0.0000000000,hantu_pusako_sumatra_indonesia:0.0000000000):0.0000000000,hantu_penunggu_indonesia:0.0000000000):0.0000000000,dedemit_java_indonesia:0.0000000000):0.0000025259,hantu_rimba_indonesian_archipelago:0.0000025259)91:0.0000025259)19:0.0319336448)14:0.0960227880,(lampor_java_indonesia:0.0597884037,(kereta_hantu_manggarai_java:0.0000025259,hantu_ambulans_bandung_java:0.0000025259)98:0.1226315005)87:0.1614849263)6:0.0000025259,nyai_blorong_java_indonesia:0.2994467727)8:0.0821001772,(batitong_toraja_sulawesi:0.0000025259,kelimutu_spirit_flores_indonesia:0.0587256633)48:0.0379946516)5:0.0239547017)1:0.2141550355,(((((((toyol_tuyul_indonesian_archipelago:0.0000025259,tuyul_buncit_java_indonesia:0.0000025259)99:0.0000025259,anak_sima_kalimantan_indonesia:0.0720959045)95:0.1968835578,(calon_arang_java_bali:0.0000025259,mak_lampir_java_indonesia:0.0000025259)88:0.0787304952)50:0.0786501952,nyi_pelet_java_indonesia:0.0817069685)17:0.1107646301,(memedi_java_indonesia:0.0583785191,(jin_qarin_indonesian_archipelago:0.0000025259,lelembut_java_indonesia:0.0000025259)90:0.0565513641)25:0.0000025259)5:0.0000025259,(banaspati_java_indonesia:0.2782896002,((((kolor_ijo_java_indonesia:0.0000025259,(hantu_banyu_kalimantan_indonesia:0.0000025259,hantu_air_indonesian_archipelago:0.0000025259)95:0.0706251986)32:0.1106464875,hantu_tinggi_malaysia_sumatra:0.0000025259)15:0.0000025259,((grandong_java_indonesia:0.1429017577,hantu_buaya_putih_indonesia:0.0525857333)86:0.1786102752,siluman_indonesian_archipelago:0.0543222635)20:0.0000025259)14:0.0996271586,(hantu_galah_sumatra_indonesia:0.0000025259,longga_sulawesi_indonesia:0.0000025259)97:0.0000025259)13:0.1484121435)2:0.0000025259)2:0.0776623802,(((pocong_java_indonesia:0.0810043408,bombo_toraja_sulawesi:0.0000025259)35:0.0000025259,(nitu_maluku_indonesia:0.0000025259,bake_asmat_papua_indonesia:0.0330482929)68:0.0000025259)56:0.1012166908,(pastur_kepala_buntung_java:0.0582059971,(pocong_merah_java_indonesia:0.0000025259,pocong_gundul_java_indonesia:0.0000025259)76:0.0000025259)35:0.0697764883)16:0.0000025259)8:0.0000025259)10:0.1328352212,phi_tai_hong_thailand:0.0000025259)12:0.1038605102,(hantu_kopek_java_indonesia:0.0000025259,putri_tangguk_sumatra_indonesia:0.0523349832)43:0.0000025259)13:0.0643552650,preta_indonesian_archipelago:0.0716254886)22:0.0000025259,(manananggal_philippines:0.0703834881,krasue_ap_thailand_cambodia:0.1407757450)40:0.0954195502)3:0.0733180133,((((leyak_bali_indonesia:0.0000025259,(leak_bali_indonesia:0.0000025259,leak_lombok_ntt:0.0000025259)97:0.0000025259)94:0.1885119087,(((palasik_west_sumatra_indonesia:0.0000025259,kuyang_kalimantan_indonesia:0.0000025259)78:0.0120014958,poppo_bugis_sulawesi:0.0000025259)19:0.0000025259,penanggalan_malaysia:0.0518238679)23:0.0000025259)21:0.0705818612,(antu_pala_dayak_kalimantan:0.0463777558,kepala_buntung_java_indonesia:0.0000025259)69:0.0000025259)30:0.2086978661,((parakang_sulawesi_indonesia:0.0618759891,pokpok_sulawesi_indonesia:0.0000025259)44:0.0000025259,aswang_philippines:0.1056261084)45:0.0625483038)30:0.1052617306)5:0.0000025259,(((pontianak_kalimantan_indonesia:0.0000000000,matianak_kalimantan_indonesia:0.0000000000):0.0000025259,kuntilanak_merah_java_indonesia:0.0000025259)93:0.1071280301,churel_south_asia:0.0000025259)50:0.0522556549)15:0.0522980848);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t /Users/hhandika/Codes/python/ghost-phylogeny-indonesia/results/iqtree/ghosts.treefile -m "MK+ASC+R2{0.898374,0.766083,0.101626,3.06783}" -st "MORPH{19}" --length 20
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s /Users/hhandika/Codes/python/ghost-phylogeny-indonesia/data/processed/ghosts.nex --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s /Users/hhandika/Codes/python/ghost-phylogeny-indonesia/data/processed/ghosts.nex --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Tue Oct 20 18:15:34 2026
+Total CPU time used: 87.788302 seconds (0h:1m:27s)
+Total wall-clock time used: 90.82463098 seconds (0h:1m:30s)
+

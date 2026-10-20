@@ -1,0 +1,16 @@
+---
+import { data } from "../utils/data";
+const counts = new Map<string, number>();
+data.ghosts.forEach((g) => counts.set(g.clade, (counts.get(g.clade) ?? 0) + 1));
+---
+
+<ul class="mx-auto mb-4 flex max-w-5xl flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs" aria-label="Clade colours">
+  {
+    data.clades.map((c, i) => (
+      <li class="inline-flex items-center gap-1.5">
+        <span class="h-2.5 w-2.5 rounded-full" style={`background: var(--clade-${i})`} />
+        {c} <span class="text-kafan-600 dark:text-kemenyan-400">{counts.get(c)}</span>
+      </li>
+    ))
+  }
+</ul>

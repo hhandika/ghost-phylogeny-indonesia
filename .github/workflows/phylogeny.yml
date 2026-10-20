@@ -1,0 +1,161 @@
+# Rebuild the ghost phylogeny from the workbook and publish the site.
+#
+#   analysis: parse the workbook, encode the trait matrix, infer the tree with
+#             IQ-TREE, export the site data, and draw the SVG plates.
+#   site:     build the Astro site against the fresh analysis.
+#   deploy:   publish to GitHub Pages (pushes to main and manual runs only).
+#
+# Enable Pages once under Settings → Pages → Source: "GitHub Actions".
+name: Ghost phylogeny
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "ghostphylo/**"
+      - "assets/ghosts/**"
+      - "web/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/phylogeny.yml"
+  pull_request:
+    paths:
+      - "data/**"
+      - "ghostphylo/**"
+      - "assets/ghosts/**"
+      - "web/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/phylogeny.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phylogeny-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IQTREE_VERSION: "2.3.6"
+
+jobs:
+  analysis:
+    name: Parse, encode, and infer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Install IQ-TREE ${{ env.IQTREE_VERSION }}
+        run: |
+          curl -fsSL "https://github.com/iqtree/iqtree2/releases/download/v${IQTREE_VERSION}/iqtree-${IQTREE_VERSION}-Linux-intel.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/iqtree-${IQTREE_VERSION}-Linux-intel/bin" >> "$GITHUB_PATH"
+
+      - name: Parse the workbook
+        run: uv run --locked ghostphylo parse
+
+      - name: Encode the trait matrix
+        run: uv run --locked ghostphylo encode
+
+      - name: Infer the tree with IQ-TREE
+        run: uv run --locked ghostphylo tree
+
+      - name: Export site data and draw plates
+        run: |
+          uv run --locked ghostphylo export
+          uv run --locked ghostphylo svg
+
+      - name: Report changes against the committed analysis
+        run: |
+          {
+            echo "## Ghost phylogeny"
+            echo
+            echo '```'
+            sed -n '/^Best-fit model/p;/^Log-likelihood of the tree/p;/^Number of parsimony informative/p' results/iqtree/ghosts.iqtree
+            echo '```'
+            echo
+            if git diff --quiet -- data/processed results/iqtree/ghosts.treefile web/public/ghosts; then
+              echo "Outputs match the committed analysis."
+            else
+              echo "Outputs differ from the committed analysis:"
+              echo '```'
+              git diff --stat -- data/processed results/iqtree/ghosts.treefile web/public/ghosts
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis
+          path: |
+            data/processed/
+            results/iqtree/
+            web/src/data/phylogeny.json
+            web/public/ghosts/
+            web/public/data/
+          if-no-files-found: error
+
+  site:
+    name: Build site
+    needs: analysis
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download analysis
+        uses: actions/download-artifact@v4
+        with:
+          name: analysis
+          path: .
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Configure Pages
+        id: pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+        env:
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: site
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

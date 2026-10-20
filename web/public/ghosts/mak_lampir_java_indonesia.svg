@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="g0af7cc-t">
+<title id="g0af7cc-t">Mak Lampir, human witch (elderly woman)</title>
+<defs>
+<radialGradient id="g0af7cc-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="g0af7cc-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g0af7cc-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="g0af7cc-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="g0af7cc-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#g0af7cc-disc)">
+<rect width="160" height="160" fill="url(#g0af7cc-sky)"/>
+<circle cx="30.9" cy="58.2" r="1.0" fill="#f4ecd6" opacity="0.72"/><circle cx="37.5" cy="27.6" r="1.2" fill="#f4ecd6" opacity="0.87"/><circle cx="120.2" cy="14.2" r="1.0" fill="#f4ecd6" opacity="0.58"/><circle cx="54.8" cy="38.1" r="0.6" fill="#f4ecd6" opacity="0.63"/><circle cx="94.8" cy="27.2" r="0.8" fill="#f4ecd6" opacity="0.75"/><circle cx="86.6" cy="46.6" r="0.7" fill="#f4ecd6" opacity="0.52"/><circle cx="118.0" cy="34.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="123.0" cy="31.0" r="10.0" fill="url(#g0af7cc-sky)"/>
+<path d="M104 134 L104 104 L152 104 L152 134 Z" fill="#3a3150" stroke="#15111f" stroke-width="1.2"/><path d="M94 106 L114 86 L120 74 L136 74 L142 86 L162 106 Z" fill="#4a3d62" stroke="#15111f" stroke-width="1.2"/><rect x="122" y="112" width="10" height="10" fill="#ffd27a" opacity="0.85"/><circle cx="127.0" cy="117.0" r="12.0" fill="#ffd27a" opacity="0.12"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(2.3) scale(0.981) translate(-80 -134)"><path d="M86 46 C104 54 110 80 106 112 C104 124 96 130 86 130 L58 130 C54 112 56 84 66 62 Z" fill="#4a2e4f" stroke="#15111f" stroke-width="2.2"/><path d="M60 130 C58 110 62 90 70 74" fill="none" stroke="#7a5a8a" stroke-width="1.6"/><path d="M66 40 C56 60 54 90 58 110 L70 108 C68 84 70 64 74 50 Z" fill="#e8e4dc" stroke="#15111f" stroke-width="1.4"/><path d="M72 72 C60 80 50 88 46 96" fill="none" stroke="#15111f" stroke-width="6.4" stroke-linecap="round"/><path d="M72 72 C60 80 50 88 46 96" fill="none" stroke="#c9a88a" stroke-width="4" stroke-linecap="round"/><path d="M44 70 L50 134" fill="none" stroke="#6a4a2a" stroke-width="3.4" stroke-linecap="round"/><circle cx="46.0" cy="96.0" r="3.6" fill="#c9a88a" stroke="#15111f" stroke-width="1.4"/><ellipse cx="76.0" cy="44.0" rx="11.0" ry="12.0" fill="#c9a88a" stroke="#15111f" stroke-width="2"/><path d="M66 36 C70 26 88 26 90 40 C86 34 72 34 66 42 Z" fill="#e8e4dc" stroke="#15111f" stroke-width="1.4"/><circle cx="69.4" cy="45.0" r="3.2" fill="#ff4a4a" opacity="0.35"/><circle cx="69.4" cy="45.0" r="1.7" fill="#ff4a4a"/><circle cx="69.4" cy="45.0" r="0.7" fill="#ffe2d6"/><circle cx="76.6" cy="45.0" r="3.2" fill="#ff4a4a" opacity="0.35"/><circle cx="76.6" cy="45.0" r="1.7" fill="#ff4a4a"/><circle cx="76.6" cy="45.0" r="0.7" fill="#ffe2d6"/><path d="M67 52 Q72 56 78 52" fill="none" stroke="#15111f" stroke-width="1.6"/><path d="M64 46 Q60 50 64 52" fill="none" stroke="#15111f" stroke-width="1.6"/><circle cx="46.0" cy="96.0" r="9.0" fill="#b06cff" opacity="0.35"/><circle cx="46.0" cy="96.0" r="4.5" fill="#e0c8ff" opacity="0.8"/></g>
+<ellipse cx="36.0" cy="134.0" rx="9.0" ry="5.5" fill="#f1e9d8" stroke="#15111f" stroke-width="1.2"/><circle cx="42.0" cy="133.0" r="3.2" fill="#d8c8b0" stroke="#15111f" stroke-width="1"/><path d="M32 130 L32 138 M36 129 L36 139" fill="none" stroke="#d4c6aa" stroke-width="1"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#cc5aa6" stroke-width="4"/>
+</svg>

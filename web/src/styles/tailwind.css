@@ -1,0 +1,58 @@
+/* Tailwind entry point, processed by PostCSS (postcss.config.mjs). */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Clade colours, in the fixed categorical order of the pipeline
+ * (ghostphylo/config.py CLADES). Light and dark steps were validated as sets
+ * for adjacent colour-blind separation; every use also carries a text label.
+ */
+:root {
+  --clade-0: #c0283f;
+  --clade-1: #00998a;
+  --clade-2: #c98a12;
+  --clade-3: #5b4fd0;
+  --clade-4: #d0602a;
+  --clade-5: #2c7fc0;
+  --clade-6: #b8348f;
+  --clade-7: #4f8a1e;
+  --clade-8: #8b5cf6;
+  --neutral-branch: #a88f68;
+  --surface: #f5efe2;
+}
+.dark {
+  --clade-0: #e04a62;
+  --clade-1: #16a08c;
+  --clade-2: #bf8a1f;
+  --clade-3: #7d74e6;
+  --clade-4: #d8703c;
+  --clade-5: #3f8fd0;
+  --clade-6: #cc5aa6;
+  --clade-7: #6aa23a;
+  --clade-8: #9d7cf0;
+  --neutral-branch: #635879;
+  --surface: #110e1b;
+}
+
+@layer components {
+  /* Kawung: the four-petal batik motif, kept faint behind the page. */
+  .batik {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23a88f68' stroke-width='1' opacity='.2'%3E%3Cellipse cx='24' cy='12' rx='6' ry='11'/%3E%3Cellipse cx='24' cy='36' rx='6' ry='11'/%3E%3Cellipse cx='12' cy='24' rx='11' ry='6'/%3E%3Cellipse cx='36' cy='24' rx='11' ry='6'/%3E%3Ccircle cx='24' cy='24' r='1.6' fill='%23a88f68'/%3E%3Ccircle cx='0' cy='0' r='1.6' fill='%23a88f68'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .dark .batik {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23524863' stroke-width='1' opacity='.3'%3E%3Cellipse cx='24' cy='12' rx='6' ry='11'/%3E%3Cellipse cx='24' cy='36' rx='6' ry='11'/%3E%3Cellipse cx='12' cy='24' rx='11' ry='6'/%3E%3Cellipse cx='36' cy='24' rx='11' ry='6'/%3E%3Ccircle cx='24' cy='24' r='1.6' fill='%23524863'/%3E%3Ccircle cx='0' cy='0' r='1.6' fill='%23524863'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  /* A narrow band of the motif, used as a divider under headings. */
+  .batik-band {
+    @apply batik h-3 w-full rounded-full;
+    background-size: 24px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift,
+  .animate-flicker {
+    animation: none;
+  }
+}

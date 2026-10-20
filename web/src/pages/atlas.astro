@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageTitle from "../components/PageTitle.astro";
+import DesignBar from "../components/DesignBar.astro";
+import CladeLegend from "../components/CladeLegend.astro";
+import Atlas from "../islands/Atlas";
+import { data } from "../utils/data";
+---
+
+<Layout title="Atlas · Ghost phylogeny of Indonesia" wide>
+  <DesignBar current="/atlas" />
+  <PageTitle title="The atlas" kicker="Design A">
+    Every ghost on one maximum-likelihood tree, its {data.meta.characters} coded characters lined up beside it. Select a name to read its card.
+  </PageTitle>
+  <CladeLegend />
+  <Atlas client:load />
+</Layout>

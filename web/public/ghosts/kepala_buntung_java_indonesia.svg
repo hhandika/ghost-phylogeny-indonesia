@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="g1539ff-t">
+<title id="g1539ff-t">Kepala Buntung, shrouded corpse</title>
+<defs>
+<radialGradient id="g1539ff-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="g1539ff-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g1539ff-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="g1539ff-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="g1539ff-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#g1539ff-disc)">
+<rect width="160" height="160" fill="url(#g1539ff-sky)"/>
+<circle cx="133.5" cy="49.1" r="1.2" fill="#f4ecd6" opacity="0.83"/><circle cx="33.9" cy="34.4" r="0.8" fill="#f4ecd6" opacity="0.45"/><circle cx="24.8" cy="45.7" r="0.7" fill="#f4ecd6" opacity="0.67"/><circle cx="30.1" cy="44.1" r="0.6" fill="#f4ecd6" opacity="0.50"/><circle cx="109.1" cy="47.6" r="1.1" fill="#f4ecd6" opacity="0.43"/><circle cx="115.4" cy="32.5" r="1.2" fill="#f4ecd6" opacity="0.44"/><circle cx="124.0" cy="46.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="119.0" cy="43.0" r="10.0" fill="url(#g1539ff-sky)"/>
+
+<circle cx="80.0" cy="84.0" r="52.0" fill="url(#g1539ff-dread)"/>
+<ellipse cx="80.0" cy="138.0" rx="18.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 126) rotate(2.0) scale(1.008) translate(-80 -134)"><path d="M80 30 C94 30 100 42 98 54 C104 64 106 84 102 104 C100 114 94 120 90 124 L92 130 L68 130 L70 124 C66 120 60 114 58 104 C54 84 56 64 62 54 C60 42 66 30 80 30 Z" fill="#f1e9d8" stroke="#15111f" stroke-width="2.2"/><path d="M64 70 L96 84 M62 88 L100 102 M66 106 L96 118" fill="none" stroke="#d4c6aa" stroke-width="1.4" opacity="0.6"/><path d="M62 56 Q80 62 98 56 M70 122 Q80 126 90 122" fill="none" stroke="#15111f" stroke-width="2"/><path d="M78 60 l-6 8 M82 60 l6 8 M78 124 l-5 7 M82 124 l5 7" fill="none" stroke="#15111f" stroke-width="1.6"/><path d="M66 44 Q80 36 94 44 Q80 52 66 44 Z" fill="#a3172d" stroke="#15111f" stroke-width="1.6"/><path d="M78 48 l0 10 M84 48 l1 8" fill="none" stroke="#a3172d" stroke-width="2" stroke-linecap="round"/><path d="M58 136 q4 -4 8 0 M94 136 q4 -4 8 0" fill="none" stroke="#c9c2d6" stroke-width="1.4" opacity="0.7"/></g>
+<path d="M28 126 L44 126 L41 134 L31 134 Z" fill="#6a4a2a" stroke="#15111f" stroke-width="1.2"/><circle cx="36.0" cy="125.0" r="2.0" fill="#ff8a3a"/><path d="M36 123 C42 114 30 108 38 98 C44 90 36 84 40 76" fill="none" stroke="#c9c2d6" stroke-width="2" opacity="0.55" stroke-linecap="round"/><ellipse cx="124.0" cy="134.0" rx="9.0" ry="5.5" fill="#f1e9d8" stroke="#15111f" stroke-width="1.2"/><circle cx="130.0" cy="133.0" r="3.2" fill="#d8c8b0" stroke="#15111f" stroke-width="1"/><path d="M120 130 L120 138 M124 129 L124 139" fill="none" stroke="#d4c6aa" stroke-width="1"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#bf8a1f" stroke-width="4"/>
+</svg>
