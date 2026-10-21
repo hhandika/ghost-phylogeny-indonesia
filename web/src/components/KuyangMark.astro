@@ -1,0 +1,163 @@
+---
+/**
+ * A Kuyang (the flying head of Kalimantan lore, trailing its organs) drawn as
+ * a letter of the hero title: the "y" of "phylogeny" (hair for the arms, the
+ * head where they meet, entrails for the descender) or the "i" of "Filogeni"
+ * (the head for the dot, the organs for the stem).
+ *
+ * Drawn on a 1000-units-per-em grid against Newsreader 600 (x-height 0.512,
+ * descender 0.23), so the glyph sits on the baseline like real type. Hair and
+ * outlines use currentColor to match the title ink in either theme.
+ * Decorative: the page puts the real word in screen-reader text.
+ */
+interface Props {
+  letter: "y" | "i";
+  class?: string;
+}
+const { letter, class: className = "" } = Astro.props;
+
+// Box above and below the baseline, in em × 1000.
+const box = letter === "y" ? { w: 600, top: 650, bottom: 250 } : { w: 330, top: 900, bottom: 40 };
+const B = box.top; // baseline y in the viewBox
+const X = B - 512; // x-height line
+const H = box.top + box.bottom;
+---
+
+<svg
+  viewBox={`0 0 ${box.w} ${H}`}
+  class={`kuyang-glyph inline-block ${className}`}
+  style={`width:${box.w / 1000}em;height:${H / 1000}em;vertical-align:-${box.bottom / 1000}em`}
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <radialGradient id={`kuyang-glow-${letter}`}>
+      <stop offset="0" stop-color="#ff6a3a" stop-opacity="0.5"></stop>
+      <stop offset="1" stop-color="#a3172d" stop-opacity="0"></stop>
+    </radialGradient>
+  </defs>
+
+  {
+    letter === "y" ? (
+      <g class="kuyang-whole">
+        <circle class="kuyang-aura" cx="300" cy={X + 250} r="230" fill={`url(#kuyang-glow-y)`} />
+        {/* Entrails: the descender, hooking left at the foot like a serif y */}
+        <g class="kuyang-gut">
+          <path d={`M300 ${X + 330} C282 ${X + 420} 322 ${B - 40} 300 ${B + 60} C284 ${B + 140} 290 ${B + 190} 220 ${B + 215} C180 ${B + 228} 140 ${B + 222} 118 ${B + 205}`} fill="none" stroke="currentColor" stroke-width="96" stroke-linecap="round" />
+          <path d={`M300 ${X + 330} C282 ${X + 420} 322 ${B - 40} 300 ${B + 60} C284 ${B + 140} 290 ${B + 190} 220 ${B + 215} C180 ${B + 228} 140 ${B + 222} 118 ${B + 205}`} fill="none" stroke="#c45a6a" stroke-width="58" stroke-linecap="round" />
+          <path d={`M296 ${X + 400} C236 ${X + 400} 216 ${X + 470} 240 ${X + 500} C270 ${X + 512} 288 ${X + 460} 296 ${X + 430} Z M304 ${X + 400} C364 ${X + 400} 384 ${X + 470} 360 ${X + 500} C330 ${X + 512} 312 ${X + 460} 304 ${X + 430} Z`} fill="#b5485a" stroke="currentColor" stroke-width="12" />
+          <path d={`M300 ${X + 450} C262 ${X + 462} 262 ${X + 516} 300 ${X + 540} C338 ${X + 516} 338 ${X + 462} 300 ${X + 450} Z`} fill="#8f1028" stroke="currentColor" stroke-width="12" />
+          <circle cx="112" cy={B + 236} r="14" fill="#a3172d" class="kuyang-drip" />
+        </g>
+        {/* Hair: the arms of a serif y (thick left, thin right, serifs on top), with loose strands flicking up */}
+        <g class="kuyang-hair kuyang-hair-l">
+          <path d={`M60 ${X + 22} L150 ${X + 22} L272 ${X + 250} L222 ${X + 290} Z`} fill="currentColor" />
+          <path d={`M22 ${X + 14} H188`} stroke="currentColor" stroke-width="30" stroke-linecap="round" />
+          <path d={`M70 ${X + 10} C56 ${X - 40} 30 ${X - 70} 6 ${X - 86} M110 ${X + 8} C110 ${X - 50} 92 ${X - 90} 70 ${X - 112}`} fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" />
+        </g>
+        <g class="kuyang-hair kuyang-hair-r">
+          <path d={`M488 ${X + 22} L524 ${X + 22} L350 ${X + 280} L322 ${X + 262} Z`} fill="currentColor" />
+          <path d={`M430 ${X + 14} H580`} stroke="currentColor" stroke-width="28" stroke-linecap="round" />
+          <path d={`M520 ${X + 8} C534 ${X - 44} 560 ${X - 74} 590 ${X - 88} M484 ${X + 8} C486 ${X - 50} 504 ${X - 92} 528 ${X - 112}`} fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" />
+        </g>
+        {/* Head at the junction */}
+        <g class="kuyang-head">
+          <ellipse cx="300" cy={X + 290} rx="92" ry="102" fill="#f1e9d8" stroke="currentColor" stroke-width="18" />
+          <path d={`M222 ${X + 262} C222 ${X + 180} 378 ${X + 180} 378 ${X + 262} C352 ${X + 222} 248 ${X + 222} 222 ${X + 262} Z`} fill="currentColor" />
+          <circle class="kuyang-eye" cx="270" cy={X + 292} r="24" fill="#ff4a4a" opacity="0.35" />
+          <circle class="kuyang-eye" cx="330" cy={X + 292} r="24" fill="#ff4a4a" opacity="0.35" />
+          <circle cx="270" cy={X + 292} r="12" fill="#ff4a4a" />
+          <circle cx="330" cy={X + 292} r="12" fill="#ff4a4a" />
+          <path d={`M266 ${X + 338} Q300 ${X + 368} 334 ${X + 338} Q300 ${X + 386} 266 ${X + 338} Z`} fill="#a3172d" stroke="#15111f" stroke-width="6" />
+          <path d={`M278 ${X + 342} l8 16 l8 -16 M306 ${X + 342} l8 16 l8 -16`} fill="#ffffff" />
+        </g>
+      </g>
+    ) : (
+      <g class="kuyang-whole">
+        <circle class="kuyang-aura" cx="165" cy={B - 690} r="190" fill={`url(#kuyang-glow-i)`} />
+        {/* Stem: lungs and heart at the top, entrails down to a small foot */}
+        <g class="kuyang-gut">
+          <path d={`M165 ${X + 40} C150 ${X + 160} 182 ${X + 300} 165 ${B - 30}`} fill="none" stroke="currentColor" stroke-width="100" stroke-linecap="round" />
+          <path d={`M165 ${X + 40} C150 ${X + 160} 182 ${X + 300} 165 ${B - 30}`} fill="none" stroke="#c45a6a" stroke-width="62" stroke-linecap="round" />
+          <path d={`M60 ${B - 8} H270`} stroke="currentColor" stroke-width="40" stroke-linecap="round" />
+          <path d={`M160 ${X + 10} C100 ${X + 10} 84 ${X + 80} 108 ${X + 112} C138 ${X + 124} 156 ${X + 70} 160 ${X + 40} Z M170 ${X + 10} C230 ${X + 10} 246 ${X + 80} 222 ${X + 112} C192 ${X + 124} 174 ${X + 70} 170 ${X + 40} Z`} fill="#b5485a" stroke="currentColor" stroke-width="12" />
+          <path d={`M165 ${X + 60} C128 ${X + 72} 128 ${X + 126} 165 ${X + 150} C202 ${X + 126} 202 ${X + 72} 165 ${X + 60} Z`} fill="#8f1028" stroke="currentColor" stroke-width="12" />
+        </g>
+        {/* A thread of blood between the dot and the stem */}
+        <path class="kuyang-thread" d={`M165 ${B - 610} C158 ${B - 580} 172 ${B - 556} 165 ${X + 12}`} fill="none" stroke="#a3172d" stroke-width="10" stroke-linecap="round" stroke-dasharray="18 14" />
+        {/* The dot: the head, hair streaming up */}
+        <g class="kuyang-head">
+          <path class="kuyang-hair kuyang-hair-l" d={`M130 ${B - 720} C100 ${B - 780} 60 ${B - 830} 10 ${B - 850} C46 ${B - 820} 70 ${B - 790} 84 ${B - 760} C56 ${B - 770} 30 ${B - 768} 6 ${B - 752} C60 ${B - 744} 100 ${B - 722} 128 ${B - 690} Z`} fill="currentColor" />
+          <path class="kuyang-hair kuyang-hair-r" d={`M200 ${B - 720} C230 ${B - 780} 270 ${B - 830} 320 ${B - 850} C284 ${B - 820} 260 ${B - 790} 246 ${B - 760} C274 ${B - 770} 300 ${B - 768} 324 ${B - 752} C270 ${B - 744} 230 ${B - 722} 202 ${B - 690} Z`} fill="currentColor" />
+          <ellipse cx="165" cy={B - 680} rx="72" ry="80" fill="#f1e9d8" stroke="currentColor" stroke-width="14" />
+          <path d={`M96 ${B - 704} C96 ${B - 780} 234 ${B - 780} 234 ${B - 704} C212 ${B - 740} 118 ${B - 740} 96 ${B - 704} Z`} fill="currentColor" />
+          <circle class="kuyang-eye" cx="139" cy={B - 678} r="20" fill="#ff4a4a" opacity="0.35" />
+          <circle class="kuyang-eye" cx="191" cy={B - 678} r="20" fill="#ff4a4a" opacity="0.35" />
+          <circle cx="139" cy={B - 678} r="10" fill="#ff4a4a" />
+          <circle cx="191" cy={B - 678} r="10" fill="#ff4a4a" />
+          <path d={`M138 ${B - 640} Q165 ${B - 616} 192 ${B - 640} Q165 ${B - 602} 138 ${B - 640} Z`} fill="#a3172d" stroke="#15111f" stroke-width="5" />
+        </g>
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .kuyang-glyph {
+    overflow: visible;
+  }
+  /* The letter stays a letter: the head bobs and the organs sway inside the
+     glyph's own space. Stops under reduced motion or the pause button
+     (html[data-motion="off"], see styles/tailwind.css). */
+  @media (prefers-reduced-motion: no-preference) {
+    .kuyang-head {
+      animation: kuyang-bob 3.2s ease-in-out infinite;
+    }
+    .kuyang-hair {
+      transform-box: fill-box;
+      animation: kuyang-flap 0.9s ease-in-out infinite alternate;
+    }
+    .kuyang-hair-l { transform-origin: 100% 100%; }
+    .kuyang-hair-r { transform-origin: 0% 100%; animation-delay: -0.45s; }
+    .kuyang-gut {
+      transform-box: fill-box;
+      transform-origin: 50% 0%;
+      animation: kuyang-sway 2.4s ease-in-out infinite alternate;
+    }
+    .kuyang-eye { animation: kuyang-stare 2.4s ease-in-out infinite; }
+    .kuyang-aura {
+      transform-box: fill-box;
+      transform-origin: 50% 50%;
+      animation: kuyang-pulse 3.5s ease-in-out infinite;
+    }
+    .kuyang-thread { animation: kuyang-drip 1.2s linear infinite; }
+    .kuyang-drip { animation: kuyang-fall 2.4s ease-in infinite; }
+  }
+  @keyframes kuyang-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-26px); }
+  }
+  @keyframes kuyang-flap {
+    from { transform: scale(1, 1) rotate(0deg); }
+    to { transform: scale(0.92, 0.78) rotate(-6deg); }
+  }
+  @keyframes kuyang-sway {
+    from { transform: rotate(-4deg); }
+    to { transform: rotate(4deg); }
+  }
+  @keyframes kuyang-stare {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.85; }
+  }
+  @keyframes kuyang-pulse {
+    0%, 100% { transform: scale(0.88); opacity: 0.7; }
+    50% { transform: scale(1.06); opacity: 1; }
+  }
+  @keyframes kuyang-drip {
+    to { stroke-dashoffset: -64; }
+  }
+  @keyframes kuyang-fall {
+    0%, 40% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(60px); opacity: 0; }
+  }
+</style>

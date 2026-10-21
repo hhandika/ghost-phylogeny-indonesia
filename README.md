@@ -19,7 +19,7 @@ A comparative dataset of 110 Indonesian ghosts, spirits, and cryptids (plus outg
 
 ## Pipeline
 
-Requires [uv](https://docs.astral.sh/uv/) and [IQ-TREE](http://www.iqtree.org/) 2 or 3 on `PATH` (or set `$IQTREE`).
+Requires [uv](https://docs.astral.sh/uv/) and [IQ-TREE](https://iqtree.github.io/) 2 or 3 on `PATH` (or set `$IQTREE`).
 
 ```bash
 uv run ghostphylo all        # every step below

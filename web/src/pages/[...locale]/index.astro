@@ -1,5 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import KuyangMark from "../../components/KuyangMark.astro";
+import GhostSit from "../../components/GhostSit.astro";
 import { byId, data, plateUrl } from "../../utils/data";
 import { layout } from "../../utils/tree";
 import { langOf, localeParams, localePath, regionName, useT, type Key } from "../../i18n";
@@ -18,7 +20,7 @@ const pairs = L.all
   .slice(0, 6)
   .map((p) => ({ support: p.support!, ghosts: p.tips.map((id) => byId.get(id)!) }));
 
-const heroIds = ["kuntilanak_indonesian_archipelago", "pocong_java_indonesia", "banaspati_java_indonesia", "kuyang_kalimantan_indonesia", "rangda_bali_indonesia", "genderuwo_java_indonesia", "toyol_tuyul_indonesian_archipelago"].filter((id) => byId.has(id));
+const heroIds = ["kuntilanak_indonesian_archipelago", "pocong_java_indonesia", "banaspati_java_indonesia", "nyi_roro_kidul_java_bali", "rangda_bali_indonesia", "genderuwo_java_indonesia", "toyol_tuyul_indonesian_archipelago"].filter((id) => byId.has(id));
 const islands = data.regions.filter((r) => r !== "Outgroup" && r !== "Widespread").length;
 const stats = [
   { value: meta.taxa - meta.outgroups, label: t("statGhosts") },
@@ -39,8 +41,21 @@ const bestiaryIds = ["kuntilanak_merah_java_indonesia", "babi_ngepet_java_indone
 <Layout lang={lang} title={t("siteTitle")}>
   <section class="glass mt-6 px-5 py-10 text-center sm:mt-10 sm:px-10 sm:py-14">
     <p class="accent text-xs font-semibold uppercase tracking-[0.3em]" lang="id">{t("heroKicker")}</p>
-    <h1 class="mx-auto mt-3 max-w-3xl text-balance font-serif text-5xl font-semibold tracking-tight sm:text-6xl">
-      {t("siteName")}, <i>{t("literally")}</i>.
+    <h1 class="mx-auto mt-10 max-w-3xl text-balance pb-6 font-serif text-5xl font-semibold tracking-tight sm:text-6xl">
+      {/* The last letter of "phylogeny" (y) or "Filogeni" (i) is a Kuyang; screen readers get the plain word. */}
+      {
+        lang === "id" ? (
+          <>
+            <span class="sr-only">Filogeni</span>
+            <span aria-hidden="true" class="whitespace-nowrap">Fil<span class="relative">o<GhostSit /></span>gen<KuyangMark letter="i" /></span> hantu, <i>{t("literally")}</i>.
+          </>
+        ) : (
+          <>
+            Gh<span class="relative">o<GhostSit /></span>st <span class="sr-only">phylogeny</span>
+            <span aria-hidden="true" class="whitespace-nowrap">phylogen<KuyangMark letter="y" /></span>, <i>{t("literally")}</i>.
+          </>
+        )
+      }
     </h1>
     <p class="muted mx-auto mt-5 max-w-2xl text-pretty text-lg leading-relaxed" set:html={t("heroLead", meta.taxa - 3, meta.characters)} />
     <ul class="mt-10 flex flex-wrap items-end justify-center gap-3 sm:gap-5" aria-label={t("aFewGhosts")}>

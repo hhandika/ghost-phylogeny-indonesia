@@ -2,6 +2,7 @@
 import cntl from "cntl";
 import Gunungan from "./Gunungan.astro";
 import ThemeIcon from "./ThemeIcon.astro";
+import MotionToggle from "./MotionToggle.astro";
 import { HTML_LANG, LANG_NAME, localePath, useT, type Key, type Lang } from "../i18n";
 
 interface Props {
@@ -49,7 +50,7 @@ const spoken: Record<Lang, string> = { en: "Read in American English", id: "Baca
       ))
     }
   </ul>
-  <div class="flex shrink-0 items-center gap-2">
+  <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
     <ul class="control flex h-10 items-center p-1 text-sm font-semibold" aria-label={t("language")}>
       {
         alternates.map((a) => (
@@ -69,6 +70,7 @@ const spoken: Record<Lang, string> = { en: "Read in American English", id: "Baca
         ))
       }
     </ul>
+    <MotionToggle lang={lang} />
     <ThemeIcon lang={lang} />
     <details class="relative xl:hidden" data-menu>
       <summary class="control flex h-10 w-10 cursor-pointer list-none items-center justify-center [&::-webkit-details-marker]:hidden">

@@ -39,6 +39,16 @@ const alternates = LANGS.map((l) => ({ lang: l, href: localePath(l, rest) }));
       rel="stylesheet"
     />
     <script is:inline>
+      // Apply a saved motion choice before first paint; otherwise the system's
+      // reduced-motion setting decides.
+      (() => {
+        let motion = null;
+        try {
+          motion = localStorage.getItem("motion");
+        } catch {}
+        if (motion === "off" || (!motion && matchMedia("(prefers-reduced-motion: reduce)").matches))
+          document.documentElement.dataset.motion = "off";
+      })();
       // Apply the saved theme (or the system one) before first paint.
       (() => {
         let saved = null;

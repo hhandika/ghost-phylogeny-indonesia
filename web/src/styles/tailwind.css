@@ -162,6 +162,14 @@
   }
 }
 
+/* ---- Pause control (WCAG 2.2.2): the header button sets data-motion="off" -- */
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
 /* ---- Scene motion (off when the reader asks for reduced motion) ---------- */
 .scene-stars {
   opacity: var(--scene-stars);

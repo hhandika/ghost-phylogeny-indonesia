@@ -49,6 +49,8 @@ const ui = {
   toDark: { en: "Switch to dark mode", id: "Beralih ke mode gelap" },
   toLight: { en: "Switch to light mode", id: "Beralih ke mode terang" },
   toggleDark: { en: "Toggle dark mode", id: "Ganti mode gelap" },
+  pauseMotion: { en: "Pause animations", id: "Jeda animasi" },
+  playMotion: { en: "Play animations", id: "Putar animasi" },
   newTab: { en: "(opens in a new tab)", id: "(membuka tab baru)" },
   title: { en: (page: string) => `${page} · Ghost phylogeny, literally`, id: (page: string) => `${page} · Filogeni hantu, secara harfiah` },
 
@@ -302,9 +304,9 @@ const ui = {
   heroKicker: { en: "Pohon kekerabatan hantu Nusantara", id: "Pohon kekerabatan hantu Nusantara" },
   heroLead: {
     en: (n: number, c: number) =>
-      `Not a metaphor. Kuntilanak, pocong, tuyul, and ${n} more spirits of the archipelago are scored like museum specimens on ${c} traits, and <a href="http://www.iqtree.org/" class="accent font-semibold underline underline-offset-2">IQ-TREE</a> infers their family tree the way biologists do for animals.`,
+      `Not a metaphor. Kuntilanak, pocong, tuyul, and ${n} more spirits of the archipelago are scored like museum specimens on ${c} traits, and <a href="https://iqtree.github.io/" class="accent whitespace-nowrap font-semibold underline underline-offset-2">IQ-TREE</a> infers their family tree with the same maximum-likelihood methods biologists use for any living organism, from bacteria to plants to people.`,
     id: (n: number, c: number) =>
-      `Bukan kiasan. Kuntilanak, pocong, tuyul, dan ${n} roh lain dari Nusantara dinilai seperti spesimen museum berdasarkan ${c} sifat, lalu <a href="http://www.iqtree.org/" class="accent font-semibold underline underline-offset-2">IQ-TREE</a> menyimpulkan pohon kekerabatannya seperti yang dilakukan ahli biologi pada hewan.`,
+      `Bukan kiasan. Kuntilanak, pocong, tuyul, dan ${n} roh lain dari Nusantara dinilai seperti spesimen museum berdasarkan ${c} sifat, lalu <a href="https://iqtree.github.io/" class="accent whitespace-nowrap font-semibold underline underline-offset-2">IQ-TREE</a> menyimpulkan pohon kekerabatannya dengan metode kemungkinan maksimum yang sama yang dipakai ahli biologi untuk makhluk hidup apa pun, dari bakteri, tumbuhan, hingga manusia.`,
   },
   aFewGhosts: { en: "A few of the ghosts", id: "Beberapa hantu" },
   statGhosts: { en: "Indonesian ghosts", id: "hantu Indonesia" },
