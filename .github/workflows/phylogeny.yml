@@ -3,6 +3,7 @@
 #   analysis: parse the workbook, encode the trait matrix, infer the tree with
 #             IQ-TREE, export the site data, and draw the SVG plates.
 #   site:     build the Astro site against the fresh analysis.
+#   app:      analyze and test the Flutter app.
 #   deploy:   publish to GitHub Pages (pushes to main and manual runs only).
 #
 # Enable Pages once under Settings → Pages → Source: "GitHub Actions".
@@ -13,20 +14,24 @@ on:
     branches: [main]
     paths:
       - "data/**"
-      - "ghostphylo/**"
+      - "pipeline/**"
       - "assets/ghosts/**"
       - "web/**"
-      - "pyproject.toml"
-      - "uv.lock"
+      - "lib/**"
+      - "test/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
       - ".github/workflows/phylogeny.yml"
   pull_request:
     paths:
       - "data/**"
-      - "ghostphylo/**"
+      - "pipeline/**"
       - "assets/ghosts/**"
       - "web/**"
-      - "pyproject.toml"
-      - "uv.lock"
+      - "lib/**"
+      - "test/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
       - ".github/workflows/phylogeny.yml"
   workflow_dispatch:
 
@@ -52,6 +57,7 @@ jobs:
         with:
           python-version: "3.12"
           enable-cache: true
+          cache-dependency-glob: pipeline/uv.lock
 
       - name: Install IQ-TREE ${{ env.IQTREE_VERSION }}
         run: |
@@ -59,18 +65,18 @@ jobs:
           echo "$RUNNER_TEMP/iqtree-${IQTREE_VERSION}-Linux-intel/bin" >> "$GITHUB_PATH"
 
       - name: Parse the workbook
-        run: uv run --locked ghostphylo parse
+        run: uv run --project pipeline --locked ghostphylo parse
 
       - name: Encode the trait matrix
-        run: uv run --locked ghostphylo encode
+        run: uv run --project pipeline --locked ghostphylo encode
 
       - name: Infer the tree with IQ-TREE
-        run: uv run --locked ghostphylo tree
+        run: uv run --project pipeline --locked ghostphylo tree
 
       - name: Export site data and draw plates
         run: |
-          uv run --locked ghostphylo export
-          uv run --locked ghostphylo svg
+          uv run --project pipeline --locked ghostphylo export
+          uv run --project pipeline --locked ghostphylo svg
 
       - name: Report changes against the committed analysis
         run: |
@@ -144,6 +150,26 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
+
+  app:
+    name: Check app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
 
   deploy:
     name: Deploy to GitHub Pages

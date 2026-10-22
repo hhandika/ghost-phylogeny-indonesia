@@ -27,9 +27,9 @@ const h2 = "font-serif text-2xl font-semibold";
   <PageTitle title={t("navMethods")} kicker={id ? "Dari lembar kerja ke pohon" : "From spreadsheet to tree"}>
     {
       id ? (
-        <>Setiap angka di situs ini dihitung oleh <i lang="en">pipeline</i> dalam <code>ghostphylo/</code> dan dijalankan ulang oleh GitHub Actions setiap kali datanya berubah.</>
+        <>Setiap angka di situs ini dihitung oleh <i lang="en">pipeline</i> dalam <code>pipeline/ghostphylo/</code> dan dijalankan ulang oleh GitHub Actions setiap kali datanya berubah.</>
       ) : (
-        <>Every number on this site is computed by the pipeline in <code>ghostphylo/</code>, rerun by GitHub Actions whenever the data change.</>
+        <>Every number on this site is computed by the pipeline in <code>pipeline/ghostphylo/</code>, rerun by GitHub Actions whenever the data change.</>
       )
     }
   </PageTitle>
@@ -114,9 +114,9 @@ const h2 = "font-serif text-2xl font-semibold";
       <p class="mt-2">
         {
           id ? (
-            <>Pelat setiap hantu digambar oleh <code>ghostphylo/svgs.py</code> dari datanya: bentuk tubuh menentukan sosoknya, klad menentukan warna cincinnya, dan sifat berkode menambahkan latar, seperti beringin untuk roh hutan, <i>nisan</i> dan bunga kamboja untuk penguburan, atap <i>joglo</i> dengan jendela menyala untuk hantu kampung, uang <i>kepeng</i> untuk pencurian, dan anglo kemenyan untuk ilmu hitam. Berkas gambar tangan di <code>assets/ghosts/</code> menggantikan pelat buatan untuk hantu tersebut.</>
+            <>Pelat setiap hantu digambar oleh <code>pipeline/ghostphylo/svgs.py</code> dari datanya: bentuk tubuh menentukan sosoknya, klad menentukan warna cincinnya, dan sifat berkode menambahkan latar, seperti beringin untuk roh hutan, <i>nisan</i> dan bunga kamboja untuk penguburan, atap <i>joglo</i> dengan jendela menyala untuk hantu kampung, uang <i>kepeng</i> untuk pencurian, dan anglo kemenyan untuk ilmu hitam. Berkas gambar tangan di <code>assets/ghosts/</code> menggantikan pelat buatan untuk hantu tersebut.</>
           ) : (
-            <>Each ghost's plate is drawn by <code>ghostphylo/svgs.py</code> from its record: the body plan sets the figure, the clade sets the ring color, and coded traits add scenery, such as a banyan for forest spirits, <i>nisan</i> gravestones and frangipani for burial, a lit <i>joglo</i> roof for village haunts, <i>kepeng</i> coins for theft, and an incense burner for black magic. A hand-drawn file in <code>assets/ghosts/</code> replaces the generated plate for that ghost.</>
+            <>Each ghost's plate is drawn by <code>pipeline/ghostphylo/svgs.py</code> from its record: the body plan sets the figure, the clade sets the ring color, and coded traits add scenery, such as a banyan for forest spirits, <i>nisan</i> gravestones and frangipani for burial, a lit <i>joglo</i> roof for village haunts, <i>kepeng</i> coins for theft, and an incense burner for black magic. A hand-drawn file in <code>assets/ghosts/</code> replaces the generated plate for that ghost.</>
           )
         }
       </p>
@@ -124,8 +124,8 @@ const h2 = "font-serif text-2xl font-semibold";
 
     <section class="glass p-6 sm:p-8">
       <h2 class={h2}>{id ? "Alur pemrosesan" : "Pipeline"}</h2>
-      <pre class="mt-3 overflow-x-auto rounded-2xl bg-malam-950 p-4 text-sm text-kafan-100" lang="en"><code>uv run ghostphylo all     # parse, encode, IQ-TREE, export, plates
-cd web && bun run build   # this site</code></pre>
+      <pre class="mt-3 overflow-x-auto rounded-2xl bg-malam-950 p-4 text-sm text-kafan-100" lang="en"><code>uv run --project pipeline ghostphylo all   # parse, encode, IQ-TREE, export, plates
+cd web && bun run build                    # this site</code></pre>
       <p class="mt-2">
         {
           id

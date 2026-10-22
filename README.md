@@ -2,7 +2,7 @@
 
 This is the actual ghost phylogeny. Literally, not conceptually...
 
-A comparative dataset of 110 Indonesian ghosts, spirits, and cryptids (plus outgroups from Malaysia, the Philippines, Thailand, Cambodia, and South Asia), scored like specimens on a morphological character matrix. IQ-TREE infers how they are related, and an interactive site shows the result.
+A comparative dataset of 110 Indonesian ghosts, spirits, and cryptids (plus outgroups from Malaysia, the Philippines, Thailand, Cambodia, and South Asia), scored like specimens on a morphological character matrix. IQ-TREE infers how they are related, and an interactive site and a Flutter app show the result.
 
 ## Layout
 
@@ -10,24 +10,25 @@ A comparative dataset of 110 Indonesian ghosts, spirits, and cryptids (plus outg
 |---|---|
 | `data/indonesian-ghosts-comprehensive-dataset.xlsx` | Source workbook (v3). Edited by hand. |
 | `data/translations/id.json` | Curated Indonesian translations of every text value in the data. Edited by hand. |
-| `ghostphylo/` | Python pipeline: parse → encode → infer → export → draw. |
+| `pipeline/` | Python pipeline (`ghostphylo` package, `pyproject.toml`, `uv.lock`): parse → encode → infer → export → draw. |
 | `data/processed/` | Cleaned taxon table, character matrix (`ghosts.nex`, `ghosts.phy`), character definitions. Generated. |
 | `results/iqtree/` | IQ-TREE output, plus `ghosts.rooted.tre` (rooted on the outgroups, ladderized). Generated. |
 | `assets/ghosts/` | Optional hand-drawn plates; `<taxon_id>.svg` here replaces the generated one. |
 | `web/` | Astro + Bun + Tailwind site. `web/src/data/phylogeny.json` and `web/public/ghosts/*.svg` are generated. |
+| `lib/`, `pubspec.yaml`, `android/`, `ios/`, `linux/`, `macos/`, `windows/` | Flutter app. Reads `web/src/data/phylogeny.json` and `web/public/ghosts/*.svg` as assets. |
 | `.github/workflows/phylogeny.yml` | Reruns the pipeline, builds the site, and deploys to GitHub Pages. |
 
 ## Pipeline
 
-Requires [uv](https://docs.astral.sh/uv/) and [IQ-TREE](https://iqtree.github.io/) 2 or 3 on `PATH` (or set `$IQTREE`).
+Run from the repository root. Requires [uv](https://docs.astral.sh/uv/) and [IQ-TREE](https://iqtree.github.io/) 2 or 3 on `PATH` (or set `$IQTREE`).
 
 ```bash
-uv run ghostphylo all        # every step below
-uv run ghostphylo parse      # workbook → data/processed/ghosts.{json,csv}
-uv run ghostphylo encode     # → ghosts.nex, ghosts.phy, characters.csv
-uv run ghostphylo tree       # IQ-TREE: -st MORPH -m MFP -B 1000 -bnni --seed 20261020
-uv run ghostphylo export     # root, ladderize → web/src/data/phylogeny.json
-uv run ghostphylo svg        # one plate per ghost → web/public/ghosts/
+uv run --project pipeline ghostphylo all        # every step below
+uv run --project pipeline ghostphylo parse      # workbook → data/processed/ghosts.{json,csv}
+uv run --project pipeline ghostphylo encode     # → ghosts.nex, ghosts.phy, characters.csv
+uv run --project pipeline ghostphylo tree       # IQ-TREE: -st MORPH -m MFP -B 1000 -bnni --seed 20261020
+uv run --project pipeline ghostphylo export     # root, ladderize → web/src/data/phylogeny.json
+uv run --project pipeline ghostphylo svg        # one plate per ghost → web/public/ghosts/
 ```
 
 ### Characters
@@ -50,7 +51,7 @@ Most codings beyond the original 61 taxa come from folklore synthesis rather tha
 - **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map with Pleistocene sea levels (today, −40, −80, −120 m) and Wallace's, Huxley's, Weber's, and Lydekker's lines, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
 - **Specimen pages** (`/ghosts/<taxon_id>`): every field and coded character for one ghost.
 
-**Languages.** The site is bilingual: American English at `/…` and Indonesian at `/id/…`, with an EN | ID switcher in the header that keeps you on the same page. Interface strings live in `web/src/i18n/index.ts`. Text from the data (clades, traits, origins, behaviors, deterrents, and so on) is translated through `data/translations/id.json`; `ghostphylo export` embeds the strings the site uses and lists any that are missing, which then fall back to English. Parsing also converts the workbook's British spellings to American.
+**Languages.** The site is bilingual: American English at `/…` and Indonesian at `/id/…`, with an EN | ID switcher in the header that keeps you on the same page. Interface strings live in `web/src/i18n/index.ts` (and `lib/src/i18n.dart` for the app). Text from the data (clades, traits, origins, behaviors, deterrents, and so on) is translated through `data/translations/id.json`; `ghostphylo export` embeds the strings the site uses and lists any that are missing, which then fall back to English. Parsing also converts the workbook's British spellings to American.
 
 Accessibility targets WCAG 2.2 AA: text on glass keeps at least 4.5:1 against the darkest and brightest parts of the scene, controls have 3:1 boundaries, trait states differ in shape as well as colour, interactive trees are keyboard operable with announced selections, scrollable regions are focusable, and scene motion stops under `prefers-reduced-motion`. The Patterns map uses Natural Earth coastlines and NOAA ETOPO1 shelf outlines (both public domain), with line placements after hhandika-com's speciation map.
 
@@ -59,6 +60,16 @@ cd web
 bun install
 bun run dev      # http://localhost:4321
 bun run build    # astro check + static build to web/dist/
+```
+
+## App
+
+A Flutter app at the repository root follows the site's design (glass panels over the animated night scene, the same palette, Figtree and Newsreader type, light and dark modes, EN | ID) and has the same views: Overview, Atlas, Lantern, Bestiary, Patterns, Methods, and a page per ghost. It targets Android, iOS, Linux, macOS, and Windows; the web is served by the Astro site. It bundles the pipeline's output, so rerun `ghostphylo export` and `ghostphylo svg` before building to pick up new data.
+
+```bash
+flutter pub get
+flutter run              # pick a device
+flutter build linux      # or apk, ios, macos, windows
 ```
 
 ## Deployment

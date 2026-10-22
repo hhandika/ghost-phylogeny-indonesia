@@ -5,7 +5,9 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+# The package lives in pipeline/ghostphylo; data, results, and the apps sit at
+# the repository root.
+ROOT = Path(__file__).resolve().parents[2]
 SOURCE_XLSX = ROOT / "data" / "indonesian-ghosts-comprehensive-dataset.xlsx"
 PROCESSED = ROOT / "data" / "processed"
 RESULTS = ROOT / "results" / "iqtree"
