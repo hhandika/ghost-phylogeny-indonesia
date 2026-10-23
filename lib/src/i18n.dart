@@ -139,8 +139,8 @@ final Map<String, Map<String, Object>> _ui = {
     "id": "Ada di pohon 61 takson yang asli dan di pohon ini.",
   },
   "newOnTree": {
-    "en": "Added in workbook v3; first placed on a tree here.",
-    "id": "Ditambahkan di buku kerja v3; pertama kali ditempatkan pada pohon di sini.",
+    "en": "Added in dataset v3–v5; first placed on a tree here.",
+    "id": "Ditambahkan di set data v3–v5; pertama kali ditempatkan pada pohon di sini.",
   },
   "codedTraits": {"en": "Coded traits", "id": "Sifat yang dikodekan"},
   "codedCharacters": {
@@ -606,9 +606,9 @@ final Map<String, Map<String, Object>> _ui = {
   "stepPublish": {"en": "Publish", "id": "Terbitkan"},
   "stepParseText": {
     "en": (dynamic n) =>
-        "Read $n taxa from the workbook and clean names, clades, and regions.",
+        "Read $n taxa from the dataset and clean names, clades, and regions.",
     "id": (dynamic n) =>
-        "Membaca $n takson dari buku kerja serta merapikan nama, klad, dan wilayah.",
+        "Membaca $n takson dari set data serta merapikan nama, klad, dan wilayah.",
   },
   "stepEncodeText": {
     "en": (dynamic n, dynamic c) =>

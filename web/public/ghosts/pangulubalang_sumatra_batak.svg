@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="gd0e4ce-t">
+<title id="gd0e4ce-t">Pangulubalang, bound boy-spirit in a statue/vessel</title>
+<defs>
+<radialGradient id="gd0e4ce-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="gd0e4ce-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="gd0e4ce-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="gd0e4ce-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="gd0e4ce-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#gd0e4ce-disc)">
+<rect width="160" height="160" fill="url(#gd0e4ce-sky)"/>
+<circle cx="49.4" cy="60.9" r="0.7" fill="#f4ecd6" opacity="0.65"/><circle cx="94.0" cy="49.9" r="0.6" fill="#f4ecd6" opacity="0.84"/><circle cx="74.3" cy="29.3" r="0.7" fill="#f4ecd6" opacity="0.68"/><circle cx="73.0" cy="33.8" r="1.0" fill="#f4ecd6" opacity="0.77"/><circle cx="53.1" cy="53.7" r="1.3" fill="#f4ecd6" opacity="0.55"/><circle cx="86.3" cy="28.6" r="0.5" fill="#f4ecd6" opacity="0.45"/><circle cx="101.6" cy="22.7" r="0.9" fill="#f4ecd6" opacity="0.73"/><circle cx="25.3" cy="39.4" r="1.2" fill="#f4ecd6" opacity="0.73"/><circle cx="42.0" cy="32.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="37.0" cy="29.0" r="10.0" fill="url(#gd0e4ce-sky)"/>
+<path d="M104 134 L104 104 L152 104 L152 134 Z" fill="#3a3150" stroke="#15111f" stroke-width="1.2"/><path d="M94 106 L114 86 L120 74 L136 74 L142 86 L162 106 Z" fill="#4a3d62" stroke="#15111f" stroke-width="1.2"/><rect x="122" y="112" width="10" height="10" fill="#ffd27a" opacity="0.85"/><circle cx="127.0" cy="117.0" r="12.0" fill="#ffd27a" opacity="0.12"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(-2.2) scale(0.997) translate(-80 -134)"><path d="M66.0 54.0 C62.0 24.0 98.0 24.0 94.0 54.0 C98.0 84.0 102.0 104.0 110.0 120.0 C96.0 114.0 88.0 122.0 78.0 116.0 C70.0 124.0 60.0 116.0 56.0 110.0 C62.0 94.0 64.0 74.0 66.0 54.0 Z" fill="#e6e2f2" stroke="#15111f" stroke-width="2" opacity="0.92"/><path d="M66.0 62.0 C54.0 72.0 50.0 82.0 52.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><path d="M94.0 62.0 C106.0 72.0 110.0 82.0 108.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><circle cx="75.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="75.7" cy="43.3" r="0.7" fill="#ffffff"/><circle cx="85.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="85.7" cy="43.3" r="0.7" fill="#ffffff"/><ellipse cx="80.0" cy="53.0" rx="2.4" ry="3.4" fill="#15111f"/></g>
+<path d="M28 126 L44 126 L41 134 L31 134 Z" fill="#6a4a2a" stroke="#15111f" stroke-width="1.2"/><circle cx="36.0" cy="125.0" r="2.0" fill="#ff8a3a"/><path d="M36 123 C42 114 30 108 38 98 C44 90 36 84 40 76" fill="none" stroke="#c9c2d6" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#3f8fd0" stroke-width="4"/>
+</svg>

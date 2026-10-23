@@ -1,4 +1,4 @@
-"""Paths, character definitions, and the cleaning rules for the source workbook."""
+"""Paths, character definitions, and the cleaning rules for the source table."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from pathlib import Path
 # The package lives in pipeline/ghostphylo; data, results, and the apps sit at
 # the repository root.
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_XLSX = ROOT / "data" / "indonesian-ghosts-comprehensive-dataset.xlsx"
+SOURCE_CSV = ROOT / "data" / "indonesian-ghosts.csv"
 PROCESSED = ROOT / "data" / "processed"
 RESULTS = ROOT / "results" / "iqtree"
 WEB_DATA = ROOT / "web" / "src" / "data" / "phylogeny.json"
@@ -17,7 +17,7 @@ WEB_DOWNLOADS = ROOT / "web" / "public" / "data"
 PREFIX = "ghosts"
 
 # ---- The 18 coded traits ----------------------------------------------------
-# States follow the workbook README: 0 absent, 1 present, 2 not applicable or
+# States follow the dataset README: 0 absent, 1 present, 2 not applicable or
 # variable; for sex 1 is female and 2 male / unspecified.
 TRAITS: list[dict] = [
     {"id": "domain_human_like", "label": "Human-like", "states": ["Non-human, animal, or object", "Humanoid, witch, or human spirit", "Variable"]},
@@ -41,7 +41,7 @@ TRAITS: list[dict] = [
 ]
 
 # ---- Clades -----------------------------------------------------------------
-# The workbook spells some clades with and without slashes. Order is the fixed
+# The source spells some clades with and without slashes. Order is the fixed
 # categorical order of the site palette (validated for adjacent CVD contrast).
 CLADES = [
     "Vengeful Female",
@@ -77,10 +77,11 @@ REGIONS = [
 
 
 def region_group(raw: str) -> str:
-    if "Outgroup" in raw:
+    if "outgroup" in raw.lower():
         return "Outgroup"
     for key, group in [
         ("Widespread", "Widespread"),
+        ("Archipelago-wide", "Widespread"),
         ("Sumatra", "Sumatra"),
         ("Java", "Java"),
         ("Bali", "Bali"),
@@ -102,7 +103,7 @@ DIETS = ["Blood", "Flesh", "Life force or offerings", "Non-consumptive", "Omnivo
 
 
 def diet_class(raw: str) -> str | None:
-    d = raw.lower()
+    d = raw.lower().replace("nonconsumptive", "non-consumptive")
     if d.startswith("unknown"):
         return None
     if d.startswith("blood"):
@@ -144,23 +145,45 @@ BODY_PLANS = [
 _BODY_RULES = [
     ("hungry ghost", "hungry_ghost"),
     ("child-like", "child"),
+    ("spirit child", "child"),
     ("aquatic", "aquatic"),
+    ("water ghost", "aquatic"),
+    ("water spirit", "aquatic"),
+    ("water demon", "aquatic"),
+    ("sea ghost", "aquatic"),
+    ("river guardian", "aquatic"),
+    ("sea queen", "spectral_female"),
     ("human witch", "witch"),
     ("transformed witch", "witch"),
     ("flying head", "flying_head"),
     ("upper torso", "upper_torso"),
     ("shrouded corpse", "shrouded_corpse"),
+    ("reanimated corpse", "shrouded_corpse"),
+    ("headless priest", "shrouded_corpse"),
     ("fireball", "fireball"),
     ("winged", "winged"),
     ("tiger", "tiger"),
     ("elongated", "elongated"),
+    ("extremely tall", "elongated"),
+    ("palm-tall", "elongated"),
     ("coffin", "procession"),
     ("object haunting", "procession"),
+    ("spectral train", "procession"),
+    ("spectral ambulance", "procession"),
     ("serpent", "serpent"),
+    ("naga", "serpent"),
+    ("snake", "serpent"),
     ("masked", "masked"),
     ("spectral female", "spectral_female"),
+    ("spectral woman", "spectral_female"),
+    ("spectral old woman", "spectral_female"),
+    ("spectral schoolgirl", "spectral_female"),
+    ("lady ghost", "spectral_female"),
+    ("nurse ghost", "spectral_female"),
+    ("female spirit", "spectral_female"),
     ("primate", "primate"),
     ("hairy humanoid", "primate"),
+    ("giant hominid", "primate"),
     ("noted for teeth", "primate"),
     ("gigantic", "giant"),
     ("humanoid demon", "giant"),
@@ -170,6 +193,8 @@ _BODY_RULES = [
     ("animal", "animal"),
     ("dog-like", "animal"),
     ("viscera-sucker", "animal"),
+    ("viscera feeder", "animal"),
+    ("beast-like", "animal"),
 ]
 
 
@@ -182,9 +207,19 @@ def body_plan(morphology: str) -> str:
 
 
 # ---- Text clean-up ----------------------------------------------------------
-# The source CSV lost its slashes before the workbook was built, which fused
-# words ("laughweeping"). These restore the original separators.
+# The source lost its slashes at some point, which fused words
+# ("laughweeping"). These restore the original separators.
 FUSED = {
+    "Bipedal primateape": "Bipedal primate / ape-like",
+    "Elongatedstretching humanoid": "Elongated / stretching humanoid",
+    "Floating fireballflame entity": "Floating fireball / flame entity",
+    "Flying coffinspectral procession": "Flying coffin / spectral procession",
+    "Gigantic humanoidogre": "Gigantic humanoid / ogre",
+    "Maskedcostumed deity form": "Masked / costumed deity form",
+    "Serpentnaga hybrid": "Serpent / naga hybrid",
+    "Tigerhuman hybrid": "Tiger–human hybrid",
+    "Nonconsumptive": "Non-consumptive",
+    "Spiritual energyofferings": "Spiritual energy / offerings",
     "Ajian magicnocturnal hunting": "Ajian magic; nocturnal hunting",
     "Burns victimsspontaneous combustion": "Burns victims; spontaneous combustion",
     "Cavedwellingrudimentary language": "Cave-dwelling; rudimentary language",
@@ -211,12 +246,13 @@ FUSED = {
     "Loud noisesbanging pots": "Loud noises; banging pots",
     "Saltashgarlic on lower torso": "Salt, ash, or garlic on the lower torso",
     "Specific ritual offeringsBanyan wood": "Specific ritual offerings; banyan wood",
+    "Specific ritual offerings / Banyan wood": "Specific ritual offerings; banyan wood",
     "Vinegarbroken glass": "Vinegar and broken glass",
     "Violent murderbetrayal origin": "Violent murder or betrayal origin",
     "None Biological entity": "None; a biological entity",
 }
 
-# The site is written in American English; the workbook mixes in British forms.
+# The site is written in American English; the source mixes in British forms.
 AMERICAN = {
     "favour": "favor",
     "travellers": "travelers",
@@ -239,12 +275,13 @@ def americanize(s: str) -> str:
 
 TRANSLATIONS = ROOT / "data" / "translations"
 
-# In the original 61 rows the deterrent column sometimes holds the origin.
+# In the original 61 rows the origin and deterrent columns hold the same value,
+# which is one or the other.
 ORIGIN_LIKE = re.compile(r"origin$|^Parental remorse$|^Breaking ancestral taboo$")
 
-BOILERPLATE = re.compile(r"^Folklore-synthesis summary|Coded features are in the trait matrix|See Morphology and trait matrix|^Recurring figure in Indonesian horror|^Comparative expansion entry")
+BOILERPLATE = re.compile(r"^Folklore-synthesis summary|\(see Morphology and Behavior fields\)$|Coded features are in the trait matrix|See Morphology and trait matrix|^Recurring figure in Indonesian horror|^Comparative expansion entry")
 
-# Trailing place words in the workbook names ("Sundel Bolong Java").
+# Trailing place words in the source names ("Ndope Sentani").
 PLACE_WORDS = {
     "java", "bali", "sumatra", "west", "kalimantan", "sulawesi", "maluku", "papua",
     "ntt", "flores", "lombok", "malaysia", "philippines", "thailand", "cambodia", "ap",

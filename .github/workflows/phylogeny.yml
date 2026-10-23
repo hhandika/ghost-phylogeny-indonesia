@@ -1,6 +1,6 @@
-# Rebuild the ghost phylogeny from the workbook and publish the site.
+# Rebuild the ghost phylogeny from the source table and publish the site.
 #
-#   analysis: parse the workbook, encode the trait matrix, infer the tree with
+#   analysis: parse the source table, encode the trait matrix, infer the tree with
 #             IQ-TREE, export the site data, and draw the SVG plates.
 #   site:     build the Astro site against the fresh analysis.
 #   app:      analyze and test the Flutter app.
@@ -64,7 +64,7 @@ jobs:
           curl -fsSL "https://github.com/iqtree/iqtree2/releases/download/v${IQTREE_VERSION}/iqtree-${IQTREE_VERSION}-Linux-intel.tar.gz" | tar -xz -C "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/iqtree-${IQTREE_VERSION}-Linux-intel/bin" >> "$GITHUB_PATH"
 
-      - name: Parse the workbook
+      - name: Parse the source table
         run: uv run --project pipeline --locked ghostphylo parse
 
       - name: Encode the trait matrix
