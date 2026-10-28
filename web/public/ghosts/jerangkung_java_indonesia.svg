@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="g2cf5ff-t">
+<title id="g2cf5ff-t">Jerangkung, animated skeleton doll</title>
+<defs>
+<radialGradient id="g2cf5ff-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="g2cf5ff-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g2cf5ff-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="g2cf5ff-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="g2cf5ff-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#g2cf5ff-disc)">
+<rect width="160" height="160" fill="url(#g2cf5ff-sky)"/>
+<circle cx="30.3" cy="56.3" r="0.9" fill="#f4ecd6" opacity="0.59"/><circle cx="51.4" cy="62.2" r="1.2" fill="#f4ecd6" opacity="0.75"/><circle cx="27.1" cy="39.0" r="0.5" fill="#f4ecd6" opacity="0.88"/><circle cx="92.0" cy="24.3" r="1.3" fill="#f4ecd6" opacity="0.61"/><circle cx="62.2" cy="16.6" r="0.9" fill="#f4ecd6" opacity="0.72"/><circle cx="90.6" cy="21.8" r="1.0" fill="#f4ecd6" opacity="0.51"/><circle cx="81.1" cy="16.1" r="0.8" fill="#f4ecd6" opacity="0.45"/><circle cx="110.0" cy="42.7" r="0.8" fill="#f4ecd6" opacity="0.83"/><circle cx="124.0" cy="46.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="119.0" cy="43.0" r="10.0" fill="url(#g2cf5ff-sky)"/>
+<path d="M104 134 L104 104 L152 104 L152 134 Z" fill="#3a3150" stroke="#15111f" stroke-width="1.2"/><path d="M94 106 L114 86 L120 74 L136 74 L142 86 L162 106 Z" fill="#4a3d62" stroke="#15111f" stroke-width="1.2"/><rect x="122" y="112" width="10" height="10" fill="#ffd27a" opacity="0.85"/><circle cx="127.0" cy="117.0" r="12.0" fill="#ffd27a" opacity="0.12"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(-4.0) scale(1.001) translate(-80 -134)"><path d="M66.0 54.0 C62.0 24.0 98.0 24.0 94.0 54.0 C98.0 84.0 102.0 104.0 110.0 120.0 C96.0 114.0 88.0 122.0 78.0 116.0 C70.0 124.0 60.0 116.0 56.0 110.0 C62.0 94.0 64.0 74.0 66.0 54.0 Z" fill="#e6e2f2" stroke="#15111f" stroke-width="2" opacity="0.92"/><path d="M66.0 62.0 C54.0 72.0 50.0 82.0 52.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><path d="M94.0 62.0 C106.0 72.0 110.0 82.0 108.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><circle cx="75.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="75.7" cy="43.3" r="0.7" fill="#ffffff"/><circle cx="85.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="85.7" cy="43.3" r="0.7" fill="#ffffff"/><ellipse cx="80.0" cy="53.0" rx="2.4" ry="3.4" fill="#15111f"/></g>
+<circle cx="36.0" cy="132.0" r="5.0" fill="#d9ab3c" stroke="#15111f" stroke-width="1.2"/><rect x="34.4" y="130.4" width="3.2" height="3.2" fill="#15111f"/><circle cx="45.0" cy="134.0" r="5.0" fill="#d9ab3c" stroke="#15111f" stroke-width="1.2"/><rect x="43.4" y="132.4" width="3.2" height="3.2" fill="#15111f"/><circle cx="40.0" cy="126.0" r="5.0" fill="#d9ab3c" stroke="#15111f" stroke-width="1.2"/><rect x="38.4" y="124.4" width="3.2" height="3.2" fill="#15111f"/><path d="M102 126 L118 126 L115 134 L105 134 Z" fill="#6a4a2a" stroke="#15111f" stroke-width="1.2"/><circle cx="110.0" cy="125.0" r="2.0" fill="#ff8a3a"/><path d="M110 123 C116 114 104 108 112 98 C118 90 110 84 114 76" fill="none" stroke="#c9c2d6" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#7d74e6" stroke-width="4"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="g9ec437-t">
+<title id="g9ec437-t">Sowanua (Ono Mbela), tree-dwelling first people / forest deity</title>
+<defs>
+<radialGradient id="g9ec437-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="g9ec437-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g9ec437-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="g9ec437-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="g9ec437-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#g9ec437-disc)">
+<rect width="160" height="160" fill="url(#g9ec437-sky)"/>
+<circle cx="114.0" cy="69.0" r="0.5" fill="#f4ecd6" opacity="0.59"/><circle cx="86.6" cy="60.0" r="1.0" fill="#f4ecd6" opacity="0.90"/><circle cx="111.2" cy="59.9" r="0.6" fill="#f4ecd6" opacity="0.78"/><circle cx="55.1" cy="51.0" r="0.6" fill="#f4ecd6" opacity="0.63"/><circle cx="98.6" cy="57.0" r="1.2" fill="#f4ecd6" opacity="0.72"/><circle cx="82.2" cy="50.4" r="1.2" fill="#f4ecd6" opacity="0.78"/><circle cx="76.3" cy="26.5" r="1.2" fill="#f4ecd6" opacity="0.82"/><circle cx="124.0" cy="46.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="129.0" cy="43.0" r="10.0" fill="url(#g9ec437-sky)"/>
+<path d="M24 134 C26 110 24 80 28 56 L36 56 C38 80 36 110 40 134 Z" fill="#33443a"/><path d="M67.6 36.0 L62.0 40.7 L64.2 46.7 L55.2 49.0 L54.1 55.6 L43.9 54.6 L38.3 59.6 L30.0 57.0 L21.5 60.2 L16.1 54.6 L6.7 54.9 L4.7 49.0 L-3.8 46.5 L-2.0 40.7 L-6.9 36.0 L-1.5 31.3 L-3.8 25.5 L5.0 23.1 L6.4 16.8 L15.9 17.0 L21.3 11.2 L30.0 15.3 L38.2 12.7 L44.0 17.1 L53.7 16.8 L55.7 22.7 L64.3 25.3 L61.7 31.3 Z" fill="#2c3d33"/><path d="M10 50 C8 80 12 100 7.4 134" fill="none" stroke="#3d5244" stroke-width="1.4"/><path d="M17 50 C15 80 19 100 15.4 134" fill="none" stroke="#3d5244" stroke-width="1.4"/><path d="M24 50 C22 80 26 100 24.0 134" fill="none" stroke="#3d5244" stroke-width="1.4"/><path d="M31 50 C29 80 33 100 28.2 134" fill="none" stroke="#3d5244" stroke-width="1.4"/><path d="M38 50 C36 80 40 100 37.0 134" fill="none" stroke="#3d5244" stroke-width="1.4"/><path d="M45 50 C43 80 47 100 43.2 134" fill="none" stroke="#3d5244" stroke-width="1.4"/><path d="M52 50 C50 80 54 100 50.9 134" fill="none" stroke="#3d5244" stroke-width="1.4"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(2.2) scale(0.964) translate(-80 -134)"><path d="M66.0 54.0 C62.0 24.0 98.0 24.0 94.0 54.0 C98.0 84.0 102.0 104.0 110.0 120.0 C96.0 114.0 88.0 122.0 78.0 116.0 C70.0 124.0 60.0 116.0 56.0 110.0 C62.0 94.0 64.0 74.0 66.0 54.0 Z" fill="#e6e2f2" stroke="#15111f" stroke-width="2" opacity="0.92"/><path d="M66.0 62.0 C54.0 72.0 50.0 82.0 52.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><path d="M94.0 62.0 C106.0 72.0 110.0 82.0 108.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><circle cx="75.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="75.7" cy="43.3" r="0.7" fill="#ffffff"/><circle cx="85.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="85.7" cy="43.3" r="0.7" fill="#ffffff"/><ellipse cx="80.0" cy="53.0" rx="2.4" ry="3.4" fill="#15111f"/></g>
+<path d="M28 126 L44 126 L41 134 L31 134 Z" fill="#6a4a2a" stroke="#15111f" stroke-width="1.2"/><circle cx="36.0" cy="125.0" r="2.0" fill="#ff8a3a"/><path d="M36 123 C42 114 30 108 38 98 C44 90 36 84 40 76" fill="none" stroke="#c9c2d6" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#16a08c" stroke-width="4"/>
+</svg>

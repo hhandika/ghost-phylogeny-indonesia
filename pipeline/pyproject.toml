@@ -3,7 +3,7 @@ name = "ghostphylo"
 version = "0.1.0"
 description = "Data pipeline for the Indonesian ghost phylogeny: parse, encode, infer with IQ-TREE, export, and draw."
 requires-python = ">=3.11"
-dependencies = ["openpyxl>=3.1"]
+dependencies = []
 
 [project.scripts]
 ghostphylo = "ghostphylo.__main__:main"

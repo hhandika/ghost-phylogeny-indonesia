@@ -7,7 +7,7 @@ joglo roof with a lit window for settlements, waves for water, kepeng coins
 for theft, a smoking incense burner for black magic, and so on. A seed taken
 from the taxon ID varies pose, stars, and moon, so no two plates match.
 
-Plates are deterministic: the same workbook always yields the same files.
+Plates are deterministic: the same source always yields the same files.
 A hand-drawn file in assets/ghosts/<taxon_id>.svg replaces the generated one.
 """
 
@@ -827,4 +827,9 @@ def run(taxa: list[dict]) -> None:
             n_manual += 1
         else:
             out.write_text(draw(t))
+    # Drop plates for taxa that were renamed or removed from the source.
+    ids = {t["id"] for t in taxa}
+    for old in C.WEB_SVG.glob("*.svg"):
+        if old.stem not in ids:
+            old.unlink()
     print(f"svg: {len(taxa)} plates ({n_manual} hand-drawn) -> {C.WEB_SVG.relative_to(C.ROOT)}")

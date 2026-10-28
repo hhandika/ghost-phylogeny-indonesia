@@ -101,7 +101,7 @@ def run(taxa: list[dict]) -> dict:
     data = {
         "meta": {
             "title": "Ghost phylogeny of Indonesia",
-            "source": C.SOURCE_XLSX.name,
+            "source": C.SOURCE_CSV.name,
             "generated": date.today().isoformat(),
             "taxa": len(taxa),
             "outgroups": len(outgroups),

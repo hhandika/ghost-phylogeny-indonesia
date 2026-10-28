@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="gf9d87a-t">
+<title id="gf9d87a-t">Hantu Rumah Darmo, haunted-house revenants</title>
+<defs>
+<radialGradient id="gf9d87a-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="gf9d87a-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="gf9d87a-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="gf9d87a-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="gf9d87a-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#gf9d87a-disc)">
+<rect width="160" height="160" fill="url(#gf9d87a-sky)"/>
+<circle cx="67.5" cy="46.1" r="0.9" fill="#f4ecd6" opacity="0.48"/><circle cx="40.9" cy="68.0" r="0.5" fill="#f4ecd6" opacity="0.66"/><circle cx="66.7" cy="24.2" r="1.1" fill="#f4ecd6" opacity="0.63"/><circle cx="40.7" cy="17.5" r="0.6" fill="#f4ecd6" opacity="0.68"/><circle cx="74.0" cy="20.3" r="1.3" fill="#f4ecd6" opacity="0.45"/><circle cx="38.1" cy="45.4" r="1.0" fill="#f4ecd6" opacity="0.62"/><circle cx="131.8" cy="64.2" r="0.9" fill="#f4ecd6" opacity="0.84"/><circle cx="107.1" cy="24.4" r="0.7" fill="#f4ecd6" opacity="0.61"/><circle cx="118.0" cy="34.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="113.0" cy="31.0" r="10.0" fill="url(#gf9d87a-sky)"/>
+<path d="M104 134 L104 104 L152 104 L152 134 Z" fill="#3a3150" stroke="#15111f" stroke-width="1.2"/><path d="M94 106 L114 86 L120 74 L136 74 L142 86 L162 106 Z" fill="#4a3d62" stroke="#15111f" stroke-width="1.2"/><rect x="122" y="112" width="10" height="10" fill="#ffd27a" opacity="0.85"/><circle cx="127.0" cy="117.0" r="12.0" fill="#ffd27a" opacity="0.12"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(2.7) scale(1.009) translate(-80 -134)"><path d="M66.0 54.0 C62.0 24.0 98.0 24.0 94.0 54.0 C98.0 84.0 102.0 104.0 110.0 120.0 C96.0 114.0 88.0 122.0 78.0 116.0 C70.0 124.0 60.0 116.0 56.0 110.0 C62.0 94.0 64.0 74.0 66.0 54.0 Z" fill="#e6e2f2" stroke="#15111f" stroke-width="2" opacity="0.92"/><path d="M66.0 62.0 C54.0 72.0 50.0 82.0 52.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><path d="M94.0 62.0 C106.0 72.0 110.0 82.0 108.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><circle cx="75.0" cy="44.0" r="4.2" fill="#ff4a4a" opacity="0.35"/><circle cx="75.0" cy="44.0" r="2.2" fill="#ff4a4a"/><circle cx="75.0" cy="44.0" r="0.9" fill="#ffe2d6"/><circle cx="85.0" cy="44.0" r="4.2" fill="#ff4a4a" opacity="0.35"/><circle cx="85.0" cy="44.0" r="2.2" fill="#ff4a4a"/><circle cx="85.0" cy="44.0" r="0.9" fill="#ffe2d6"/><ellipse cx="80.0" cy="53.0" rx="2.4" ry="3.4" fill="#15111f"/></g>
+
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#3f8fd0" stroke-width="4"/>
+</svg>

@@ -2,13 +2,13 @@
 
 This is the actual ghost phylogeny. Literally, not conceptually...
 
-A comparative dataset of 110 Indonesian ghosts, spirits, and cryptids (plus outgroups from Malaysia, the Philippines, Thailand, Cambodia, and South Asia), scored like specimens on a morphological character matrix. IQ-TREE infers how they are related, and an interactive site and a Flutter app show the result.
+A comparative dataset of 166 Indonesian ghosts, spirits, and cryptids (plus outgroups from Malaysia, the Philippines, Thailand, Cambodia, Vietnam, Myanmar, China, Japan, and India), scored like specimens on a morphological character matrix. IQ-TREE infers how they are related, and an interactive site and a Flutter app show the result.
 
 ## Layout
 
 | Path | What it holds |
 |---|---|
-| `data/indonesian-ghosts-comprehensive-dataset.xlsx` | Source workbook (v3). Edited by hand. |
+| `data/indonesian-ghosts.csv` | Source table (v5). Edited by hand. |
 | `data/translations/id.json` | Curated Indonesian translations of every text value in the data. Edited by hand. |
 | `pipeline/` | Python pipeline (`ghostphylo` package, `pyproject.toml`, `uv.lock`): parse → encode → infer → export → draw. |
 | `data/processed/` | Cleaned taxon table, character matrix (`ghosts.nex`, `ghosts.phy`), character definitions. Generated. |
@@ -24,7 +24,7 @@ Run from the repository root. Requires [uv](https://docs.astral.sh/uv/) and [IQ-
 
 ```bash
 uv run --project pipeline ghostphylo all        # every step below
-uv run --project pipeline ghostphylo parse      # workbook → data/processed/ghosts.{json,csv}
+uv run --project pipeline ghostphylo parse      # source table → data/processed/ghosts.{json,csv}
 uv run --project pipeline ghostphylo encode     # → ghosts.nex, ghosts.phy, characters.csv
 uv run --project pipeline ghostphylo tree       # IQ-TREE: -st MORPH -m MFP -B 1000 -bnni --seed 20261020
 uv run --project pipeline ghostphylo export     # root, ladderize → web/src/data/phylogeny.json
@@ -33,9 +33,9 @@ uv run --project pipeline ghostphylo svg        # one plate per ghost → web/pu
 
 ### Characters
 
-Characters 1–18 are the workbook's coded traits (0 absent, 1 present, 2 variable; for sex, 1 female and 2 male or unspecified). Character 19 is the body plan and 20 the diet, each one unordered multistate character. Clade is left out because it is the grouping the tree tests. See `data/processed/characters.csv` for every state.
+Characters 1–18 are the source table's coded traits (0 absent, 1 present, 2 variable; for sex, 1 female and 2 male or unspecified). Character 19 is the body plan and 20 the diet, each one unordered multistate character. Clade is left out because it is the grouping the tree tests. See `data/processed/characters.csv` for every state.
 
-Parsing also cleans the workbook: clade spellings are merged (`ElementalDemonic` → `Elemental / Demonic`), fused words from lost slashes are restored (`Echoing laughweeping` → `Echoing laugh or weeping`), origins misfiled as deterrents in the original 61 rows are moved back, and boilerplate text is dropped.
+Parsing also cleans the source table: clade spellings are merged (`ElementalDemonic` → `Elemental / Demonic`), fused words from lost slashes are restored (`Echoing laughweeping` → `Echoing laugh or weeping`), the original 61 rows, which repeat one value as both origin and deterrent, keep it in the column it belongs to, and boilerplate text is dropped.
 
 ### Caveats
 
@@ -51,7 +51,7 @@ Most codings beyond the original 61 taxa come from folklore synthesis rather tha
 - **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map with Pleistocene sea levels (today, −40, −80, −120 m) and Wallace's, Huxley's, Weber's, and Lydekker's lines, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
 - **Specimen pages** (`/ghosts/<taxon_id>`): every field and coded character for one ghost.
 
-**Languages.** The site is bilingual: American English at `/…` and Indonesian at `/id/…`, with an EN | ID switcher in the header that keeps you on the same page. Interface strings live in `web/src/i18n/index.ts` (and `lib/src/i18n.dart` for the app). Text from the data (clades, traits, origins, behaviors, deterrents, and so on) is translated through `data/translations/id.json`; `ghostphylo export` embeds the strings the site uses and lists any that are missing, which then fall back to English. Parsing also converts the workbook's British spellings to American.
+**Languages.** The site is bilingual: American English at `/…` and Indonesian at `/id/…`, with an EN | ID switcher in the header that keeps you on the same page. Interface strings live in `web/src/i18n/index.ts` (and `lib/src/i18n.dart` for the app). Text from the data (clades, traits, origins, behaviors, deterrents, and so on) is translated through `data/translations/id.json`; `ghostphylo export` embeds the strings the site uses and lists any that are missing, which then fall back to English. Parsing also converts the source's British spellings to American.
 
 Accessibility targets WCAG 2.2 AA: text on glass keeps at least 4.5:1 against the darkest and brightest parts of the scene, controls have 3:1 boundaries, trait states differ in shape as well as colour, interactive trees are keyboard operable with announced selections, scrollable regions are focusable, and scene motion stops under `prefers-reduced-motion`. The Patterns map uses Natural Earth coastlines and NOAA ETOPO1 shelf outlines (both public domain), with line placements after hhandika-com's speciation map.
 

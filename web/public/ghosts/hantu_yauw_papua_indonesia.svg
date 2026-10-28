@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="g887da9-t">
+<title id="g887da9-t">Hantu Yauw, bush spirit</title>
+<defs>
+<radialGradient id="g887da9-sky" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#2d2547"/><stop offset="1" stop-color="#110e1b"/></radialGradient>
+<radialGradient id="g887da9-glow"><stop offset="0" stop-color="#ffb347" stop-opacity="0.75"/><stop offset="1" stop-color="#ff6a2a" stop-opacity="0"/></radialGradient>
+<radialGradient id="g887da9-dread"><stop offset="0" stop-color="#a3172d" stop-opacity="0.55"/><stop offset="1" stop-color="#a3172d" stop-opacity="0"/></radialGradient>
+<linearGradient id="g887da9-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffcf5a"/><stop offset="0.6" stop-color="#ff7a2a"/><stop offset="1" stop-color="#c8202a"/></linearGradient>
+<pattern id="poleng" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f2ead8"/><rect width="4" height="4" fill="#15111f"/><rect x="4" y="4" width="4" height="4" fill="#15111f"/></pattern>
+<clipPath id="g887da9-disc"><circle cx="80" cy="80" r="76"/></clipPath>
+</defs>
+<g clip-path="url(#g887da9-disc)">
+<rect width="160" height="160" fill="url(#g887da9-sky)"/>
+<circle cx="87.0" cy="27.5" r="1.1" fill="#f4ecd6" opacity="0.90"/><circle cx="68.1" cy="49.6" r="1.0" fill="#f4ecd6" opacity="0.43"/><circle cx="26.2" cy="14.4" r="1.2" fill="#f4ecd6" opacity="0.87"/><circle cx="81.7" cy="52.6" r="0.6" fill="#f4ecd6" opacity="0.51"/><circle cx="110.7" cy="17.0" r="1.0" fill="#f4ecd6" opacity="0.79"/><circle cx="94.1" cy="33.3" r="0.9" fill="#f4ecd6" opacity="0.53"/><circle cx="69.5" cy="26.1" r="0.6" fill="#f4ecd6" opacity="0.41"/><circle cx="137.7" cy="34.7" r="1.1" fill="#f4ecd6" opacity="0.50"/><circle cx="101.5" cy="14.6" r="0.6" fill="#f4ecd6" opacity="0.58"/><circle cx="119.0" cy="53.0" r="0.7" fill="#f4ecd6" opacity="0.52"/><circle cx="25.8" cy="26.6" r="0.7" fill="#f4ecd6" opacity="0.43"/><circle cx="124.0" cy="46.0" r="11.0" fill="#f4ecd6" opacity="0.9"/><circle cx="119.0" cy="43.0" r="10.0" fill="url(#g887da9-sky)"/>
+<path d="M104 134 L104 104 L152 104 L152 134 Z" fill="#3a3150" stroke="#15111f" stroke-width="1.2"/><path d="M94 106 L114 86 L120 74 L136 74 L142 86 L162 106 Z" fill="#4a3d62" stroke="#15111f" stroke-width="1.2"/><rect x="122" y="112" width="10" height="10" fill="#ffd27a" opacity="0.85"/><circle cx="127.0" cy="117.0" r="12.0" fill="#ffd27a" opacity="0.12"/>
+
+<ellipse cx="80.0" cy="138.0" rx="30.0" ry="4.0" fill="#000000" opacity="0.35"/>
+<g transform="translate(80 134) rotate(-1.1) scale(0.992) translate(-80 -134)"><path d="M66.0 54.0 C62.0 24.0 98.0 24.0 94.0 54.0 C98.0 84.0 102.0 104.0 110.0 120.0 C96.0 114.0 88.0 122.0 78.0 116.0 C70.0 124.0 60.0 116.0 56.0 110.0 C62.0 94.0 64.0 74.0 66.0 54.0 Z" fill="#e6e2f2" stroke="#15111f" stroke-width="2" opacity="0.92"/><path d="M66.0 62.0 C54.0 72.0 50.0 82.0 52.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><path d="M94.0 62.0 C106.0 72.0 110.0 82.0 108.0 88.0" fill="none" stroke="#15111f" stroke-width="1.8"/><circle cx="75.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="75.7" cy="43.3" r="0.7" fill="#ffffff"/><circle cx="85.0" cy="44.0" r="2.2" fill="#15111f"/><circle cx="85.7" cy="43.3" r="0.7" fill="#ffffff"/><ellipse cx="80.0" cy="53.0" rx="2.4" ry="3.4" fill="#15111f"/></g>
+<path d="M28 126 L44 126 L41 134 L31 134 Z" fill="#6a4a2a" stroke="#15111f" stroke-width="1.2"/><circle cx="36.0" cy="125.0" r="2.0" fill="#ff8a3a"/><path d="M36 123 C42 114 30 108 38 98 C44 90 36 84 40 76" fill="none" stroke="#c9c2d6" stroke-width="2" opacity="0.55" stroke-linecap="round"/><ellipse cx="110.0" cy="136.0" rx="9.0" ry="2.6" fill="#a3172d" opacity="0.8"/><path d="M106 124 q-2.6 4 0 5.4 q2.6 -1.4 0 -5.4 Z" fill="#a3172d" stroke="#15111f" stroke-width="2.2"/><path d="M113 118 q-2.6 4 0 5.4 q2.6 -1.4 0 -5.4 Z" fill="#a3172d" stroke="#15111f" stroke-width="2.2"/><path d="M116 126 q-2.6 4 0 5.4 q2.6 -1.4 0 -5.4 Z" fill="#a3172d" stroke="#15111f" stroke-width="2.2"/>
+</g>
+<circle cx="80" cy="80" r="76" fill="none" stroke="#cc5aa6" stroke-width="4"/>
+</svg>
