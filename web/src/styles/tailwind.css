@@ -243,3 +243,38 @@ html[data-motion="off"] *::after {
   50% { opacity: 0.6; }
   55% { opacity: 0.9; }
 }
+
+/* Dichotomous key: indent each couplet by its depth, light the one linked to. */
+@media (min-width: 640px) {
+  .key-couplet {
+    padding-left: calc(var(--depth, 0) * 1rem);
+  }
+}
+.key-couplet:target {
+  @apply rounded-lg bg-prada-200/50 dark:bg-prada-300/15;
+}
+
+/* Print the key as a plain sheet: no scene, header, footer, or glass. */
+@media print {
+  body:has(.key-sheet) :is(header, footer, .scene) {
+    display: none !important;
+  }
+  body:has(.key-sheet),
+  body:has(.key-sheet) main * {
+    background-color: transparent;
+    color: black !important;
+  }
+  body:has(.key-sheet) {
+    background: white !important;
+  }
+  .key-sheet,
+  body:has(.key-sheet) .glass {
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  .key-couplet {
+    break-inside: avoid;
+  }
+}

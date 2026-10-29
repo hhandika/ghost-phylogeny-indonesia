@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'src/data.dart';
 import 'src/pages/atlas.dart';
 import 'src/pages/bestiary.dart';
+import 'src/pages/key.dart';
 import 'src/pages/lantern.dart';
 import 'src/pages/methods.dart';
 import 'src/pages/overview.dart';
@@ -54,6 +55,7 @@ final router = GoRouter(
           path: '/bestiary',
           pageBuilder: (_, s) => _fade(s, const BestiaryPage()),
         ),
+        GoRoute(path: '/key', pageBuilder: (_, s) => _fade(s, const KeyPage())),
         GoRoute(
           path: '/patterns',
           pageBuilder: (_, s) => _fade(s, const PatternsPage()),

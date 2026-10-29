@@ -19,6 +19,7 @@ const navItems = [
   ('/atlas', 'navAtlas'),
   ('/lantern', 'navLantern'),
   ('/bestiary', 'navBestiary'),
+  ('/key', 'navKey'),
   ('/patterns', 'navPatterns'),
   ('/methods', 'navMethods'),
 ];

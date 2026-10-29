@@ -91,6 +91,57 @@ class TreeNode {
   final List<TreeNode>? c;
 }
 
+/// One lead of a couplet: a character's states, then a couplet or ghosts.
+class KeyLead {
+  KeyLead.fromJson(Map<String, dynamic> j)
+    : char = j['char'],
+      states = List<String>.from(j['states']),
+      negate = j['not'],
+      to = j['to'],
+      ghosts = j['ghosts'] == null ? null : List<String>.from(j['ghosts']);
+
+  final String char;
+
+  /// State labels (English; translate with tr). With [negate], every state
+  /// but these.
+  final List<String> states;
+  final bool negate;
+  final int? to;
+  final List<String>? ghosts;
+}
+
+class Couplet {
+  Couplet.fromJson(Map<String, dynamic> j)
+    : n = j['n'],
+      from = j['from'],
+      leads = [for (final l in j['leads']) KeyLead.fromJson(l)];
+
+  final int n;
+  final int? from;
+  final List<KeyLead> leads;
+}
+
+/// The dichotomous key written by `ghostphylo key`.
+class DichotomousKey {
+  DichotomousKey.fromJson(Map<String, dynamic> j)
+    : labels = {
+        for (final c in j['characters'])
+          c['id'] as String: c['label'] as String,
+      },
+      couplets = [for (final c in j['couplets']) Couplet.fromJson(c)],
+      index = {
+        for (final e in (j['index'] as Map<String, dynamic>).entries)
+          e.key: List<int>.from(e.value),
+      };
+
+  /// Character id to its English label.
+  final Map<String, String> labels;
+  final List<Couplet> couplets;
+
+  /// Ghost id to the couplets where it keys out.
+  final Map<String, List<int>> index;
+}
+
 class Dataset {
   Dataset._(Map<String, dynamic> j)
     : meta = j['meta'],
@@ -104,6 +155,7 @@ class Dataset {
       symbols = j['symbols'],
       tree = TreeNode.fromJson(j['tree']),
       ghosts = [for (final g in j['ghosts']) Ghost.fromJson(g)],
+      key = DichotomousKey.fromJson(j['key']),
       i18n = {
         for (final e in (j['i18n'] as Map<String, dynamic>? ?? {}).entries)
           e.key: Map<String, String>.from(e.value),
@@ -127,6 +179,7 @@ class Dataset {
   final String symbols;
   final TreeNode tree;
   final List<Ghost> ghosts;
+  final DichotomousKey key;
   final Map<String, Map<String, String>> i18n;
   late final Map<String, Ghost> byId;
 

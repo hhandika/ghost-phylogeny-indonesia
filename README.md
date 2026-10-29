@@ -27,6 +27,7 @@ uv run --project pipeline ghostphylo all        # every step below
 uv run --project pipeline ghostphylo parse      # source table → data/processed/ghosts.{json,csv}
 uv run --project pipeline ghostphylo encode     # → ghosts.nex, ghosts.phy, characters.csv
 uv run --project pipeline ghostphylo tree       # IQ-TREE: -st MORPH -m MFP -B 1000 -bnni --seed 20261020
+uv run --project pipeline ghostphylo key        # dichotomous key → data/processed/key.txt
 uv run --project pipeline ghostphylo export     # root, ladderize → web/src/data/phylogeny.json
 uv run --project pipeline ghostphylo svg        # one plate per ghost → web/public/ghosts/
 ```
@@ -48,6 +49,7 @@ Most codings beyond the original 61 taxa come from folklore synthesis rather tha
 - **Atlas** (`/atlas`): rectangular tree, aligned trait matrix, sticky detail card.
 - **Lantern** (`/lantern`): circular tree on a night canvas, the selected ghost lit at its centre.
 - **Bestiary** (`/bestiary`): filterable field guide with side-by-side comparison.
+- **Key** (`/key`): printable dichotomous key in numbered couplets, built by `ghostphylo key`. Each couplet splits the remaining ghosts on one character (coded traits first, then body plan, diet, and region); ghosts with identical codings end together at one lead.
 - **Patterns** (`/patterns`): the rest of the dataset, each part in a different form: an archipelago bubble map with Pleistocene sea levels (today, −40, −80, −120 m) and Wallace's, Huxley's, Weber's, and Lydekker's lines, a clade × trait heatmap, a danger chart built from the plates, a body plan × diet bubble matrix, a support histogram, indistinguishable "twins", and coding provenance. Every chart has a data table.
 - **Specimen pages** (`/ghosts/<taxon_id>`): every field and coded character for one ghost.
 
@@ -64,7 +66,7 @@ bun run build    # astro check + static build to web/dist/
 
 ## App
 
-A Flutter app at the repository root follows the site's design (glass panels over the animated night scene, the same palette, Figtree and Newsreader type, light and dark modes, EN | ID) and has the same views: Overview, Atlas, Lantern, Bestiary, Patterns, Methods, and a page per ghost. It targets Android, iOS, Linux, macOS, and Windows; the web is served by the Astro site. It bundles the pipeline's output, so rerun `ghostphylo export` and `ghostphylo svg` before building to pick up new data.
+A Flutter app at the repository root follows the site's design (glass panels over the animated night scene, the same palette, Figtree and Newsreader type, light and dark modes, EN | ID) and has the same views: Overview, Atlas, Lantern, Bestiary, Key, Patterns, Methods, and a page per ghost. It targets Android, iOS, Linux, macOS, and Windows; the web is served by the Astro site. It bundles the pipeline's output, so rerun `ghostphylo export` and `ghostphylo svg` before building to pick up new data.
 
 ```bash
 flutter pub get

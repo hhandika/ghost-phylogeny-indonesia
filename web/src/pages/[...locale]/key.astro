@@ -1,0 +1,118 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import { byId, cladeVar, data, plateUrl, withBase, type KeyLead } from "../../utils/data";
+import { langOf, localeParams, localePath, regionName, tr, useT } from "../../i18n";
+
+export const getStaticPaths = localeParams;
+const lang = langOf(Astro.params.locale);
+const t = useT(lang);
+
+const { couplets, index } = data.key;
+const label = new Map(data.key.characters.map((c) => [c.id, c.label]));
+const depth = new Map<number, number>();
+couplets.forEach((c) => depth.set(c.n, c.from === null ? 0 : depth.get(c.from)! + 1));
+
+const state = (lead: KeyLead, s: string) => (lead.char === "region" ? regionName(lang, s) : tr(lang, s));
+// Region names are proper nouns; other states read lowercase after "not".
+const describe = (lead: KeyLead) => {
+  const states = lead.states.map((s) => state(lead, s)).join(` ${t("keyOr")} `);
+  if (!lead.not) return states;
+  return `${t("keyNot")} ${lead.char === "region" ? states : states.charAt(0).toLowerCase() + states.slice(1)}`;
+};
+const ghostsByName = [...data.ghosts].sort((a, b) => a.name.localeCompare(b.name, lang));
+const link = "accent font-semibold underline-offset-2 hover:underline";
+---
+
+<Layout lang={lang} title={t("title", t("navKey"))}>
+  <PageTitle title={t("keyTitle")} kicker={t("keyKicker")}>
+    {t("keyLead", data.ghosts.length, couplets.length)}
+  </PageTitle>
+
+  <div class="mx-auto grid max-w-4xl gap-6">
+    <section class="glass key-sheet p-4 sm:p-8" aria-labelledby="couplets-h">
+      <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <h2 id="couplets-h" class="font-serif text-2xl font-semibold">{t("keyCouplets")}</h2>
+        <div class="flex gap-2 text-sm print:hidden">
+          <button type="button" class="control px-3.5 py-1.5 font-semibold" data-print>{t("keyPrint")}</button>
+          <a href={withBase("/data/key.txt")} class="control px-3.5 py-1.5 font-semibold" download>{t("keyText")}</a>
+        </div>
+      </div>
+      <p class="muted mt-2 text-sm leading-relaxed">{t("keyHowTo")}</p>
+
+      <ol class="mt-5 text-[0.95rem] leading-snug">
+        {
+          couplets.map((c) => (
+            <li id={`k${c.n}`} class="key-couplet scroll-mt-28 border-t border-kafan-300/70 py-2 dark:border-malam-800" style={`--depth: ${Math.min(depth.get(c.n)!, 10)}`}>
+              {c.leads.map((lead, i) => (
+                <div class="grid grid-cols-[3.75rem_minmax(0,1fr)] items-baseline gap-x-2 py-0.5 sm:grid-cols-[4.5rem_minmax(0,1fr)]">
+                  <span class="tabular-nums">
+                    {i === 0 && (
+                      <>
+                        <span class="font-semibold">{c.n}</span>
+                        {c.from !== null && (
+                          <a href={`#k${c.from}`} class="muted text-xs hover:underline" aria-label={t("keyBack", c.from)}>({c.from})</a>
+                        )}
+                      </>
+                    )}
+                    <span class="muted text-xs">{i === 0 ? "a" : "b"}</span>
+                  </span>
+                  <span class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <span class="min-w-0 flex-[1_1_12rem]">
+                      <span class="muted">{tr(lang, label.get(lead.char))}:</span> {describe(lead)}
+                    </span>
+                    <span class="key-leader h-[1.05em] flex-[1_0_1rem] self-start border-b border-dotted border-kafan-500 dark:border-malam-600" aria-hidden="true"></span>
+                    {lead.to !== undefined ? (
+                      <a href={`#k${lead.to}`} class={`${link} shrink-0 tabular-nums`} aria-label={t("keyGoTo", lead.to)}>
+                        {lead.to}
+                      </a>
+                    ) : (
+                      <span class="ml-auto flex shrink-0 flex-col items-end gap-1">
+                        {lead.ghosts!.map((id) => {
+                          const g = byId.get(id)!;
+                          return (
+                            <a href={localePath(lang, `/ghosts/${id}`)} class="group flex items-center gap-2 text-right">
+                              <span class="font-serif text-base italic group-hover:underline">
+                                {g.name}
+                                {g.outgroup && <span title={t("outgroup")}> †</span>}
+                              </span>
+                              <img src={plateUrl(id)} alt="" width="28" height="28" loading="lazy" class="h-7 w-7 shrink-0 rounded-full border-2 bg-kafan-100 dark:bg-malam-900" style={`border-color: ${cladeVar(g.clade)}`} />
+                            </a>
+                          );
+                        })}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              ))}
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="glass key-sheet p-4 sm:p-8" aria-labelledby="index-h">
+      <h2 id="index-h" class="font-serif text-2xl font-semibold">{t("keyIndex")}</h2>
+      <p class="muted mt-1 text-sm">{t("keyIndexLead")}</p>
+      <ul class="mt-4 gap-x-8 text-sm sm:columns-2 lg:columns-3">
+        {
+          ghostsByName.map((g) => (
+            <li class="flex break-inside-avoid items-baseline gap-2 py-0.5">
+              <a href={localePath(lang, `/ghosts/${g.id}`)} class="font-serif italic hover:underline">{g.name}</a>
+              <span class="flex-1 border-b border-dotted border-kafan-500 dark:border-malam-600" aria-hidden="true"></span>
+              <span class="tabular-nums">
+                {index[g.id].map((n, i) => (
+                  <>{i > 0 && ", "}<a href={`#k${n}`} class={link}>{n}</a></>
+                ))}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  document.querySelector("[data-print]")?.addEventListener("click", () => window.print());
+</script>

@@ -78,6 +78,7 @@ final Map<String, Map<String, Object>> _ui = {
   "navAtlas": {"en": "Atlas", "id": "Atlas"},
   "navLantern": {"en": "Lantern", "id": "Lentera"},
   "navBestiary": {"en": "Bestiary", "id": "Bestiari"},
+  "navKey": {"en": "Key", "id": "Kunci"},
   "navPatterns": {"en": "Patterns", "id": "Pola"},
   "navMethods": {"en": "Methods", "id": "Metode"},
   "menu": {"en": "Menu", "id": "Menu"},
@@ -283,6 +284,34 @@ final Map<String, Map<String, Object>> _ui = {
         "They differ in $d of $n characters and sit $steps branches apart. Their last common ancestor unites $tips ghosts${sup != "" ? " (ultrafast bootstrap $sup)" : ""}.",
     "id": (dynamic d, dynamic n, dynamic steps, dynamic tips, dynamic sup) =>
         "Keduanya berbeda pada $d dari $n karakter dan terpisah $steps cabang. Leluhur bersama terakhirnya menyatukan $tips hantu${sup != "" ? " (ultrafast bootstrap $sup)" : ""}.",
+  },
+  "keyKicker": {"en": "Dichotomous key", "id": "Kunci dikotomis"},
+  "keyTitle": {"en": "Key to the ghosts", "id": "Kunci identifikasi hantu"},
+  "keyLead": {
+    "en": (dynamic n, dynamic c) =>
+        "Identify any of the $n ghosts in $c couplets, the way a botanist keys out a plant. Start at 1, pick the lead that fits, and follow its number until a name appears. Coded traits come first; body plan, diet, and region separate the ghosts the traits cannot.",
+    "id": (dynamic n, dynamic c) =>
+        "Kenali salah satu dari $n hantu dalam $c pasangan pernyataan, seperti ahli botani mengidentifikasi tumbuhan. Mulailah dari nomor 1, pilih pernyataan yang cocok, lalu ikuti nomornya hingga muncul sebuah nama. Sifat berkode didahulukan; bentuk tubuh, makanan, dan wilayah memisahkan hantu yang tidak dapat dipisahkan oleh sifat.",
+  },
+  "keyHowTo": {
+    "en": "The number in parentheses is the couplet you came from. A ghost scored variable for a character keys out under both leads. Names that share a lead have identical codings, so no character here can separate them.",
+    "id": "Angka dalam kurung adalah pasangan asal. Hantu yang bervariasi untuk suatu karakter dapat ditemukan melalui kedua pernyataan. Nama-nama yang berbagi satu pernyataan memiliki kode identik, sehingga tidak ada karakter di sini yang dapat memisahkannya.",
+  },
+  "keyCouplets": {"en": "Couplets", "id": "Pasangan pernyataan"},
+  "keyIndex": {"en": "Index to ghosts", "id": "Indeks hantu"},
+  "keyIndexLead": {
+    "en": "Where each ghost keys out.",
+    "id": "Tempat setiap hantu ditemukan dalam kunci.",
+  },
+  "keyNot": {"en": "not", "id": "bukan"},
+  "keyOr": {"en": "or", "id": "atau"},
+  "keyGoTo": {
+    "en": (dynamic n) => "Go to couplet $n",
+    "id": (dynamic n) => "Lanjut ke pasangan $n",
+  },
+  "keyBack": {
+    "en": (dynamic n) => "Back to couplet $n",
+    "id": (dynamic n) => "Kembali ke pasangan $n",
   },
   "patternsKicker": {
     "en": "The whole dataset, chart by chart",

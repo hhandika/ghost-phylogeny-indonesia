@@ -69,6 +69,29 @@ export interface Meta {
   };
 }
 
+export interface KeyLead {
+  char: string;
+  /** State labels (English; translate with tr). With `not`, every state but these. */
+  states: string[];
+  not: boolean;
+  /** The next couplet, or the ghosts this lead ends in. */
+  to?: number;
+  ghosts?: string[];
+}
+
+export interface Couplet {
+  n: number;
+  from: number | null;
+  leads: [KeyLead, KeyLead];
+}
+
+export interface DichotomousKey {
+  characters: { id: string; label: string }[];
+  couplets: Couplet[];
+  /** Ghost id to the couplets where it keys out. */
+  index: Record<string, number[]>;
+}
+
 export interface Dataset {
   meta: Meta;
   clades: string[];
@@ -78,6 +101,7 @@ export interface Dataset {
   symbols: string;
   tree: TreeNode;
   ghosts: Ghost[];
+  key: DichotomousKey;
 }
 
 export const data = raw as unknown as Dataset;

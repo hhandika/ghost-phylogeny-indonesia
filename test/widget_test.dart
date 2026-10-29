@@ -21,6 +21,24 @@ void main() {
     expect(layout.root.tips.length, layout.nTips);
   });
 
+  test('key reaches every ghost through couplets that exist', () {
+    final raw = jsonDecode(
+      File('web/src/data/phylogeny.json').readAsStringSync(),
+    );
+    final key = DichotomousKey.fromJson(raw['key']);
+    final numbers = {for (final c in key.couplets) c.n};
+    final reached = <String>{};
+    for (final c in key.couplets) {
+      expect(c.leads, hasLength(2));
+      expect(c.from == null || numbers.contains(c.from), isTrue);
+      for (final l in c.leads) {
+        expect(l.to == null || numbers.contains(l.to), isTrue);
+        reached.addAll(l.ghosts ?? const []);
+      }
+    }
+    expect(reached, {for (final g in raw['ghosts']) g['id'] as String});
+  });
+
   test('phylogeny asset is registered', () async {
     TestWidgetsFlutterBinding.ensureInitialized();
     final s = await rootBundle.loadString(phylogenyAsset);

@@ -73,6 +73,9 @@ jobs:
       - name: Infer the tree with IQ-TREE
         run: uv run --project pipeline --locked ghostphylo tree
 
+      - name: Build the dichotomous key
+        run: uv run --project pipeline --locked ghostphylo key
+
       - name: Export site data and draw plates
         run: |
           uv run --project pipeline --locked ghostphylo export

@@ -7,7 +7,7 @@ import shutil
 from datetime import date
 
 from . import config as C
-from . import encode, newick, phylo
+from . import encode, key, newick, phylo
 
 
 def _to_json(n: newick.Node) -> dict:
@@ -46,7 +46,7 @@ def _distances(tree: newick.Node) -> dict[str, dict[str, tuple[float, int]]]:
 def _translations(taxa: list[dict]) -> dict[str, dict[str, str]]:
     """Embed the translations the site needs; warn about any that are missing."""
     used: set[str] = set(C.CLADES) | set(C.REGIONS) | set(C.DIETS) | {"Unknown"}
-    used |= {label for _, label in C.BODY_PLANS}
+    used |= {label for _, label in C.BODY_PLANS} | {"Region"}
     for c in encode.characters():
         used.add(c["label"])
         used.update(c["states"])
@@ -120,6 +120,7 @@ def run(taxa: list[dict]) -> dict:
         "symbols": encode.SYMBOLS,
         "tree": _to_json(tree),
         "ghosts": ghosts,
+        "key": key.build(taxa),
         "i18n": i18n,
     }
     C.WEB_DATA.parent.mkdir(parents=True, exist_ok=True)
@@ -131,6 +132,7 @@ def run(taxa: list[dict]) -> dict:
         C.PROCESSED / f"{C.PREFIX}.nex",
         C.PROCESSED / "ghosts.csv",
         C.PROCESSED / "characters.csv",
+        C.PROCESSED / "key.txt",
         C.RESULTS / f"{C.PREFIX}.rooted.tre",
         C.RESULTS / f"{C.PREFIX}.iqtree",
     ]:
