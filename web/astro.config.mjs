@@ -2,9 +2,9 @@
 import { defineConfig } from "astro/config";
 import preact from "@astrojs/preact";
 
-// GitHub Pages serves the site under /<repo>/; the workflow sets BASE_PATH.
+// Cloudflare Pages serves the site at the root of the production domain.
 export default defineConfig({
-  site: process.env.SITE_URL || "https://hhandika.github.io",
+  site: process.env.SITE_URL || "https://ghost-phylogeny.com",
   base: process.env.BASE_PATH || "/",
   integrations: [preact()],
   // Keep spaces between prose and inline components (Astro 7 JSX whitespace).

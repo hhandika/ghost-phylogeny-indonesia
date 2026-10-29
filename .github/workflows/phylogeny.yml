@@ -1,12 +1,11 @@
-# Rebuild the ghost phylogeny from the source table and publish the site.
+# Rebuild the ghost phylogeny from the source table and check that the site builds.
 #
 #   analysis: parse the source table, encode the trait matrix, infer the tree with
 #             IQ-TREE, export the site data, and draw the SVG plates.
 #   site:     build the Astro site against the fresh analysis.
 #   app:      analyze and test the Flutter app.
-#   deploy:   publish to GitHub Pages (pushes to main and manual runs only).
 #
-# Enable Pages once under Settings → Pages → Source: "GitHub Actions".
+# The site itself is built and deployed by Cloudflare Pages from main.
 name: Ghost phylogeny
 
 on:
@@ -134,25 +133,11 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
 
-      - name: Configure Pages
-        id: pages
-        if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v5
-
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Build
         run: bun run build
-        env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
-
-      - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: web/dist
 
   app:
     name: Check app
@@ -173,18 +158,3 @@ jobs:
 
       - name: Test
         run: flutter test
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: site
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
