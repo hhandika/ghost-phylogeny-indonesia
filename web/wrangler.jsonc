@@ -1,0 +1,11 @@
+// Cloudflare Workers static-assets deploy of the Astro build.
+// Workers Builds: root directory `web`, build `bun install && bun run build`,
+// deploy `npx wrangler deploy`.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ghost-phylogeny-indonesia",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
