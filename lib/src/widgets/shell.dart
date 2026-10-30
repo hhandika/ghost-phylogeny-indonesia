@@ -342,8 +342,7 @@ class _Menu extends StatelessWidget {
       child: Container(
         width: 40,
         height: 40,
-        decoration: controlDecoration(context)
-            .copyWith(shape: BoxShape.circle, borderRadius: null),
+        decoration: controlDecoration(context),
         child: Icon(Icons.menu_rounded, size: 20, color: k.ink),
       ),
     );
@@ -398,7 +397,8 @@ class _Footer extends StatelessWidget {
             child: wide
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [title, links],
+                    spacing: 16,
+                    children: [Flexible(child: title), links],
                   )
                 : Column(children: [title, const SizedBox(height: 12), links]),
           ),
